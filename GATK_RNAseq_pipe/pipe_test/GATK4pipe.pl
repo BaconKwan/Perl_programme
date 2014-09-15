@@ -276,7 +276,7 @@ sub readConf{
 	&check_path($forker_cmd, 0, "forker_cmd");
 	$$forker_nc = @{$bam_file} if(!defined $$forker_nc);
 	$$forker_nc = 1 if($$forker_nc < 1);
-	$$forker_nc = 4 if($$forker_nc > 4);
+	$$forker_nc = 2 if($$forker_nc > 2);
 	if((!defined $$forker_cmd) || !(-s $$forker_cmd)){
 		$$mcmd = "sh";
 		$$scmd = "sh";
