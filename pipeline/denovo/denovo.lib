@@ -1,0 +1,26 @@
+>species_name
+denovo_info=/Bio/Bin/pipeline/RNA/denovo_2.0/test/all_denovo_info.xls
+pro_name=species_name
+unigene_len=200
+tgicl_option=-l 100 -c 5
+soap=soap2.21gz
+soap_option=-m 0 -x 1000 -s 40 -l 35 -v 3 -r 2
+blast_option=-nr pl -cog -kegg pl -swissprot -cpu 30 -queue all.q -tophit 20 -topmatch 1
+nr2go_option= -gvol 500
+nrEST_option = -l 100
+cds_len = 100
+
+>species_name
+grape_option=-K 29  -M 2
+contig_len=50
+scaffold_len=100
+fill_option=  -p 27  -t 6
+tgicl_option= -l 100  -c 8
+filter_fq_option= --Nrate 0.1 --Q_low 20,0.4
+unigene_len=200
+max_rd_len=90
+map_len=35
+pair_num_cutoff=4
+name=species_name
+q1=/Bio/Project/PROJECT/GDR0258-11-denovo/Rawdata/S_1.fq
+q2=/Bio/Project/PROJECT/GDR0258-11-denovo/Rawdata/S_2.fq

@@ -1,0 +1,19 @@
+#!usr/bin/perl-w
+use strict;
+open IN,shift;
+my $more=0;
+my $equal=0;
+my $less=0;
+while(<IN>)
+{
+	chomp;
+	my @a=split(/\t/);
+	$more++ if ($a[1]>1);
+	$equal++ if($a[1]==1);
+	$less++ if($a[1]<1);
+}
+close IN;
+print "Ratio of Unigene length/ortholog length\tCount\n";
+print ">1\t$more\n";
+print "=1\t$equal\n";
+print "<1\t$less\n";

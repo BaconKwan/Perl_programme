@@ -1,0 +1,1 @@
+/home/guanpeikun/tools/fastx_toolkit/bin/fasta_clipping_histogram.pl

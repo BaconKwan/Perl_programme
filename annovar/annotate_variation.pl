@@ -1,0 +1,1 @@
+/home/guanpeikun/tools/annovar/annotate_variation.pl

@@ -1,0 +1,1 @@
+/home/guanpeikun/tools/fastx_toolkit/bin/fastq_quality_boxplot_graph.sh

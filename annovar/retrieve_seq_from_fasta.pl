@@ -1,0 +1,1 @@
+/home/guanpeikun/tools/annovar/retrieve_seq_from_fasta.pl

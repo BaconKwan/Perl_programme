@@ -1,0 +1,1 @@
+/home/guanpeikun/tools/draw/bin/chrLocMap.pl

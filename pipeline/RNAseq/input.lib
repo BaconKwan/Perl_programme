@@ -1,0 +1,24 @@
+Filter = -N 0.1 -A 1 -Q 20,0.4
+
+SoapParameters:
+Genome: -m 0 -x 10000 -s 40 -l 32 -v 5 -r 2 -p 4
+Gene:   -m 0 -x 1000 -s 28 -l 32 -v 2 -r 2
+
+SVG = 25
+
+KeyName=Sample_A
+length=100
+insert=166bp
+q1=/Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/RNAseq/rawdata/Sample_A_1.fq.gz
+q2=/Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/RNAseq/rawdata/Sample_A_2.fq.gz
+
+KeyName=Sample_B
+length=100
+insert=166bp
+q1=/Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/RNAseq/rawdata/Sample_B_1.fq.gz
+q2=/Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/RNAseq/rawdata/Sample_B_2.fq.gz
+
+Diff:Sample_A&Sample_B;Sample...
+Cluster:
+
+Query: -P test , -q all_q

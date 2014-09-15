@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg height="809.212305" width="1200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<text style="font-family: ArialNarrow; font-weight: bold; font-size: 16; fill: blue" x="20" y="31.52">1</text>
+	<line stroke="black" stroke-width="1" x1="20" x2="30" y1="130.1466275" y2="130.1466275" />
+	<line stroke="black" stroke-width="1" x1="30" x2="40" y1="130.1466275" y2="130.1466275" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="42" y="136.4666275">GRMZM2G118208</text>
+	<line stroke="black" stroke-width="1" x1="20" x2="30" y1="589.37251" y2="589.37251" />
+	<line stroke="black" stroke-width="1" x1="30" x2="40" y1="589.37251" y2="589.37251" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="42" y="595.69251">GRMZM2G174107</text>
+	<line stroke="black" stroke-width="1" x1="20" x2="30" y1="673.96381625" y2="673.96381625" />
+	<line stroke="black" stroke-width="1" x1="30" x2="40" y1="673.96381625" y2="673.96381625" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="42" y="680.28381625">GRMZM2G017047</text>
+	<rect fill="none" height="753.692305" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="20" y="35.52" />
+	<text style="font-size: 16; fill: blue; font-family: ArialNarrow; font-weight: bold" x="148.888888888889" y="31.52">10</text>
+	<line stroke="black" stroke-width="1" x1="148.888888888889" x2="158.888888888889" y1="181.300615" y2="181.300615" />
+	<line stroke="black" stroke-width="1" x1="158.888888888889" x2="168.888888888889" y1="181.300615" y2="181.300615" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="170.888888888889" y="187.620615">GRMZM2G180720</text>
+	<rect fill="none" height="374.08051" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="148.888888888889" y="35.52" />
+	<text style="font-size: 16; fill: blue; font-weight: bold; font-family: ArialNarrow" x="277.777777777778" y="31.52">2</text>
+	<line stroke="black" stroke-width="1" x1="277.777777777778" x2="287.777777777778" y1="470.33887875" y2="470.33887875" />
+	<line stroke="black" stroke-width="1" x1="287.777777777778" x2="297.777777777778" y1="470.33887875" y2="470.33887875" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="299.777777777778" y="476.65887875">GRMZM2G047404</text>
+	<line stroke="black" stroke-width="1" x1="277.777777777778" x2="287.777777777778" y1="531.6968675" y2="531.6968675" />
+	<line stroke="black" stroke-width="1" x1="287.777777777778" x2="297.777777777778" y1="531.6968675" y2="531.6968675" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="299.777777777778" y="538.0168675">AC233910.1</text>
+	<line stroke="black" stroke-width="1" x1="277.777777777778" x2="287.777777777778" y1="546.245415" y2="546.245415" />
+	<line stroke="black" stroke-width="1" x1="287.777777777778" x2="297.777777777778" y1="546.245415" y2="546.245415" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="299.777777777778" y="552.565415">GRMZM2G125850</text>
+	<rect fill="none" height="594.79367" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="277.777777777778" y="35.52" />
+	<text style="font-size: 16; fill: blue; font-family: ArialNarrow; font-weight: bold" x="406.666666666667" y="31.52">3</text>
+	<line stroke="black" stroke-width="1" x1="406.666666666667" x2="416.666666666667" y1="66.2622025" y2="66.2622025" />
+	<line stroke="black" stroke-width="1" x1="416.666666666667" x2="426.666666666667" y1="66.2622025" y2="66.2622025" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="428.666666666667" y="72.5822025">GRMZM2G066413</text>
+	<line stroke="black" stroke-width="1" x1="406.666666666667" x2="416.666666666667" y1="482.815045" y2="482.815045" />
+	<line stroke="black" stroke-width="1" x1="416.666666666667" x2="426.666666666667" y1="482.815045" y2="482.815045" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="428.666666666667" y="489.135045">GRMZM5G856598</text>
+	<line stroke="black" stroke-width="1" x1="406.666666666667" x2="416.666666666667" y1="602.1769125" y2="602.1769125" />
+	<line stroke="black" stroke-width="1" x1="416.666666666667" x2="426.666666666667" y1="602.1769125" y2="602.1769125" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="428.666666666667" y="608.4969125">GRMZM2G046681</text>
+	<rect fill="none" height="580.6138175" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="406.666666666667" y="35.52" />
+	<text style="font-size: 16; fill: blue; font-weight: bold; font-family: ArialNarrow" x="535.555555555556" y="31.52">4</text>
+	<line stroke="black" stroke-width="1" x1="535.555555555556" x2="545.555555555556" y1="107.70669375" y2="107.70669375" />
+	<line stroke="black" stroke-width="1" x1="545.555555555556" x2="555.555555555556" y1="107.70669375" y2="107.70669375" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="557.555555555556" y="114.02669375">GRMZM2G431314</text>
+	<line stroke="black" stroke-width="1" x1="535.555555555556" x2="545.555555555556" y1="481.828265" y2="481.828265" />
+	<line stroke="black" stroke-width="1" x1="545.555555555556" x2="555.555555555556" y1="481.828265" y2="481.828265" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="557.555555555556" y="488.148265">GRMZM2G060630</text>
+	<rect fill="none" height="605.15568" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="535.555555555556" y="35.52" />
+	<text style="font-family: ArialNarrow; font-weight: bold; fill: blue; font-size: 16" x="664.444444444444" y="31.52">5</text>
+	<line stroke="black" stroke-width="1" x1="664.444444444444" x2="674.444444444444" y1="81.93558625" y2="81.93558625" />
+	<line stroke="black" stroke-width="1" x1="674.444444444444" x2="684.444444444444" y1="81.93558625" y2="81.93558625" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="686.444444444444" y="88.25558625">GRMZM2G048363</text>
+	<line stroke="black" stroke-width="1" x1="664.444444444444" x2="674.444444444444" y1="546.5819875" y2="546.5819875" />
+	<line stroke="black" stroke-width="1" x1="674.444444444444" x2="684.444444444444" y1="546.5819875" y2="546.5819875" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="686.444444444444" y="552.9019875">GRMZM5G845775</text>
+	<line stroke="black" stroke-width="1" x1="664.444444444444" x2="674.444444444444" y1="561.01439375" y2="561.01439375" />
+	<line stroke="black" stroke-width="1" x1="674.444444444444" x2="684.444444444444" y1="561.01439375" y2="561.01439375" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="686.444444444444" y="567.33439375">GRMZM2G152827</text>
+	<line stroke="black" stroke-width="1" x1="664.444444444444" x2="674.444444444444" y1="561.07399125" y2="561.07399125" />
+	<line stroke="black" stroke-width="1" x1="674.444444444444" x2="684.444444444444" y1="561.07399125" y2="573.65439375" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="686.444444444444" y="579.97439375">GRMZM2G015401</text>
+	<rect fill="none" height="544.8988125" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="664.444444444444" y="35.52" />
+	<text style="font-weight: bold; font-family: ArialNarrow; fill: blue; font-size: 16" x="793.333333333333" y="31.52">6</text>
+	<line stroke="black" stroke-width="1" x1="793.333333333333" x2="803.333333333333" y1="359.03682" y2="359.03682" />
+	<line stroke="black" stroke-width="1" x1="803.333333333333" x2="813.333333333333" y1="359.03682" y2="359.03682" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="815.333333333333" y="365.35682">GRMZM2G008642</text>
+	<line stroke="black" stroke-width="1" x1="793.333333333333" x2="803.333333333333" y1="407.809925" y2="407.809925" />
+	<line stroke="black" stroke-width="1" x1="803.333333333333" x2="813.333333333333" y1="407.809925" y2="407.809925" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="815.333333333333" y="414.129925">AC235543.1</text>
+	<rect fill="none" height="423.51959" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="793.333333333333" y="35.52" />
+	<text style="font-family: ArialNarrow; font-weight: bold; fill: blue; font-size: 16" x="922.222222222222" y="31.52">7</text>
+	<line stroke="black" stroke-width="1" x1="922.222222222222" x2="932.222222222222" y1="240.78964375" y2="240.78964375" />
+	<line stroke="black" stroke-width="1" x1="932.222222222222" x2="942.222222222222" y1="240.78964375" y2="240.78964375" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="944.222222222222" y="247.10964375">GRMZM2G103047</text>
+	<line stroke="black" stroke-width="1" x1="922.222222222222" x2="932.222222222222" y1="348.36549375" y2="348.36549375" />
+	<line stroke="black" stroke-width="1" x1="932.222222222222" x2="942.222222222222" y1="348.36549375" y2="348.36549375" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="944.222222222222" y="354.68549375">GRMZM2G009045</text>
+	<line stroke="black" stroke-width="1" x1="922.222222222222" x2="932.222222222222" y1="400.54351375" y2="400.54351375" />
+	<line stroke="black" stroke-width="1" x1="932.222222222222" x2="942.222222222222" y1="400.54351375" y2="400.54351375" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="944.222222222222" y="406.86351375">GRMZM2G146240</text>
+	<line stroke="black" stroke-width="1" x1="922.222222222222" x2="932.222222222222" y1="420.1755575" y2="420.1755575" />
+	<line stroke="black" stroke-width="1" x1="932.222222222222" x2="942.222222222222" y1="420.1755575" y2="420.1755575" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="944.222222222222" y="426.4955575">GRMZM2G009223</text>
+	<rect fill="none" height="442.0657775" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="922.222222222222" y="35.52" />
+	<text style="font-size: 16; fill: blue; font-family: ArialNarrow; font-weight: bold" x="1051.11111111111" y="31.52">8</text>
+	<line stroke="black" stroke-width="1" x1="1051.11111111111" x2="1061.11111111111" y1="39.88724375" y2="39.88724375" />
+	<line stroke="black" stroke-width="1" x1="1061.11111111111" x2="1071.11111111111" y1="39.88724375" y2="39.88724375" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="1073.11111111111" y="46.20724375">GRMZM2G092793</text>
+	<line stroke="black" stroke-width="1" x1="1051.11111111111" x2="1061.11111111111" y1="109.8292175" y2="109.8292175" />
+	<line stroke="black" stroke-width="1" x1="1061.11111111111" x2="1071.11111111111" y1="109.8292175" y2="109.8292175" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="1073.11111111111" y="116.1492175">GRMZM2G070605</text>
+	<line stroke="black" stroke-width="1" x1="1051.11111111111" x2="1061.11111111111" y1="271.43972" y2="271.43972" />
+	<line stroke="black" stroke-width="1" x1="1061.11111111111" x2="1071.11111111111" y1="271.43972" y2="271.43972" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="1073.11111111111" y="277.75972">GRMZM2G083344</text>
+	<line stroke="black" stroke-width="1" x1="1051.11111111111" x2="1061.11111111111" y1="278.91642125" y2="278.91642125" />
+	<line stroke="black" stroke-width="1" x1="1061.11111111111" x2="1071.11111111111" y1="278.91642125" y2="284.07972" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="1073.11111111111" y="290.39972">GRMZM2G142919</text>
+	<line stroke="black" stroke-width="1" x1="1051.11111111111" x2="1061.11111111111" y1="376.0163975" y2="376.0163975" />
+	<line stroke="black" stroke-width="1" x1="1061.11111111111" x2="1071.11111111111" y1="376.0163975" y2="376.0163975" />
+	<text fill="black" font-family="ArialNarrow" font-size="12" x="1073.11111111111" y="382.3363975">GRMZM2G088196</text>
+	<rect fill="none" height="438.44373" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="1051.11111111111" y="35.52" />
+	<text style="font-size: 16; fill: blue; font-family: ArialNarrow; font-weight: bold" x="1180" y="31.52">9</text>
+	<rect fill="none" height="392.59507" rx="5" ry="5" stroke="black" stroke-width="1" width="10" x="1180" y="35.52" />
+	<!-- 
+	Generated using the Perl SVG Module V2.59
+	by Ronan Oger
+	Info: http://www.roitsystems.com/
+ -->
+</svg>

@@ -1,0 +1,11 @@
+#####################
+#### software path
+#####################
+
+blastall = blastall
+formatdb = formatdb
+
+solar = /ifs2/DEVELOPMENT/GROUP/wangzhuo/release/01.gene_families/bin/programs/solar.pl
+hcluster_sg = /ifs2/DEVELOPMENT/GROUP/wangzhuo/release/01.gene_families/bin/programs/hcluster_sg
+mafft = /ifs2/DEVELOPMENT/GROUP/wangzhuo/release/01.gene_families/bin/programs/mafft
+muscle = /Bio/Project/PROJECT/GDI0309-zea_mays/family/muscle3.8.31/src/muscle

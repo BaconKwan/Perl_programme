@@ -1,0 +1,11 @@
+perl /Bio/Bin/pipe/dge2_2.0_RNAseq/dge2.pl -lib input.lib -outdir out \
+	-gnum 16 -taxid 3659 \
+	-species Pseudomonas_aeruginosa \
+	-gene /Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/ref/Pseudomonas_aeruginosa-Unigene.fa \
+	-komap /Bio/Database/Database/kegg/data/map_class/microorganism_ko_map.tab \
+	-path /Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/ref/Pseudomonas_aeruginosa.path \
+	-ko /Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/ref/Pseudomonas_aeruginosa.ko \
+	-go /Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/ref/Pseudomonas_aeruginosa \
+	-wego /Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/ref/Pseudomonas_aeruginosa.wego \
+	-desc /Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/ref/Pseudomonas_aeruginosa.desc \
+	-gene2tr /Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/ref/Pseudomonas_aeruginosa.gene2tr
