@@ -30,6 +30,8 @@ die "profiletable not found!\n" if(!(-s "$opts{pt}"));
 die "XLS file not found!\n" if(!(-s "$opts{xls}"));
 my @suffix = qw/_genetable.txt .table .txt/;
 $Sname = basename($opts{gt}, @suffix);
+$opts{gt} = rel2abs($opts{gt});
+$opts{pt} = rel2abs($opts{pt});
 
 
 print("Loading xls file ...\n");

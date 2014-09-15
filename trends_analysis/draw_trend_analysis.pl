@@ -53,7 +53,7 @@ foreach(keys %sample)
 	}
 }
 
-open EVE, "> $ARGV[2]_profiles/$ARGV[2].r" or die $!;
+open EVE, "> $ARGV[2].r" or die $!;
 print EVE "
 library(ggplot2)
 fs = dir()
