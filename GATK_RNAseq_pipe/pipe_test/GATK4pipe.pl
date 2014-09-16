@@ -86,7 +86,7 @@ sub main{
 		foreach(@bam_file){
 			my @suffix = qw/_mark.bam .bam/;
 			my $f = basename($_, @suffix);
-			print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS\n";
+			print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS -rf ReassignOneMappingQuality\n";
 			$_ = "$out_dir/snc/${f}_snc.bam";
 		}
 		close SH;
@@ -120,8 +120,8 @@ sub main{
 	close SH;
 	( 0 == &runSH("$mcmd $out_dir/SH/6.IndelRealigner.sh >> $out_dir/SH/6.IndelRealigner.log 2>&1")) ? &showInfo("finish Realign to interval regions") : &stop("Error, please check log!");
 
-	open SH, "> $out_dir/SH/7.UnifiedGenotyper.sh" || die $!;
-	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T UnifiedGenotyper -glm $glm -R $ref_fa -nct $nct $filter $rf -o $out_dir/snp/snp.vcf -metrics $out_dir/snp/snp.metrics";
+	open SH, "> $out_dir/SH/7.HaplotypeCaller.sh" || die $!;
+	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T HaplotypeCaller -glm $glm -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf -metrics $out_dir/snp/snp.metrics";
 	foreach(@bam_file){
 		print SH " -I $_";
 	}
@@ -130,7 +130,7 @@ sub main{
 	}
 	print SH "\n";
 	close SH;
-	( 0 == &runSH("$scmd $out_dir/SH/7.UnifiedGenotyper.sh >> $out_dir/SH/7.UnifiedGenotyper.log 2>&1")) ? &showInfo("finish Variant Calling") : &stop("Error, please check log!");
+	( 0 == &runSH("$scmd $out_dir/SH/7.HaplotypeCaller.sh >> $out_dir/SH/7.HaplotypeCaller.log 2>&1")) ? &showInfo("finish Variant Calling") : &stop("Error, please check log!");
 
 	open SH, "> $out_dir/SH/8.annot.sh" || die $!;
 	print SH "perl $annot_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/annot/snp.avinput\n";
