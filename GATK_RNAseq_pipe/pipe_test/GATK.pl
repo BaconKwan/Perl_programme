@@ -29,8 +29,8 @@ exit;
 
 sub main{
 	## checking step
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, @bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, @ref_id, @ref_snp, $glm, $nct, $filter, $rf);
-	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$annot_bin, \$forker_cmd, \$forker_nc, \$filterNDN, \$mcmd, \$scmd, \@bam_file, \$ref_fa, \$ref_gtf, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$glm, \$nct, \$filter, \$rf);
+	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, @bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, @ref_id, @ref_snp, $nct, $filter, $rf);
+	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$annot_bin, \$forker_cmd, \$forker_nc, \$filterNDN, \$mcmd, \$scmd, \@bam_file, \$ref_fa, \$ref_gtf, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$nct, \$filter, \$rf);
 
 	## preparing step
 	`mkdir -p $out_dir`;
@@ -141,7 +141,7 @@ sub main{
 	( 0 == &runSH("$mcmd $out_dir/SH/7.IndelRealigner.sh >> $out_dir/SH/7.IndelRealigner.log 2>&1")) ? &showInfo("finish Realign to interval regions") : &stop("Error, Please check log!");
 
 	open SH, "> $out_dir/SH/8.HaplotypeCaller.sh" || die $!;
-	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T HaplotypeCaller -glm $glm -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf -metrics $out_dir/snp/snp.metrics";
+	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T HaplotypeCaller -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf -metrics $out_dir/snp/snp.metrics";
 	foreach(@bam_file){
 		print SH " -I $_";
 	}
@@ -246,7 +246,7 @@ sub check_path{
 }
 
 sub readConf{
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, $bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, $ref_id, $ref_snp, $glm, $nct, $filter, $rf) = @_;
+	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, $bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, $ref_id, $ref_snp, $nct, $filter, $rf) = @_;
 	open CONF, "< $conf_file" || die $!;
 	&showInfo("==================== Loading config ...");
 	while(<CONF>){
@@ -298,9 +298,6 @@ sub readConf{
 		}
 		elsif($line[0] =~ /ref_snp/){
 			&set_values($ref_snp, \$line[1]) if(defined $line[1]);
-		}
-		elsif($line[0] =~ /glm/){
-			$$glm = $line[1] if(defined $line[1]);
 		}
 		elsif($line[0] =~ /nct/){
 			$$nct = $line[1] if(defined $line[1]);
@@ -369,9 +366,6 @@ sub readConf{
 		&check_path(\$_, 0 ,"ref_snp");
 		exit if(!( -s $_));
 	}
-	&showInfo("==================== Genotype likelihoods calculation model");
-	$$glm = "SNP" if(!defined $$glm);
-	&showInfo("INFO : $$glm");
 	&showInfo("==================== Number of CPU threads");
 	$$nct = 1 if(!defined $$nct);
 	$$nct = 1 if($$nct < 1);
