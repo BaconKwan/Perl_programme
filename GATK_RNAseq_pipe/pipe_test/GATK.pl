@@ -84,28 +84,38 @@ sub main{
 		( 0 == &runSH("$mcmd $out_dir/SH/2.dedup.sh >> $out_dir/SH/2.dedup.log 2>&1")) ? &showInfo("finish Mark duplication") : &stop("Error, Please check log!");
 	}
 
-	open SH, "> $out_dir/SH/3.CreatIndex.sh" || die $!;
+	open SH, "> $out_dir/SH/3.filterNDN.sh" || die $!;
+	foreach(@bam_file){
+		my @suffix = qw/_mark.bam .bam/;
+		my $f = basename($_, @suffix);
+		print SH "perl $filterNDN $_ $out_dir/deNDN/${f}_deNDN\n";
+		$_ = "$out_dir/deNDN/${f}_deNDN.bam";
+	}
+	close SH;
+	( 0 == &runSH("$mcmd $out_dir/SH/3.filterNDN.sh >> $out_dir/SH/3.filterNDN.log 2>&1")) ? &showInfo("finish filter NDN reads") : &stop("Error, Please check log!");
+
+	open SH, "> $out_dir/SH/4.CreatIndex.sh" || die $!;
 		foreach(@bam_file){
 			print SH "samtools index $_\n";
 		}
 	close SH;
-	( 0 == &runSH("$mcmd $out_dir/SH/3.CreatIndex.sh >> $out_dir/SH/3.CreatIndex.log 2>&1")) ? &showInfo("finish Creat bam files index") : &stop("Error, Please check log!");
+	( 0 == &runSH("$mcmd $out_dir/SH/4.CreatIndex.sh >> $out_dir/SH/4.CreatIndex.log 2>&1")) ? &showInfo("finish Creat bam files index") : &stop("Error, Please check log!");
 
 	if($snc ne "no"){
-		open SH, "> $out_dir/SH/4.SNC.sh" || die $!;
+		open SH, "> $out_dir/SH/5.SNC.sh" || die $!;
 		foreach(@bam_file){
-			my @suffix = qw/_mark.bam .bam/;
+			my @suffix = qw/_deNDN.bam _mark.bam .bam/;
 			my $f = basename($_, @suffix);
-			print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS\n";
+			print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS -rf ReassignOneMappingQuality\n";
 			$_ = "$out_dir/snc/${f}_snc.bam";
 		}
 		close SH;
-		( 0 == &runSH("$mcmd $out_dir/SH/4.SNC.sh >> $out_dir/SH/4.SNC.log 2>&1")) ? &showInfo("finish Split'N'Trim") : &stop("Error, Please check log!");
+		( 0 == &runSH("$mcmd $out_dir/SH/5.SNC.sh >> $out_dir/SH/5.SNC.log 2>&1")) ? &showInfo("finish Split'N'Trim") : &stop("Error, Please check log!");
 	}
 
-	open SH, "> $out_dir/SH/5.RealignerTargetCreator.sh" || die $!;
+	open SH, "> $out_dir/SH/6.RealignerTargetCreator.sh" || die $!;
 	foreach(@bam_file){
-		my @suffix = qw/_snc.bam _mark.bam .bam/;
+		my @suffix = qw/_snc.bam _deNDN.bam _mark.bam .bam/;
 		my $f = basename($_, @suffix);
 		print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T RealignerTargetCreator -R $ref_fa -I $_ -o $out_dir/intervals/${f}.intervals";
 		foreach(@ref_id){
@@ -114,11 +124,11 @@ sub main{
 		print SH "\n";
 	}
 	close SH;
-	( 0 == &runSH("$mcmd $out_dir/SH/5.RealignerTargetCreator.sh >> $out_dir/SH/5.RealignerTargetCreator.log 2>&1")) ? &showInfo("finish Creat intervals by realign reads to ref") : &stop("Error, Please check log!");
+	( 0 == &runSH("$mcmd $out_dir/SH/6.RealignerTargetCreator.sh >> $out_dir/SH/6.RealignerTargetCreator.log 2>&1")) ? &showInfo("finish Creat intervals by realign reads to ref") : &stop("Error, Please check log!");
 
-	open SH, "> $out_dir/SH/6.IndelRealigner.sh" || die $!;
+	open SH, "> $out_dir/SH/7.IndelRealigner.sh" || die $!;
 	foreach(@bam_file){
-		my @suffix = qw/_snc.bam _mark.bam .bam/;
+		my @suffix = qw/_snc.bam _deNDN.bam _mark.bam .bam/;
 		my $f = basename($_, @suffix);
 		print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T IndelRealigner -R $ref_fa -targetIntervals $out_dir/intervals/${f}.intervals -I $_ -o $out_dir/realign/${f}_realign.bam";
 		foreach(@ref_id){
@@ -128,10 +138,10 @@ sub main{
 		$_ = "$out_dir/realign/${f}_realign.bam";
 	}
 	close SH;
-	( 0 == &runSH("$mcmd $out_dir/SH/6.IndelRealigner.sh >> $out_dir/SH/6.IndelRealigner.log 2>&1")) ? &showInfo("finish Realign to interval regions") : &stop("Error, Please check log!");
+	( 0 == &runSH("$mcmd $out_dir/SH/7.IndelRealigner.sh >> $out_dir/SH/7.IndelRealigner.log 2>&1")) ? &showInfo("finish Realign to interval regions") : &stop("Error, Please check log!");
 
-	open SH, "> $out_dir/SH/7.UnifiedGenotyper.sh" || die $!;
-	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T UnifiedGenotyper -glm $glm -R $ref_fa -nct $nct $filter $rf -o $out_dir/snp/snp.vcf -metrics $out_dir/snp/snp.metrics";
+	open SH, "> $out_dir/SH/8.HaplotypeCaller.sh" || die $!;
+	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T HaplotypeCaller -glm $glm -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf -metrics $out_dir/snp/snp.metrics";
 	foreach(@bam_file){
 		print SH " -I $_";
 	}
@@ -140,14 +150,14 @@ sub main{
 	}
 	print SH "\n";
 	close SH;
-	( 0 == &runSH("$scmd $out_dir/SH/7.UnifiedGenotyper.sh >> $out_dir/SH/7.UnifiedGenotyper.log 2>&1")) ? &showInfo("finish Variant Calling") : &stop("Error, Please check log!");
+	( 0 == &runSH("$scmd $out_dir/SH/8.HaplotypeCaller.sh >> $out_dir/SH/8.HaplotypeCaller.log 2>&1")) ? &showInfo("finish Variant Calling") : &stop("Error, Please check log!");
 
-	open SH, "> $out_dir/SH/8.annot.sh" || die $!;
+	open SH, "> $out_dir/SH/9.annot.sh" || die $!;
 	print SH "perl $annot_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/annot/snp.avinput\n";
 	print SH "perl $annovar_path/annotate_variation.pl --buildver reference $out_dir/annot/snp.avinput --outfile $out_dir/annot/snp_annot $out_dir/ref\n";
 	print SH "perl $annot_bin/combine_annovar.pl $out_dir/annot/snp_annot.variant_function $out_dir/annot/snp_annot.exonic_variant_function $out_dir/annot/snp.avinput $out_dir/upload/snp.annot\n";
 	close SH;
-	( 0 == &runSH("$scmd $out_dir/SH/8.annot.sh >> $out_dir/SH/8.annot.log 2>&1")) ? &showInfo("finish Annotation") : &stop("Error, Please check log!");
+	( 0 == &runSH("$scmd $out_dir/SH/9.annot.sh >> $out_dir/SH/9.annot.log 2>&1")) ? &showInfo("finish Annotation") : &stop("Error, Please check log!");
 
 	&showInfo("==================== Step info");
 	&showInfo("INFO : All steps finished!");
