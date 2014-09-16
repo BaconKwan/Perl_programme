@@ -29,14 +29,15 @@ exit;
 
 sub main{
 	## checking step
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, @bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, @ref_id, @ref_snp, $glm, $nct, $filter, $rf);
-	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$annot_bin, \$forker_cmd, \$forker_nc, \$mcmd, \$scmd, \@bam_file, \$ref_fa, \$ref_gtf, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$glm, \$nct, \$filter, \$rf);
+	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, @bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, @ref_id, @ref_snp, $glm, $nct, $filter, $rf);
+	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$annot_bin, \$forker_cmd, \$forker_nc, \$filterNDN, \$mcmd, \$scmd, \@bam_file, \$ref_fa, \$ref_gtf, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$glm, \$nct, \$filter, \$rf);
 
 	## preparing step
 	`mkdir -p $out_dir`;
 	`mkdir -p $out_dir/ref`;
 	`mkdir -p $out_dir/data`;
 	`mkdir -p $out_dir/dedup`;
+	`mkdir -p $out_dir/deNDN`;
 	`mkdir -p $out_dir/snc`;
 	`mkdir -p $out_dir/intervals`;
 	`mkdir -p $out_dir/realign`;
@@ -235,7 +236,7 @@ sub check_path{
 }
 
 sub readConf{
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, $bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, $ref_id, $ref_snp, $glm, $nct, $filter, $rf) = @_;
+	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, $bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, $ref_id, $ref_snp, $glm, $nct, $filter, $rf) = @_;
 	open CONF, "< $conf_file" || die $!;
 	&showInfo("==================== Loading config ...");
 	while(<CONF>){
@@ -260,6 +261,9 @@ sub readConf{
 		}
 		elsif($line[0] =~ /forker_cmd/){
 			$$forker_cmd = rel2abs($line[1]) if(defined $line[1]);
+		}
+		elsif($line[0] =~ /filterNDN/){
+			$$filterNDN = rel2abs($line[1]) if(defined $line[1]);
 		}
 		elsif($line[0] =~ /bam_file/){
 			&set_values($bam_file, \$line[1]) if(defined $line[1]);
@@ -314,6 +318,8 @@ sub readConf{
 	&check_path($annot_bin, 1, "annot_bin");
 	&showInfo("==================== Forker tools");
 	&check_path($forker_cmd, 0, "forker_cmd");
+	&showInfo("==================== filterNDN tools");
+	&check_path($filterNDN, 0, "filterNDN");
 	$$forker_nc = 1 if(!defined $$forker_nc);
 	$$forker_nc = 1 if($$forker_nc < 1);
 	$$forker_nc = 16 if($$forker_nc > 16);
