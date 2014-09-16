@@ -10,7 +10,7 @@ die "perl $0 <genetable> <profiletable> <outprefix> [option]
 
 if($yl eq "log")
 {
-	$yl = "log(V(i)logV(0))";
+	$yl = "log(V(i) / logV(0))";
 }elsif($yl eq "n"){
 	$yl = "V(i) - V(0)";
 }elsif($yl eq "i"){
