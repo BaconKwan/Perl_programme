@@ -63,7 +63,7 @@ for(i in 1:n){
 	m <- read.table(fs[i], header=T, sep=\"\t\")
 	m\$xl <- factor(m\$xl, levels = c($hl))
 	y_max = max(abs(m\$value))
-	ggplot(m, aes(x = xl, y= value, group = sample, color = sample)) + geom_line() + scale_color_gradientn(colours=rainbow(15)) + labs(x=\"\", y=\"\") + theme_bw() + theme(legend.position = \"none\") + ylim(-y_max, y_max) + labs(y=\"$yl\")
+	ggplot(m, aes(x = xl, y= value, group = sample, color = sample)) + geom_line() + scale_color_gradientn(colours=rainbow(15)) + labs(x=\"\", y=\"\") + theme_bw() + theme(legend.position = \"none\") + ylim(-y_max, y_max) + labs(y=\"$yl\") + scale_x_discrete(expand=c(0.05, 0))
 	ggsave(paste(fs[i], \".png\", sep=\"\"), width = 8, dpi = 300)
 }
 ";
