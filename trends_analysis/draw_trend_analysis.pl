@@ -127,7 +127,7 @@ print CMD "
 m=read.table(\"$ARGV[1].tmp\", sep = \"\t\")
 profile_counts=nrow(m)
 rx=1
-while(rx*0.88*rx<=profile_counts)
+while(rx*rx<=profile_counts)
 {
 	rx=rx+1
 }
