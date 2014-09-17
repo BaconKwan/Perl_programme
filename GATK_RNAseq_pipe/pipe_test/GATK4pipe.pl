@@ -26,8 +26,8 @@ exit;
 
 sub main{
 	## checking step
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $filterNDN, $forker_nc, $mcmd, $scmd, @bam_file, @tag, $ref_fa, $modif, $dedup, $snc, @ref_id, @ref_snp, $nct, $filter, $rf);
-	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$annot_bin, \$forker_cmd, \$filterNDN, \$forker_nc, \$mcmd, \$scmd, \@bam_file, \@tag, \$ref_fa, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$nct, \$filter, \$rf);
+	my ($gatk_path, $pc_path, $annovar_path, $pipe_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, @bam_file, @tag, $ref_fa, $modif, $dedup, $snc, @ref_id, @ref_snp, $nct, $filter, $rf);
+	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$pipe_bin, \$forker_cmd, \$forker_nc, \$mcmd, \$scmd, \@bam_file, \@tag, \$ref_fa, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$nct, \$filter, \$rf);
 
 	## preparing step
 	`mkdir -p $out_dir`;
@@ -79,7 +79,7 @@ sub main{
 		foreach(@bam_file){
 			my @suffix = qw/_mark.bam .bam/;
 			my $f = basename($_, @suffix);
-			print SH "perl $filterNDN $_ $out_dir/deNDN/${f}_deNDN\n";
+			print SH "perl $pipe_bin/filterNDN.pl $_ $out_dir/deNDN/${f}_deNDN\n";
 			$_ = "$out_dir/deNDN/${f}_deNDN.bam";
 		}
 	close SH;
@@ -144,9 +144,10 @@ sub main{
 	( 0 == &runSH("$scmd $out_dir/SH/8.HaplotypeCaller.sh >> $out_dir/SH/8.HaplotypeCaller.log 2>&1")) ? &showInfo("finish Variant Calling") : &stop("Error, please check log!");
 
 	open SH, "> $out_dir/SH/9.annot.sh" || die $!;
-	print SH "perl $annot_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/annot/snp.avinput\n";
+	print SH "perl $pipe_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/annot/snp.avinput\n";
 	print SH "perl $annovar_path/annotate_variation.pl --buildver $opts{prefix} $out_dir/annot/snp.avinput --outfile $out_dir/annot/snp_annot $opts{dir}\n";
-	print SH "perl $annot_bin/combine_annovar.pl $out_dir/annot/snp_annot.variant_function $out_dir/annot/snp_annot.exonic_variant_function $out_dir/annot/snp.avinput $out_dir/upload/snp.annot\n";
+	print SH "perl $pipe_bin/combine_annovar.pl $out_dir/annot/snp_annot.variant_function $out_dir/annot/snp_annot.exonic_variant_function $out_dir/annot/snp.avinput $out_dir/upload/snp.annot\n";
+	print SH "perl $pipe_bin/split_sample_snp_stat4pipe.pl $out_dir/upload\n";
 	close SH;
 	( 0 == &runSH("$scmd $out_dir/SH/9.annot.sh >> $out_dir/SH/9.annot.log 2>&1")) ? &showInfo("finish Annotation") : &stop("Error, please check log!");
 
@@ -238,14 +239,13 @@ sub check_path{
 }
 
 sub readConf{
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $filterNDN, $forker_nc, $mcmd, $scmd, $bam_file, $tag, $ref_fa, $modif, $dedup, $snc, $ref_id, $ref_snp, $nct, $filter, $rf) = @_;
+	my ($gatk_path, $pc_path, $annovar_path, $pipe_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, $bam_file, $tag, $ref_fa, $modif, $dedup, $snc, $ref_id, $ref_snp, $nct, $filter, $rf) = @_;
 #&showInfo("==================== Loading config ...");
 	$$gatk_path = "/home/sunyong/bin/gatk-3.2-2";
 	$$pc_path = "/home/guanpeikun/bin/picard-tools-1.115";
 	$$annovar_path = "/home/guanpeikun/bin/annovar";
-	$$annot_bin= "/home/sunyong/bin";
+	$$pipe_bin= "/home/sunyong/bin";
 	$$forker_cmd = "/usr/bin/cmd_process_forker.pl";
-	$$filterNDN = "/home/guanpeikun/bin/GATK_RNAseq_pipe/pipe_test/filterNDN.pl";
 #$$forker_nc = 4;
 	open BAM, "< $opts{bam}" || die $!;
 	while(<BAM>){
@@ -281,12 +281,10 @@ sub readConf{
 	&check_path($pc_path, 1, "pc_path");
 	&showInfo("==================== Annovar tools");
 	&check_path($annovar_path, 1, "annovar_path");
-	&showInfo("==================== Annotation bin");
-	&check_path($annot_bin, 1, "annot_bin");
+	&showInfo("==================== Pipe bin");
+	&check_path($pipe_bin, 1, "pipe_bin");
 	&showInfo("==================== Forker tools");
 	&check_path($forker_cmd, 0, "forker_cmd");
-	&showInfo("==================== filterNDN tools");
-	&check_path($filterNDN, 0, "filterNDN");
 	$$forker_nc = @{$bam_file} if(!defined $$forker_nc);
 	$$forker_nc = 1 if($$forker_nc < 1);
 	$$forker_nc = 2 if($$forker_nc > 2);

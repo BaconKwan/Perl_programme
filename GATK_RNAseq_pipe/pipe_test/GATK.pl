@@ -29,8 +29,8 @@ exit;
 
 sub main{
 	## checking step
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, @bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, @ref_id, @ref_snp, $nct, $filter, $rf);
-	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$annot_bin, \$forker_cmd, \$forker_nc, \$filterNDN, \$mcmd, \$scmd, \@bam_file, \$ref_fa, \$ref_gtf, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$nct, \$filter, \$rf);
+	my ($gatk_path, $pc_path, $annovar_path, $pipe_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, @bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, @ref_id, @ref_snp, $nct, $filter, $rf);
+	&readConf(\$gatk_path, \$pc_path, \$annovar_path, \$pipe_bin, \$forker_cmd, \$forker_nc, \$mcmd, \$scmd, \@bam_file, \$ref_fa, \$ref_gtf, \$modif, \$dedup, \$snc, \@ref_id, \@ref_snp, \$nct, \$filter, \$rf);
 
 	## preparing step
 	`mkdir -p $out_dir`;
@@ -47,7 +47,7 @@ sub main{
 	`mkdir -p $out_dir/SH`;
 
 	open SH, "> $out_dir/SH/0.preproccess.sh" || die $!;
-	print SH "perl $annot_bin/deal_ref_fasta-gtf-snp.pl $ref_fa $ref_gtf $out_dir/ref/reference\n";
+	print SH "perl $pipe_bin/deal_ref_fasta-gtf-snp.pl $ref_fa $ref_gtf $out_dir/ref/reference\n";
 	close SH;
 	( 0 == &runSH("$scmd $out_dir/SH/0.preproccess.sh >> $out_dir/SH/0.preproccess.log 2>&1")) ? &showInfo("finish Creat fasta index & dict") : &stop("Error, Please check log!");
 
@@ -88,7 +88,7 @@ sub main{
 	foreach(@bam_file){
 		my @suffix = qw/_mark.bam .bam/;
 		my $f = basename($_, @suffix);
-		print SH "perl $filterNDN $_ $out_dir/deNDN/${f}_deNDN\n";
+		print SH "perl $pipe_bin/filterNDN.pl $_ $out_dir/deNDN/${f}_deNDN\n";
 		$_ = "$out_dir/deNDN/${f}_deNDN.bam";
 	}
 	close SH;
@@ -153,9 +153,10 @@ sub main{
 	( 0 == &runSH("$scmd $out_dir/SH/8.HaplotypeCaller.sh >> $out_dir/SH/8.HaplotypeCaller.log 2>&1")) ? &showInfo("finish Variant Calling") : &stop("Error, Please check log!");
 
 	open SH, "> $out_dir/SH/9.annot.sh" || die $!;
-	print SH "perl $annot_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/annot/snp.avinput\n";
+	print SH "perl $pipe_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/annot/snp.avinput\n";
 	print SH "perl $annovar_path/annotate_variation.pl --buildver reference $out_dir/annot/snp.avinput --outfile $out_dir/annot/snp_annot $out_dir/ref\n";
-	print SH "perl $annot_bin/combine_annovar.pl $out_dir/annot/snp_annot.variant_function $out_dir/annot/snp_annot.exonic_variant_function $out_dir/annot/snp.avinput $out_dir/upload/snp.annot\n";
+	print SH "perl $pipe_bin/combine_annovar.pl $out_dir/annot/snp_annot.variant_function $out_dir/annot/snp_annot.exonic_variant_function $out_dir/annot/snp.avinput $out_dir/upload/snp.annot\n";
+	print SH "perl $pipe_bin/split_sample_snp_stat4pipe.pl $out_dir/upload\n";
 	close SH;
 	( 0 == &runSH("$scmd $out_dir/SH/9.annot.sh >> $out_dir/SH/9.annot.log 2>&1")) ? &showInfo("finish Annotation") : &stop("Error, Please check log!");
 
@@ -246,7 +247,7 @@ sub check_path{
 }
 
 sub readConf{
-	my ($gatk_path, $pc_path, $annovar_path, $annot_bin, $forker_cmd, $forker_nc, $filterNDN, $mcmd, $scmd, $bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, $ref_id, $ref_snp, $nct, $filter, $rf) = @_;
+	my ($gatk_path, $pc_path, $annovar_path, $pipe_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, $bam_file, $ref_fa, $ref_gtf, $modif, $dedup, $snc, $ref_id, $ref_snp, $nct, $filter, $rf) = @_;
 	open CONF, "< $conf_file" || die $!;
 	&showInfo("==================== Loading config ...");
 	while(<CONF>){
@@ -263,17 +264,14 @@ sub readConf{
 		elsif($line[0] =~ /annovar_path/){
 			$$annovar_path = rel2abs($line[1]) if(defined $line[1]);
 		}
-		elsif($line[0] =~ /annot_bin/){
-			$$annot_bin= rel2abs($line[1]) if(defined $line[1]);
+		elsif($line[0] =~ /pipe_bin/){
+			$$pipe_bin= rel2abs($line[1]) if(defined $line[1]);
 		}
 		elsif($line[0] =~ /forker_nc/){
 			$$forker_nc = $line[1] if(defined $line[1]);
 		}
 		elsif($line[0] =~ /forker_cmd/){
 			$$forker_cmd = rel2abs($line[1]) if(defined $line[1]);
-		}
-		elsif($line[0] =~ /filterNDN/){
-			$$filterNDN = rel2abs($line[1]) if(defined $line[1]);
 		}
 		elsif($line[0] =~ /bam_file/){
 			&set_values($bam_file, \$line[1]) if(defined $line[1]);
@@ -321,12 +319,10 @@ sub readConf{
 	&check_path($pc_path, 1, "pc_path");
 	&showInfo("==================== Annovar tools");
 	&check_path($annovar_path, 1, "annovar_path");
-	&showInfo("==================== Annotation bin");
-	&check_path($annot_bin, 1, "annot_bin");
+	&showInfo("==================== Pipe bin");
+	&check_path($pipe_bin, 1, "pipe_bin");
 	&showInfo("==================== Forker tools");
 	&check_path($forker_cmd, 0, "forker_cmd");
-	&showInfo("==================== filterNDN tools");
-	&check_path($filterNDN, 0, "filterNDN");
 	$$forker_nc = 1 if(!defined $$forker_nc);
 	$$forker_nc = 1 if($$forker_nc < 1);
 	$$forker_nc = 16 if($$forker_nc > 16);
