@@ -1,0 +1,1 @@
+/home/sunyong/bin/combine_annovar.pl

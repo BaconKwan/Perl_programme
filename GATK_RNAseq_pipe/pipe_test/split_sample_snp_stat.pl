@@ -1,0 +1,1 @@
+/home/sunyong/bin/split_sample_snp_stat.pl

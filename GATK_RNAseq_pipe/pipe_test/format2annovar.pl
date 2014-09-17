@@ -1,0 +1,1 @@
+/home/sunyong/bin/format2annovar.pl
