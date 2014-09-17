@@ -43,13 +43,16 @@ sub main{
 	`mkdir -p $out_dir/upload`;
 	`mkdir -p $out_dir/SH`;
 
+	open SH, "> $out_dir/SH/0.link_ref.sh" || die $!;
 	foreach(@bam_file){
 		my $tag = shift(@tag);
-		`ln -sf $_ $out_dir/ref/$tag.bam`;
+		print SH "ln -sf $_ $out_dir/ref/$tag.bam\n";
 		$_ = "$out_dir/ref/$tag.bam";
 	}
 	&linkFiles(\@ref_id);
 	&linkFiles(\@ref_snp);
+	close SH;
+		( 0 == &runSH("$mcmd $out_dir/SH/0.link_ref.sh >> $out_dir/SH/0.link_ref.log 2>&1")) ? &showInfo("finish link files") : &stop("Error, please check log!");
 
 	## main script
 
@@ -201,7 +204,7 @@ sub linkFiles{
 	my ($tmp) = @_;
 	foreach(@{$tmp}){
 		my $f = basename($_);
-		`ln -sf $_ $out_dir/ref/${f}`;
+		print SH "ln -sf $_ $out_dir/ref/${f}\n";
 		$_ = "$out_dir/ref/${f}";
 	}
 }

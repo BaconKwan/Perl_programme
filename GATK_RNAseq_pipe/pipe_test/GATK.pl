@@ -48,17 +48,16 @@ sub main{
 
 	open SH, "> $out_dir/SH/0.preproccess.sh" || die $!;
 	print SH "perl $pipe_bin/deal_ref_fasta-gtf-snp.pl $ref_fa $ref_gtf $out_dir/ref/reference\n";
-	close SH;
-	( 0 == &runSH("$scmd $out_dir/SH/0.preproccess.sh >> $out_dir/SH/0.preproccess.log 2>&1")) ? &showInfo("finish Creat fasta index & dict") : &stop("Error, Please check log!");
-
-	`ln -sf $ref_gtf $out_dir/ref/reference.gtf`;
-	`ln -sf $ref_fa $out_dir/ref/origin.fa`;
-	`ln -sf $ref_gtf $out_dir/ref/origin.gtf`;
+	print SH "ln -sf $ref_gtf $out_dir/ref/reference.gtf\n";
+	print SH "ln -sf $ref_fa $out_dir/ref/origin.fa\n";
+	print SH "ln -sf $ref_gtf $out_dir/ref/origin.gtf\n";
 	$ref_fa = "$out_dir/ref/reference.fa";
 	$ref_gtf = "$out_dir/ref/reference.gtf";
 	&linkFiles(\@bam_file);
 	&linkFiles(\@ref_id);
 	&linkFiles(\@ref_snp);
+	close SH;
+	( 0 == &runSH("$scmd $out_dir/SH/0.preproccess.sh >> $out_dir/SH/0.preproccess.log 2>&1")) ? &showInfo("finish Creat fasta index & dict") : &stop("Error, Please check log!");
 
 	## main script
 
@@ -209,7 +208,7 @@ sub linkFiles{
 	my ($tmp) = @_;
 	foreach(@{$tmp}){
 		my $f = basename($_);
-		`ln -sf $_ $out_dir/ref/${f}`;
+		print SH "ln -sf $_ $out_dir/ref/${f}\n";
 		$_ = "$out_dir/ref/${f}";
 	}
 }
