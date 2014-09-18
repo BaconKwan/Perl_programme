@@ -245,7 +245,7 @@ sub readConf{
 	my ($gatk_path, $pc_path, $annovar_path, $pipe_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, $bam_file, $tag, $ref_fa, $modif, $dedup, $snc, $ref_id, $ref_snp, $nct, $filter, $rf) = @_;
 #&showInfo("==================== Loading config ...");
 	$$gatk_path = "/home/sunyong/bin/gatk-3.2-2";
-	$$pc_path = "/home/guanpeikun/bin/picard-tools-1.115";
+	$$pc_path = "/home/guanpeikun/bin/picard-tools";
 	$$annovar_path = "/home/guanpeikun/bin/annovar";
 	$$pipe_bin= "/home/sunyong/bin";
 	$$forker_cmd = "/usr/bin/cmd_process_forker.pl";
