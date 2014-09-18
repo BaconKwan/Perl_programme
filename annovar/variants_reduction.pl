@@ -1,1 +1,0 @@
-/home/guanpeikun/tools/annovar/variants_reduction.pl

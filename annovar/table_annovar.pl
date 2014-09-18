@@ -1,1 +1,0 @@
-/home/guanpeikun/tools/annovar/table_annovar.pl

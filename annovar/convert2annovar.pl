@@ -1,1 +1,0 @@
-/home/guanpeikun/tools/annovar/convert2annovar.pl

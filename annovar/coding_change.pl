@@ -1,1 +1,0 @@
-/home/guanpeikun/tools/annovar/coding_change.pl
