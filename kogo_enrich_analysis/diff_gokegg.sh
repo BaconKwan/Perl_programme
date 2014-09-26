@@ -21,7 +21,8 @@ do
 
 # KO
 	mkdir -p $dir/KO
-	awk -F "\t" '{printf("%s\t\t\t\t\t%s\n", $1, $2)}' $i > $dir/KO/"$name".glist
+	#awk -F "\t" '{printf("%s\t\t\t\t\t%s\n", $1, $2)}' $i > $dir/KO/"$name".glist
+	cp $i $dir/KO/"$name".glist
 	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/getKO.pl -glist $dir/KO/"$name".glist -bg $ko -outdir $dir/KO
 	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/pathfind.pl -fg $dir/KO/"$name".ko -komap $komap -bg $ko -output $dir/KO/"$name".path
 	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/keggMap.pl -ko $dir/KO/"$name".ko -komap $komap -diff $dir/KO/"$name".glist -outdir $dir/KO/"$name"_map
