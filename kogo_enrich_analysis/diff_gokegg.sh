@@ -22,9 +22,9 @@ do
 # KO
 	mkdir -p $dir/KO
 	awk -F "\t" '{printf("%s\t\t\t\t\t%s\n", $1, $2)}' $i > $dir/KO/"$name".glist
-	perl /Bio/Bin/pipe/dge2_2.0_RNAseq/functional/getKO.pl -glist $dir/KO/"$name".glist -bg $ko -outdir $dir/KO
-	perl /Bio/Bin/pipe/dge2_2.0_RNAseq/functional/pathfind.pl -fg $dir/KO/"$name".ko -komap $komap -bg $ko -output $dir/KO/"$name".path
-	perl /Bio/Bin/pipe/dge2_2.0_RNAseq/functional/keggMap.pl -ko $dir/KO/"$name".ko -komap $komap -diff $dir/KO/"$name".glist -outdir $dir/KO/"$name"_map
+	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/getKO.pl -glist $dir/KO/"$name".glist -bg $ko -outdir $dir/KO
+	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/pathfind.pl -fg $dir/KO/"$name".ko -komap $komap -bg $ko -output $dir/KO/"$name".path
+	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/keggMap.pl -ko $dir/KO/"$name".ko -komap $komap -diff $dir/KO/"$name".glist -outdir $dir/KO/"$name"_map
 
 # GO
 	mkdir -p $dir/GO
@@ -45,8 +45,8 @@ done
 echo '================================'
 echo "processing functional programmes"
 echo '================================'
-perl /Bio/Bin/pipe/dge2_2.0_RNAseq/functional/functional.pl -go -gldir $dir -sdir $go -species $go_species -outdir $dir
-perl /Bio/Bin/pipe/dge2_2.0_RNAseq/functional/genPathHTML.pl -indir $dir/KO
+perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/functional.pl -go -gldir $dir -sdir $go -species $go_species -outdir $dir
+perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/genPathHTML.pl -indir $dir/KO
 
 if [ -e "$rpkm" ]; then
 	perl /home/guanpeikun/bin/pipeline/RNAseq/add_desc_for_MultiGeneDiff.pl $rpkm $dir/*.glist
