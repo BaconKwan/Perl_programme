@@ -28,16 +28,16 @@ do
 
 # GO
 	mkdir -p $dir/GO
-	awk '{if ($2 > 1){print $1}}' $i > $dir/GO/"$name"_up.glist
-	awk '{if ($2 < -1){print $1}}' $i > $dir/GO/"$name"_down.glist
+	awk '{if ($2 >= 1){print $1}}' $i > $dir/GO/"$name"_up.glist
+	awk '{if ($2 <= -1){print $1}}' $i > $dir/GO/"$name"_down.glist
 	perl /home/guanpeikun/bin/kogo_enrich_analysis/getwego.pl $dir/GO/"$name"_up.glist $wego > $dir/GO/"$name"_up.wego
 	perl /home/guanpeikun/bin/kogo_enrich_analysis/getwego.pl $dir/GO/"$name"_down.glist $wego > $dir/GO/"$name"_down.wego
 	if [ -s $dir/GO/"$name"_up.wego ] && [ -s $dir/GO/"$name"_down.wego ]; then
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist $dir/GO/"$name"_up.wego,$dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
+		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO.pl -gglist $dir/GO/"$name"_up.wego,$dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
 	elif [ -s $dir/GO/"$name"_up.wego ]; then
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist $dir/GO/"$name"_up.wego -output $dir/GO/"$name".go.class
+		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO.pl -gglist $dir/GO/"$name"_up.wego -output $dir/GO/"$name".go.class
 	elif [ -s $dir/GO/"$name"_down.wego ]; then
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist $dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
+		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO.pl -gglist $dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
 	fi
 	java -jar /Bio/Bin/pipe/RNA/tools/batik-rasterizer.jar -m image/png $dir/GO/"$name".go.class.svg
 done
