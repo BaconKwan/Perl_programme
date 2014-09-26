@@ -46,7 +46,7 @@ done
 echo '================================'
 echo "processing functional programmes"
 echo '================================'
-perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/functional.pl -go -gldir $dir -sdir $go -species $go_species -outdir $dir
+perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/functional_nodiff.pl -go -gldir $dir -sdir $go -species $go_species -outdir $dir
 perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/genPathHTML.pl -indir $dir/KO
 
 if [ -e "$rpkm" ]; then
