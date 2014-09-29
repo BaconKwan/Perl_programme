@@ -46,6 +46,7 @@ while(<GO>)
 	}else{
 		
 	}
+	next if(!defined $tmp[1]);
 	if(exists $hash{$tmp[1]})
 	{
 		push @{$hash{$tmp[1]}}, $tmp[0];
