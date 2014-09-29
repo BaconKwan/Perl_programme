@@ -37,7 +37,7 @@ sub usage{
 	print "
 	Usage:	perl $0 -i <input_file> -sa <number> [options]
 	Options:
-		-i      file    input file usually RPKM Ttest_file
+		-i      file    input file usually RPKM Ttest.xls or AOV.xls
 		-sa     int     total sample amount
 		-fc     float   FC value for filter, default 1
 		-p      float   P value for filter, default 0.01
