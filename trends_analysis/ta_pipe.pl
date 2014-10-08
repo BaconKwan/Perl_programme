@@ -184,7 +184,7 @@ sub usage{
 	die"
 	Usage: perl $0 <-in files...> [options]
 	Options:
-		-in        string       *input files, split by \",\"
+		-in        string       *ready RPKM table files for input, split by \",\"
 		-o         string        output dir, default: ./stem
 		-cm        string        Clustering_Method
 		                         stem        -- STEM Clustering Method [default]
