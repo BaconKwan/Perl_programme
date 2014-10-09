@@ -14,8 +14,8 @@ use File::Basename qw/basename fileparse/;
 use File::Spec::Functions qw/rel2abs/;
 
 my %opts;
-GetOptions(\%opts, "in=s", "cm=s", "n1=i", "n2=i", "nor=s", "spot:i", "o=s");
-&usage unless(defined $opts{in});
+GetOptions(\%opts, "in=s", "cm=s", "n1=i", "n2=i", "nor=s", "spot:i", "o=s", "ref=s", "pf=s", "komap=s");
+&usage unless(defined $opts{in} && defined $opts{ref} && defined $opts{pf} && defined $opts{komap});
 
 ## initial arguments
 my @in_file = split /,/, $opts{in};
@@ -25,18 +25,21 @@ foreach(@in_file){
 	}
 }
 
+$opts{ref} = rel2abs($opts{ref});
+$opts{komap} = rel2abs($opts{komap});
+
 $opts{cm} = (defined $opts{cm}) ? $opts{cm} : "stem";
 die "Illegal Clustering_Method" unless($opts{cm} eq "stem" || $opts{cm} eq "kmeans");
 $opts{cm} = "STEM Clustering Method" if($opts{cm} eq "stem");
 $opts{cm} = "K-means" if($opts{cm} eq "kmeans");
 
-if($opts{cm} eq "stem"){
+if($opts{cm} eq "STEM Clustering Method"){
 	$opts{n1} = (defined $opts{n1}) ? $opts{n1} : 20;
 }
 else{
 	$opts{n1} = (defined $opts{n1}) ? $opts{n1} : 10;
 }
-if($opts{cm} eq "stem"){
+if($opts{cm} eq "STEM Clustering Method"){
 	$opts{n2} = (defined $opts{n2}) ? $opts{n2} : 1;
 }
 else{
@@ -56,28 +59,15 @@ $opts{o} = (defined $opts{o}) ? $opts{o} : ".";
 $opts{o} = rel2abs($opts{o});
 
 ## main 
-`mkdir -p $opts{o}/stem $opts{o}/stem/input $opts{o}/stem/output`;
-
-open SH_ST, "> $opts{o}/run_stem.sh" || die $!;
-print SH_ST 
-"Xvfb :1 &
-export DISPLAY=:1 && java -mx1024M -jar /home/guanpeikun/bin/trends_analysis/stem/stem.jar -b $opts{o}/stem/input $opts{o}/stem/output
-";
-close SH_ST;
-
-open SH_EN, "> $opts{o}/run_enrich.sh" || die $!;
+`mkdir -p $opts{o}/stem $opts{o}/stem/input $opts{o}/stem/output $opts{o}/enrich`;
+open SH, "> $opts{o}/run.sh" || die $!;
 foreach(@in_file){
 	my $name = basename($_);
-	my $tname = (fileparse($_, qr/\.[^.]*/))[0];
-	`ln -sf $_ $opts{o}/stem/$name`;
-	`ln -sf $_ $opts{o}/$name`;
-	`ln -sf $opts{o}/stem/output/${tname}_profiletable.txt $opts{o}/${tname}_profiletable.txt`;
-	`ln -sf $opts{o}/stem/output/${tname}_genetable.txt $opts{o}/${tname}_genetable.txt`;
-	print SH_EN "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out ${tname}\n";
+	print SH "ln -s $_ $opts{o}/$name\n";
 	open CONF, "> $opts{o}/stem/input/$name" || die $!;
 	print CONF
 "#Main Input:
-Data_File	$opts{o}/stem/$name
+Data_File	$opts{o}/$name
 Clustering_Method[STEM Clustering Method,K-means]	$opts{cm}
 Maximum_Number_of_Model_Profiles	$opts{n1}
 Maximum_Unit_Change_in_Model_Profiles_between_Time_Points	$opts{n2}
@@ -144,6 +134,19 @@ X-axis_scale_should_be[Uniform,Based on real time]	Uniform
 ";
 	close CONF;
 }
+print SH 
+"Xvfb :1 &
+export DISPLAY=:1
+java -mx1024M -jar /home/guanpeikun/bin/trends_analysis/stem/stem.jar -b $opts{o}/stem/input $opts{o}/stem/output
+";
+foreach(@in_file){
+	my $name = basename($_);
+	my $tname = (fileparse($_, qr/\.[^.]*/))[0];
+	print SH "ln -s $opts{o}/stem/output/${tname}_profiletable.txt $opts{o}/${tname}_profiletable.txt\n";
+	print SH "ln -s $opts{o}/stem/output/${tname}_genetable.txt $opts{o}/${tname}_genetable.txt\n";
+	print SH "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out $opts{o}/enrich\n";
+}
+close SH;
 
 open CONF, "> $opts{o}/ta.conf" || die $!;
 print CONF
@@ -160,32 +163,38 @@ gen_html            =  /Bio/Bin/pipeline/RNA/denovo_2.0/functional/genPathHTML.p
 add_desc            =  /home/guanpeikun/bin/trends_analysis/add_desc.pl
 draw_png            =  /home/guanpeikun/bin/trends_analysis/draw_trend_analysis.pl
 ## basic files ##
-ref_path            =  /Bio/Project/PROJECT/GDI0356/species_analysis/ref
-wego_file           =  species.wego
-ko_file             =  species.ko
-komap_file          =  /Bio/Database/Database/kegg/data/map_class/plant_ko_map.tab
-go_dir              =  /Bio/Project/PROJECT/GDI0356/species_analysis/ref
-go_species          =  species
-desc_file           =  all.gene.desc.xls
+ref_path            =  $opts{ref}
+wego_file           =  $opts{pf}.wego
+ko_file             =  $opts{pf}.ko
+komap_file          =  $opts{komap}
+go_dir              =  $opts{ref}
+go_species          =  $opts{pf}
+desc_file           =  $opts{pf}.dec.xls
 ";
 close CONF;
-close SH_EN;
 
+`sh $opts{o}/run.sh >> $opts{0}/run.log 2>&1`;
+`rm $opts{o}/ta.conf -rf`;
+#`sh $opts{o}/enrich/enrich.sh >> $opts{o}/enrich/enrich.log 2>&1`;
 print
 "
-Follow the steps:
-	step 1: sh $opts{o}/run_stem.sh
-	step 2: vi $opts{o}/ta.conf
-	step 3: sh $opts{o}/run_enrich.sh
-	step 4: pack & upload
+modif $opts{o}/enrich/enrich.sh before run it if necessary 
+sh $opts{o}/enrich/enrich.sh >> $opts{o}/enrich/enrich.log 2>&1
 \n";
 
 sub usage{
 	die"
-	Usage: perl $0 <-in files...> [options]
-	Options:
+Usage: perl $0 -in <file1,file2...> -ref <path> -pf <prefix> -komap <path> [options]
+Options:
+	BASIC
 		-in        string       *ready RPKM table files for input, split by \",\"
-		-o         string        output dir, default: ./stem
+		-o         string        output dir, default: ./
+	GOKEGG ENRICH
+		-ref       string       *ref folder path, which is used to store xxx.wego, xxx.ko, xxx.P, xxx.C, xxx.F, xxx.dec.xls, etc.
+		-pf        string       *prefix of files in ref folder must be unified, like \"xxx\" above
+		-komap     string       *komap absolute path, example: /Bio/Database/Database/kegg/data/map_class/animal_ko_map.tab
+		                         [XXX]_ko_map.tab          [XXX] can be replace by fungi, microorganism, plant, prokaryote, etc.
+	STEM
 		-cm        string        Clustering_Method
 		                         stem        -- STEM Clustering Method [default]
 		                         kmeans      -- K-means Method
@@ -198,5 +207,5 @@ sub usage{
 		                         n           -- Normalize data
 		                         i           -- No normalization / add 0
 		-spot      boolean       Spot_IDs_included_in_the_data_file, default: false
-	\n";
+\n";
 }

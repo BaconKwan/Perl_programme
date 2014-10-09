@@ -18,18 +18,20 @@ open XLS, "< $file" || die $!;
 my $head_line = <XLS>;
 chomp $head_line;
 my @tmp = split /\t/, $head_line;
-$head_line = $tmp[-($desc_col)];
-foreach my $index ( -($desc_col - 1) .. -1){
-	$head_line = join "\t", $head_line, $tmp[$index];
+my @head;
+for(my $index = -($desc_col); $index <= -1; $index++){
+	push(@head, $tmp[$index]);
 }
+$head_line = join "\t", @head;
 while(<XLS>){
 	chomp;
 	my @line = split /\t/;
 	my $id = shift @line;
-	$hash_xls{$id} = $line[-($desc_col)];
-	foreach my $index ( -($desc_col - 1) .. -1){
-		$hash_xls{$id} = join "\t", $hash_xls{$id}, $line[$index];
+	my @desc;
+	for(my $index = -($desc_col); $index <= -1; $index++){
+		push(@desc, $line[$index]);
 	}
+	$hash_xls{$id} = join "\t", @desc;
 }
 close XLS;
 

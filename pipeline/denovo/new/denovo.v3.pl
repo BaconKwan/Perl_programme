@@ -1,0 +1,1 @@
+/home/miaoxin/Pipeline/RNA_denovo/denovo.v3.pl
