@@ -173,7 +173,7 @@ desc_file           =  $opts{pf}.dec.xls
 ";
 close CONF;
 
-`sh $opts{o}/run.sh >> $opts{0}/run.log 2>&1`;
+`sh $opts{o}/run.sh >> $opts{o}/run.log 2>&1`;
 `rm $opts{o}/ta.conf -rf`;
 #`sh $opts{o}/enrich/enrich.sh >> $opts{o}/enrich/enrich.log 2>&1`;
 print
