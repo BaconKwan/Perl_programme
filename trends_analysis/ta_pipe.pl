@@ -59,7 +59,7 @@ $opts{o} = (defined $opts{o}) ? $opts{o} : ".";
 $opts{o} = rel2abs($opts{o});
 
 ## main 
-`mkdir -p $opts{o}/stem $opts{o}/stem/input $opts{o}/stem/output $opts{o}/enrich`;
+`mkdir -p $opts{o}/stem $opts{o}/stem/input $opts{o}/stem/output`;
 open SH, "> $opts{o}/run.sh" || die $!;
 foreach(@in_file){
 	my $name = basename($_);
@@ -144,8 +144,10 @@ foreach(@in_file){
 	my $tname = (fileparse($_, qr/\.[^.]*/))[0];
 	print SH "ln -s $opts{o}/stem/output/${tname}_profiletable.txt $opts{o}/${tname}_profiletable.txt\n";
 	print SH "ln -s $opts{o}/stem/output/${tname}_genetable.txt $opts{o}/${tname}_genetable.txt\n";
-	print SH "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out $opts{o}/enrich\n";
+	print SH "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out $opts{o}/${tname}\n";
+	print SH "#sh $opts{o}/${tname}/enrich.sh >> $opts{o}/${tname}/enrich.log 2>&1\n";
 }
+print SH "rm $opts{o}/ta.conf\n";
 close SH;
 
 open CONF, "> $opts{o}/ta.conf" || die $!;
@@ -172,15 +174,6 @@ go_species          =  $opts{pf}
 desc_file           =  $opts{pf}.dec.xls
 ";
 close CONF;
-
-`sh $opts{o}/run.sh >> $opts{o}/run.log 2>&1`;
-`rm $opts{o}/ta.conf -rf`;
-#`sh $opts{o}/enrich/enrich.sh >> $opts{o}/enrich/enrich.log 2>&1`;
-print
-"
-modif $opts{o}/enrich/enrich.sh before run it if necessary 
-sh $opts{o}/enrich/enrich.sh >> $opts{o}/enrich/enrich.log 2>&1
-\n";
 
 sub usage{
 	die"
