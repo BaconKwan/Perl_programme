@@ -55,7 +55,7 @@ $opts{nor} = "Normalize data" if($opts{nor} eq "n");
 $opts{nor} = "No normalization" if($opts{nor} eq "i");
 
 $opts{dc} = (defined $opts{dc}) ? $opts{dc} : 5;
-die "Illegal number format in -dc" unless($opts{dc} =~ /^\d+$/);
+die "Illegal number format in -dc" unless($opts{dc} =~ /^[0-9]+$/);
 $opts{spot} = (defined $opts{spot}) ? "true" : "false";
 $opts{o} = (defined $opts{o}) ? $opts{o} : ".";
 $opts{o} = rel2abs($opts{o});

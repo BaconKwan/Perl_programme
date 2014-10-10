@@ -221,5 +221,5 @@ sub checkconf{
 	die "Bad go_species path\n" if(!defined $$go_species || !(-s "$$go_dir/$$go_species.P") || !(-s "$$go_dir/$$go_species.C") || !(-s "$$go_dir/$$go_species.F"));
 	die "missing X.conf files\n" if(!(-s "$$go_dir/P.conf") || !(-s "$$go_dir/C.conf") || !(-s "$$go_dir/F.conf"));
 	die "Bad desc_file path\n" if(defined $$desc_file && !(-s "$$ref_path/$$desc_file"));
-	die "Bad desc_col setting\n" unless($$desc_col =~ /^\d+$/);
+	die "Bad desc_col setting\n" unless($$desc_col =~ /^[0-9]+$/);
 }
