@@ -14,7 +14,7 @@ use File::Basename qw/basename fileparse/;
 use File::Spec::Functions qw/rel2abs/;
 
 my %opts;
-GetOptions(\%opts, "in=s", "cm=s", "n1=i", "n2=i", "nor=s", "spot:i", "o=s", "ref=s", "pf=s", "komap=s");
+GetOptions(\%opts, "in=s", "cm=s", "n1=i", "n2=i", "nor=s", "spot:i", "o=s", "ref=s", "pf=s", "komap=s", "dc=i");
 &usage unless(defined $opts{in} && defined $opts{ref} && defined $opts{pf} && defined $opts{komap});
 
 ## initial arguments
@@ -54,6 +54,8 @@ $opts{nor} = "Log normalize data" if($opts{nor} eq "log");
 $opts{nor} = "Normalize data" if($opts{nor} eq "n");
 $opts{nor} = "No normalization" if($opts{nor} eq "i");
 
+$opts{dc} = (defined $opts{dc}) ? $opts{dc} : 5;
+die "Illegal number format in -dc" unless($opts{dc} =~ /^\d+$/);
 $opts{spot} = (defined $opts{spot}) ? "true" : "false";
 $opts{o} = (defined $opts{o}) ? $opts{o} : ".";
 $opts{o} = rel2abs($opts{o});
@@ -145,9 +147,8 @@ foreach(@in_file){
 	print SH "ln -s $opts{o}/stem/output/${tname}_profiletable.txt $opts{o}/${tname}_profiletable.txt\n";
 	print SH "ln -s $opts{o}/stem/output/${tname}_genetable.txt $opts{o}/${tname}_genetable.txt\n";
 	print SH "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out $opts{o}/${tname}\n";
-	print SH "#sh $opts{o}/${tname}/enrich.sh >> $opts{o}/${tname}/enrich.log 2>&1\n";
+	print SH "sh $opts{o}/${tname}/enrich.sh >> $opts{o}/${tname}/enrich.log 2>&1 &\n";
 }
-print SH "rm $opts{o}/ta.conf\n";
 close SH;
 
 open CONF, "> $opts{o}/ta.conf" || die $!;
@@ -171,7 +172,8 @@ ko_file             =  $opts{pf}.ko
 komap_file          =  $opts{komap}
 go_dir              =  $opts{ref}
 go_species          =  $opts{pf}
-desc_file           =  $opts{pf}.dec.xls
+desc_file           =  $opts{pf}.desc.xls
+desc_col            =  $opts{dc}
 ";
 close CONF;
 
@@ -183,10 +185,11 @@ Options:
 		-in        string       *ready RPKM table files for input, split by \",\"
 		-o         string        output dir, default: ./
 	GOKEGG ENRICH
-		-ref       string       *ref folder path, which is used to store xxx.wego, xxx.ko, xxx.P, xxx.C, xxx.F, xxx.dec.xls, etc.
+		-ref       string       *ref folder path, which is used to store xxx.wego, xxx.ko, xxx.P, xxx.C, xxx.F, xxx.desc.xls, etc.
 		-pf        string       *prefix of files in ref folder must be unified, like \"xxx\" above
 		-komap     string       *komap absolute path, example: /Bio/Database/Database/kegg/data/map_class/animal_ko_map.tab
 		                         [XXX]_ko_map.tab          [XXX] can be replace by fungi, microorganism, plant, prokaryote, etc.
+		-dc        int           desc.xls annotation column number, default: 5
 	STEM
 		-cm        string        Clustering_Method
 		                         stem        -- STEM Clustering Method [default]

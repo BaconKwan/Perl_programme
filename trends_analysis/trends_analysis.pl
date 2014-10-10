@@ -19,11 +19,11 @@ GetOptions(\%opts, "gt=s", "pt=s", "xls=s", "conf=s", "prefix=s", "out=s");
 $opts{prefix} = $opts{prefix} ? $opts{prefix} : "profile";
 $opts{out} = rel2abs($opts{out} ? $opts{out} : "out");
 
-my ($get_ko, $path_find, $komap_nodiff, $get_wego, $draw_go, $batik, $func, $gen_html, $add_desc, $draw_png, $ref_path, $wego_file, $ko_file, $komap_file, $go_dir, $go_species, $desc_file);
+my ($get_ko, $path_find, $komap_nodiff, $get_wego, $draw_go, $batik, $func, $gen_html, $add_desc, $draw_png, $ref_path, $wego_file, $ko_file, $komap_file, $go_dir, $go_species, $desc_file, $desc_col);
 my (%id, %folder);
 my ($xls_line, $Sname);
-&readconf(\$get_ko, \$path_find, \$komap_nodiff, \$get_wego, \$draw_go, \$batik, \$func, \$gen_html, \$add_desc, \$draw_png, \$ref_path, \$wego_file, \$ko_file, \$komap_file, \$go_dir, \$go_species, \$desc_file);
-&checkconf(\$get_ko, \$path_find, \$komap_nodiff, \$get_wego, \$draw_go, \$batik, \$func, \$gen_html, \$add_desc, \$draw_png, \$ref_path, \$wego_file, \$ko_file, \$komap_file, \$go_dir, \$go_species, \$desc_file);
+&readconf(\$get_ko, \$path_find, \$komap_nodiff, \$get_wego, \$draw_go, \$batik, \$func, \$gen_html, \$add_desc, \$draw_png, \$ref_path, \$wego_file, \$ko_file, \$komap_file, \$go_dir, \$go_species, \$desc_file, \$desc_col);
+&checkconf(\$get_ko, \$path_find, \$komap_nodiff, \$get_wego, \$draw_go, \$batik, \$func, \$gen_html, \$add_desc, \$draw_png, \$ref_path, \$wego_file, \$ko_file, \$komap_file, \$go_dir, \$go_species, \$desc_file, \$desc_col);
 
 die "genetable not found!\n" if(!(-s "$opts{gt}"));
 die "profiletable not found!\n" if(!(-s "$opts{pt}"));
@@ -99,7 +99,7 @@ perl $gen_html -indir $opts{out}/KO
 if(defined $desc_file){
 print SH
 "
-perl $add_desc $ref_path/$desc_file 5 $opts{out}/*.glist
+perl $add_desc $ref_path/$desc_file $desc_col $opts{out}/*.glist
 rm $opts{out}/*.glist -rf
 \n";
 }
@@ -135,7 +135,7 @@ sub usage{
 }
 
 sub readconf{
-	my($get_ko, $path_find, $komap_nodiff, $get_wego, $draw_go, $batik, $func, $gen_html, $add_desc, $draw_png, $ref_path, $wego_file, $ko_file, $komap_file, $go_dir, $go_species, $desc_file) = @_;
+	my($get_ko, $path_find, $komap_nodiff, $get_wego, $draw_go, $batik, $func, $gen_html, $add_desc, $draw_png, $ref_path, $wego_file, $ko_file, $komap_file, $go_dir, $go_species, $desc_file, $desc_col) = @_;
 	open CONF, "< $opts{conf}" || die $!;
 	print("Loding config ... \n");
 	while(<CONF>){
@@ -194,12 +194,15 @@ sub readconf{
 		elsif($line[0] =~ /desc_file/){
 			$$desc_file = $line[1] if(defined $line[1]);
 		}
+		elsif($line[0] =~ /desc_col/){
+			$$desc_col = $line[1] if(defined $line[1]);
+		}
 	}
 	close CONF;
 }
 
 sub checkconf{
-	my($get_ko, $path_find, $komap_nodiff, $get_wego, $draw_go, $batik, $func, $gen_html, $add_desc, $draw_png, $ref_path, $wego_file, $ko_file, $komap_file, $go_dir, $go_species, $desc_file) = @_;
+	my($get_ko, $path_find, $komap_nodiff, $get_wego, $draw_go, $batik, $func, $gen_html, $add_desc, $draw_png, $ref_path, $wego_file, $ko_file, $komap_file, $go_dir, $go_species, $desc_file, $desc_col) = @_;
 	die "Bad get_ko path\n" if(!defined $$get_ko || !(-s "$$get_ko"));
 	die "Bad path_find path\n" if(!defined $$path_find || !(-s "$$path_find"));
 	die "Bad komap_nodiff path\n" if(!defined $$komap_nodiff || !(-s "$$komap_nodiff"));
@@ -218,4 +221,5 @@ sub checkconf{
 	die "Bad go_species path\n" if(!defined $$go_species || !(-s "$$go_dir/$$go_species.P") || !(-s "$$go_dir/$$go_species.C") || !(-s "$$go_dir/$$go_species.F"));
 	die "missing X.conf files\n" if(!(-s "$$go_dir/P.conf") || !(-s "$$go_dir/C.conf") || !(-s "$$go_dir/F.conf"));
 	die "Bad desc_file path\n" if(defined $$desc_file && !(-s "$$ref_path/$$desc_file"));
+	die "Bad desc_col setting\n" unless($$desc_col =~ /^\d+$/);
 }
