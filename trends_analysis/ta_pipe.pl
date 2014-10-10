@@ -62,6 +62,7 @@ $opts{o} = rel2abs($opts{o});
 
 ## main 
 `mkdir -p $opts{o}/stem $opts{o}/stem/input $opts{o}/stem/output`;
+my @cmd;
 open SH, "> $opts{o}/run.sh" || die $!;
 foreach(@in_file){
 	my $name = basename($_);
@@ -144,11 +145,17 @@ java -mx1024M -jar /home/guanpeikun/bin/trends_analysis/stem/stem.jar -b $opts{o
 foreach(@in_file){
 	my $name = basename($_);
 	my $tname = (fileparse($_, qr/\.[^.]*/))[0];
+	push(@cmd, "sh $opts{o}/${tname}/enrich.sh >> $opts{o}/${tname}/enrich.log 2>&1 &");
 	print SH "ln -s $opts{o}/stem/output/${tname}_profiletable.txt $opts{o}/${tname}_profiletable.txt\n";
 	print SH "ln -s $opts{o}/stem/output/${tname}_genetable.txt $opts{o}/${tname}_genetable.txt\n";
 	print SH "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out $opts{o}/${tname}\n";
-	print SH "sh $opts{o}/${tname}/enrich.sh >> $opts{o}/${tname}/enrich.log 2>&1 &\n";
 }
+print SH "cmd_process_forker.pl --CPU 8 -c $opts{o}/run_enrich.sh";
+close SH;
+
+open SH, "> $opts{o}/run_enrich.sh" || die $!;
+my $cmd = join "\n", @cmd;
+print SH "$cmd\n";
 close SH;
 
 open CONF, "> $opts{o}/ta.conf" || die $!;
