@@ -150,7 +150,7 @@ foreach(@in_file){
 	print SH "ln -s $opts{o}/stem/output/${tname}_genetable.txt $opts{o}/${tname}_genetable.txt\n";
 	print SH "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out $opts{o}/${tname}\n";
 }
-print SH "cmd_process_forker.pl --CPU 8 -c $opts{o}/run_enrich.sh";
+print SH "cmd_process_forker.pl --CPU 8 -c $opts{o}/run_enrich.sh\n";
 close SH;
 
 open SH, "> $opts{o}/run_enrich.sh" || die $!;
