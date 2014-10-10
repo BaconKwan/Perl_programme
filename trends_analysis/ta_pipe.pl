@@ -145,7 +145,7 @@ java -mx1024M -jar /home/guanpeikun/bin/trends_analysis/stem/stem.jar -b $opts{o
 foreach(@in_file){
 	my $name = basename($_);
 	my $tname = (fileparse($_, qr/\.[^.]*/))[0];
-	push(@cmd, "sh $opts{o}/${tname}/enrich.sh >> $opts{o}/${tname}/enrich.log 2>&1 &");
+	push(@cmd, "sh $opts{o}/${tname}/enrich.sh >> $opts{o}/${tname}/enrich.log 2>&1");
 	print SH "ln -s $opts{o}/stem/output/${tname}_profiletable.txt $opts{o}/${tname}_profiletable.txt\n";
 	print SH "ln -s $opts{o}/stem/output/${tname}_genetable.txt $opts{o}/${tname}_genetable.txt\n";
 	print SH "perl /home/guanpeikun/bin/trends_analysis/trends_analysis.pl -gt $opts{o}/${tname}_genetable.txt -pt $opts{o}/${tname}_profiletable.txt -xls $opts{o}/$name -conf $opts{o}/ta.conf -prefix ${tname} -out $opts{o}/${tname}\n";
