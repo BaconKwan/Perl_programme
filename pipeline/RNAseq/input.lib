@@ -18,7 +18,7 @@ insert=166bp
 q1=/Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/RNAseq/rawdata/Sample_B_1.fq.gz
 q2=/Bio/Project/PROJECT/GDR0033-Pseudomonas_aeruginosa-ZhouGang/RNAseq/rawdata/Sample_B_2.fq.gz
 
-Diff:Sample_A&Sample_B;Sample...
+Diff:Sample_A&Sample_B,Sample...
 Cluster:
 
 Query: -P test , -q all_q
