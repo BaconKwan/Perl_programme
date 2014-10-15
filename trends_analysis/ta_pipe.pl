@@ -52,7 +52,7 @@ $opts{nor} = (defined $opts{nor}) ? $opts{nor} : "log";
 die "Illegal Normalize_Data Method" unless($opts{nor} eq "log" || $opts{nor} eq "n" || $opts{nor} eq "i");
 $opts{nor} = "Log normalize data" if($opts{nor} eq "log");
 $opts{nor} = "Normalize data" if($opts{nor} eq "n");
-$opts{nor} = "No normalization" if($opts{nor} eq "i");
+$opts{nor} = "No normalization/add 0" if($opts{nor} eq "i");
 
 $opts{dc} = (defined $opts{dc}) ? $opts{dc} : 5;
 die "Illegal number format in -dc" unless($opts{dc} =~ /^[0-9]+$/);
@@ -208,7 +208,7 @@ Options:
 		-nor       string        Normalize_Data Method
 		                         log         -- Log normalize data [default]
 		                         n           -- Normalize data
-		                         i           -- No normalization / add 0
+		                         i           -- No normalization/add 0
 		-spot      boolean       Spot_IDs_included_in_the_data_file, default: false
 \n";
 }
