@@ -248,7 +248,7 @@ sub readConf{
 	$$pc_path = "/home/guanpeikun/bin/picard-tools";
 	$$annovar_path = "/home/guanpeikun/bin/annovar";
 	$$pipe_bin= "/home/sunyong/bin";
-	$$forker_cmd = "/usr/bin/cmd_process_forker.pl";
+	$$forker_cmd = "cmd_process_forker.pl";
 #$$forker_nc = 4;
 	open BAM, "< $opts{bam}" || die $!;
 	while(<BAM>){

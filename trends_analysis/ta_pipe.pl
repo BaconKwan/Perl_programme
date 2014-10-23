@@ -138,7 +138,8 @@ X-axis_scale_should_be[Uniform,Based on real time]	Uniform
 	close CONF;
 }
 print SH 
-"Xvfb :1 &
+"
+## run this first --> Xvfb :1
 export DISPLAY=:1
 java -mx1024M -jar /home/guanpeikun/bin/trends_analysis/stem/stem.jar -b $opts{o}/stem/input $opts{o}/stem/output
 ";
