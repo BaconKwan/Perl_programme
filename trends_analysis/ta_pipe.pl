@@ -163,14 +163,14 @@ open CONF, "> $opts{o}/ta.conf" || die $!;
 print CONF
 "## trends analysis config ##
 ## programmes path ##
-get_ko              =  /Bio/Bin/pipeline/RNA/denovo_2.0/functional/getKO.pl
-path_find           =  /Bio/Bin/pipeline/RNA/denovo_2.0/functional/pathfind.pl
-komap_nodiff        =  /Bio/Bin/pipeline/RNA/denovo_2.0/functional/keggMap_nodiff.pl
+get_ko              =  /Bio/Bin/pipe/RNA/denovo_2.0/functional/getKO.pl
+path_find           =  /Bio/Bin/pipe/RNA/denovo_2.0/functional/pathfind.pl
+komap_nodiff        =  /Bio/Bin/pipe/RNA/denovo_2.0/functional/keggMap_nodiff.pl
 get_wego            =  /home/guanpeikun/bin/kogo_enrich_analysis/getwego.pl
-draw_go             =  /Bio/Bin/pipeline/RNA/denovo_2.0/drawGO_black.pl
-batik               =  /Bio/Bin/software/batik-1.7/batik-rasterizer.jar
-func                =  /Bio/Bin/pipeline/RNA/denovo_2.0/functional/functional_nodiff.pl
-gen_html            =  /Bio/Bin/pipeline/RNA/denovo_2.0/functional/genPathHTML.pl
+draw_go             =  /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl
+batik               =  /Bio/Bin/Linux-src/batik-1.7/batik-1.7/batik-rasterizer.jar
+func                =  /Bio/Bin/pipe/RNA/denovo_2.0/functional/functional_nodiff.pl
+gen_html            =  /Bio/Bin/pipe/RNA/denovo_2.0/functional/genPathHTML.pl
 add_desc            =  /home/guanpeikun/bin/trends_analysis/add_desc.pl
 draw_png            =  /home/guanpeikun/bin/trends_analysis/draw_trend_analysis.pl
 ## basic files ##
