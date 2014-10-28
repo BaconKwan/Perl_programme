@@ -73,12 +73,12 @@ our @EXPORT = qw(
 
 
 # softwares
-our $BLASTALL                            = "/usr/bin/blastall";
+our $BLASTALL                            = "blastall";
 our $BLAST_FORMAT                        = "compact";  # "compact" corresponds to NCBI-BLAST's -m 8
                                                        # "full" corresponds to NCBI-BLAST's -m 0
                                                        # for WU-BLAST, make changes on subroutine executeBLASTALL
 our $BLAST_NOCPU                         = 1;          # Useful when running BLAST on multi-processor machine
-our $FORMATDB                            = "/usr/bin/formatdb";
+our $FORMATDB                            = "formatdb";
 our $MCL                                 = "/home/guanpeikun/bin/family_analysis/mcl";
 
 # path

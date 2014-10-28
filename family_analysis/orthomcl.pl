@@ -13,7 +13,7 @@ my $starttime = `date`;
 use strict;
 use Getopt::Long;
 use File::Basename;
-use lib "/parastor/users/luoda/gaochuan/program/orthomcl/copy_from_BGI";
+use lib "/home/guanpeikun/tools/Perl_programme/family_analysis";
 use orthomcl_module;
 
 my ($mode,$fa_files,$pv_cutoff,$pi_cutoff,$pmatch_cutoff,%blast_flag,$inflation,$maximum_weight);
