@@ -11,7 +11,7 @@ use strict;
 use warnings;
 
 my $file = shift @ARGV;
-my $desc_col = shift @ARGV;
+my $desc_col = abs(shift @ARGV);
 my %hash_xls;
 
 open XLS, "< $file" || die $!;
