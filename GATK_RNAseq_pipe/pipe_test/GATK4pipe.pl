@@ -100,7 +100,7 @@ sub main{
 		foreach(@bam_file){
 			my @suffix = qw/_deNDN.bam _mark.bam .bam/;
 			my $f = basename($_, @suffix);
-			print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS -rf ReassignOneMappingQuality\n";
+			print SH "java -jar $gatk_path -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS -rf ReassignOneMappingQuality\n";
 			$_ = "$out_dir/snc/${f}_snc.bam";
 		}
 		close SH;
@@ -111,7 +111,7 @@ sub main{
 	foreach(@bam_file){
 		my @suffix = qw/_snc.bam _deNDN.bam _mark.bam .bam/;
 		my $f = basename($_, @suffix);
-		print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T RealignerTargetCreator -R $ref_fa -I $_ -o $out_dir/intervals/${f}.intervals";
+		print SH "java -jar $gatk_path -T RealignerTargetCreator -R $ref_fa -I $_ -o $out_dir/intervals/${f}.intervals";
 		foreach(@ref_id){
 			print SH " -known $_";
 		}
@@ -124,7 +124,7 @@ sub main{
 	foreach(@bam_file){
 		my @suffix = qw/_snc.bam _deNDN.bam _mark.bam .bam/;
 		my $f = basename($_, @suffix);
-		print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T IndelRealigner -R $ref_fa -targetIntervals $out_dir/intervals/${f}.intervals -I $_ -o $out_dir/realign/${f}_realign.bam";
+		print SH "java -jar $gatk_path -T IndelRealigner -R $ref_fa -targetIntervals $out_dir/intervals/${f}.intervals -I $_ -o $out_dir/realign/${f}_realign.bam";
 		foreach(@ref_id){
 			print SH " -known $_";
 		}
@@ -135,7 +135,7 @@ sub main{
 	( 0 == &runSH("$mcmd $out_dir/SH/7.IndelRealigner.sh >> $out_dir/SH/7.IndelRealigner.log 2>&1")) ? &showInfo("finish Realign to interval regions") : &stop("Error, please check log!");
 
 	open SH, "> $out_dir/SH/8.HaplotypeCaller.sh" || die $!;
-	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T HaplotypeCaller -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf";
+	print SH "java -jar $gatk_path -T HaplotypeCaller -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf";
 	foreach(@bam_file){
 		print SH " -I $_";
 	}
@@ -244,11 +244,11 @@ sub check_path{
 sub readConf{
 	my ($gatk_path, $pc_path, $annovar_path, $pipe_bin, $forker_cmd, $forker_nc, $mcmd, $scmd, $bam_file, $tag, $ref_fa, $modif, $dedup, $snc, $ref_id, $ref_snp, $nct, $filter, $rf) = @_;
 #&showInfo("==================== Loading config ...");
-	$$gatk_path = "/home/sunyong/bin/gatk-3.2-2";
+	$$gatk_path = "/home/sunyong/bin/GenomeAnalysisTK.jar";
 	$$pc_path = "/home/guanpeikun/bin/picard-tools";
 	$$annovar_path = "/home/guanpeikun/bin/annovar";
 	$$pipe_bin= "/home/sunyong/bin";
-	$$forker_cmd = "cmd_process_forker.pl";
+	$$forker_cmd = `which cmd_process_forker.pl`;
 #$$forker_nc = 4;
 	open BAM, "< $opts{bam}" || die $!;
 	while(<BAM>){

@@ -105,7 +105,7 @@ sub main{
 		foreach(@bam_file){
 			my @suffix = qw/_deNDN.bam _mark.bam .bam/;
 			my $f = basename($_, @suffix);
-			print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS -rf ReassignOneMappingQuality\n";
+			print SH "java -jar $gatk_path -T SplitNCigarReads -R $ref_fa -I $_ -o $out_dir/snc/${f}_snc.bam -U ALLOW_N_CIGAR_READS -rf ReassignOneMappingQuality\n";
 			$_ = "$out_dir/snc/${f}_snc.bam";
 		}
 		close SH;
@@ -116,7 +116,7 @@ sub main{
 	foreach(@bam_file){
 		my @suffix = qw/_snc.bam _deNDN.bam _mark.bam .bam/;
 		my $f = basename($_, @suffix);
-		print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T RealignerTargetCreator -R $ref_fa -I $_ -o $out_dir/intervals/${f}.intervals";
+		print SH "java -jar $gatk_path -T RealignerTargetCreator -R $ref_fa -I $_ -o $out_dir/intervals/${f}.intervals";
 		foreach(@ref_id){
 			print SH " -known $_";
 		}
@@ -129,7 +129,7 @@ sub main{
 	foreach(@bam_file){
 		my @suffix = qw/_snc.bam _deNDN.bam _mark.bam .bam/;
 		my $f = basename($_, @suffix);
-		print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T IndelRealigner -R $ref_fa -targetIntervals $out_dir/intervals/${f}.intervals -I $_ -o $out_dir/realign/${f}_realign.bam";
+		print SH "java -jar $gatk_path -T IndelRealigner -R $ref_fa -targetIntervals $out_dir/intervals/${f}.intervals -I $_ -o $out_dir/realign/${f}_realign.bam";
 		foreach(@ref_id){
 			print SH " -known $_";
 		}
@@ -140,7 +140,7 @@ sub main{
 	( 0 == &runSH("$mcmd $out_dir/SH/7.IndelRealigner.sh >> $out_dir/SH/7.IndelRealigner.log 2>&1")) ? &showInfo("finish Realign to interval regions") : &stop("Error, Please check log!");
 
 	open SH, "> $out_dir/SH/8.HaplotypeCaller.sh" || die $!;
-	print SH "java -jar $gatk_path/GenomeAnalysisTK.jar -T HaplotypeCaller -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf";
+	print SH "java -jar $gatk_path -T HaplotypeCaller -R $ref_fa -nct $nct $filter $rf -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20 -stand_emit_conf 20 -o $out_dir/snp/snp.vcf";
 	foreach(@bam_file){
 		print SH " -I $_";
 	}
