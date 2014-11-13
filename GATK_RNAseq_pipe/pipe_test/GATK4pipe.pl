@@ -249,6 +249,7 @@ sub readConf{
 	$$annovar_path = "/home/guanpeikun/bin/annovar";
 	$$pipe_bin= "/home/sunyong/bin";
 	$$forker_cmd = `which cmd_process_forker.pl`;
+	chomp $$forker_cmd;
 #$$forker_nc = 4;
 	open BAM, "< $opts{bam}" || die $!;
 	while(<BAM>){
