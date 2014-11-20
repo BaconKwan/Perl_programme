@@ -1,1 +1,1 @@
-/Bio/Project/PROJECT/GDF_Ath-Fengxianzhong/new/eku_ref.pipeline.pl
+/home/sunyong/bin/eku_ref.pipeline.pl

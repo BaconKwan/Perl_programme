@@ -38,7 +38,6 @@ sub main{
 	`mkdir -p $out_dir/intervals`;
 	`mkdir -p $out_dir/realign`;
 	`mkdir -p $out_dir/snp`;
-	`mkdir -p $out_dir/annot`;
 	`mkdir -p $out_dir/upload`;
 	`mkdir -p $out_dir/SH`;
 
@@ -138,16 +137,14 @@ sub main{
 	close SH;
 	( 0 == &runSH("$scmd $out_dir/SH/7.HaplotypeCaller.sh >> $out_dir/SH/7.HaplotypeCaller.log 2>&1")) ? &showInfo("finish Variant Calling") : &stop("Error, please check log!");
 
-=cut
-	open SH, "> $out_dir/SH/9.annot.sh" || die $!;
-	print SH "perl $pipe_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/annot/snp.avinput\n";
-	print SH "perl $annovar_path/annotate_variation.pl --buildver $opts{prefix} $out_dir/annot/snp.avinput --outfile $out_dir/annot/snp_annot $opts{dir}\n";
-	print SH "perl $pipe_bin/combine_annovar.pl $out_dir/annot/snp_annot.variant_function $out_dir/annot/snp_annot.exonic_variant_function $out_dir/annot/snp.avinput $out_dir/upload/snp.annot\n";
-	print SH "perl $pipe_bin/split_sample_snp_stat4pipe.pl $out_dir/upload\n";
+	open SH, "> $out_dir/SH/8.stat.sh" || die $!;
+	print SH "perl $pipe_bin/format2annovar.pl $out_dir/snp/snp.vcf > $out_dir/upload/snp.xls\n";
+#print SH "perl $annovar_path/annotate_variation.pl --buildver $opts{prefix} $out_dir/annot/snp.avinput --outfile $out_dir/annot/snp_annot $opts{dir}\n";
+#print SH "perl $pipe_bin/combine_annovar.pl $out_dir/annot/snp_annot.variant_function $out_dir/annot/snp_annot.exonic_variant_function $out_dir/annot/snp.avinput $out_dir/upload/snp.annot\n";
+	print SH "perl $pipe_bin/split_sample_snp_stat4pipe_denovo.pl $out_dir/upload\n";
 	close SH;
-	( 0 == &runSH("$scmd $out_dir/SH/9.annot.sh >> $out_dir/SH/9.annot.log 2>&1")) ? &showInfo("finish Annotation") : &stop("Error, please check log!");
+	( 0 == &runSH("$scmd $out_dir/SH/8.stat.sh >> $out_dir/SH/8.stat.log 2>&1")) ? &showInfo("finish Statistics") : &stop("Error, please check log!");
 
-=cut
 	&showInfo("==================== Step info");
 	&showInfo("INFO : All steps finished!");
 }
