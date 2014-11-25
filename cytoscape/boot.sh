@@ -1,4 +1,8 @@
 #!bash
-path=/home/guanpeikun/tools/cytoscape/
+#Xvfb :2 &
+#export DISPLAY=:2
 
-java `cat "$path/Cytoscape.vmoptions"` -jar "$path/cytoscape.jar" -p "$path/plugins"
+path=/home/guanpeikun/tools/cytoscape/
+cd $path
+java `cat ./Cytoscape.vmoptions` -jar ./cytoscape.jar -p ./plugins &
+cd -
