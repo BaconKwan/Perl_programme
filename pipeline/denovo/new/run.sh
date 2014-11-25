@@ -1,1 +1,1 @@
-perl denovo.v2.pl -lib denovo.config -outdir Pipe_out
+perl /home/miaoxin/Pipeline/RNA_denovo/denovo.v3.pl -lib denovo.config -outdir Pipe_out
