@@ -13,6 +13,12 @@ fi
 vm_options_path=$HOME/.cytoscape
 #vm_options_path=$script_path
 
+# Link CytoscapeRPC.conf to current path if it doesn't exist!
+if [ ! -e "./CytoscapeRPC.conf" ]; then
+	echo "*** Missing CytoscapeRPC.conf, now relink file!"
+	ln -s "$script_path/CytoscapeRPC.conf" "./CytoscapeRPC.conf"
+fi
+
 # Attempt to generate Cytoscape.vmoptions if it doesn't exist!
 if [ ! -e "$vm_options_path/Cytoscape.vmoptions"  -a  -x "$script_path/gen_vmoptions.sh" ]; then
     "$script_path/gen_vmoptions.sh"
@@ -25,4 +31,3 @@ else # Just use sensible defaults.
     java -Dswing.aatext=true -Dawt.useSystemAAFontSettings=lcd -Xss512M -Xmx4G \
 	-jar "$script_path/cytoscape.jar" -p "$script_path/plugins" "$@"
 fi
-
