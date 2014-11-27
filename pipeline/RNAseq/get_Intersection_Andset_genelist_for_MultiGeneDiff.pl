@@ -27,7 +27,8 @@ for(my $i = 0; $i < @ARGV; $i++){
 			$hash{$line[0]}++;
 		}
 	close IN;
-	($file[$i] = $ARGV[$i]) =~ s/.GeneDiffExpFilter.xls//;
+	$file[$i] = $ARGV[$i];
+	$ARGV[$i] =~ s/.GeneDiffExpFilter.xls//;
 }
 
 my $in_set = join "-all-", @ARGV;
