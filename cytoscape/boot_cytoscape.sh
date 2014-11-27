@@ -15,11 +15,11 @@ vm_options_path=$HOME/.cytoscape
 
 # Link CytoscapeRPC.conf to current path if it doesn't exist!
 if [ ! -e "./CytoscapeRPC.conf" ]; then
-	echo "*** Missing CytoscapeRPC.conf, now copy file to current path!"
-	cp "$script_path/CytoscapeRPC.conf" "./CytoscapeRPC.conf"
-	echo "*** please modif port option to what you want in CytoscapeRPC.conf"
-	echo "*** please rerun $0"
-	exit 0
+	echo "*** Missing CytoscapeRPC.conf, now relink file to current path!"
+	ln -s "$script_path/CytoscapeRPC.conf" "./CytoscapeRPC.conf"
+#echo "*** please modif port option to what you want in CytoscapeRPC.conf"
+#echo "*** please rerun $0"
+#exit 0
 fi
 
 # Attempt to generate Cytoscape.vmoptions if it doesn't exist!
