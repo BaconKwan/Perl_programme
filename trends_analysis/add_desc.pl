@@ -44,7 +44,13 @@ foreach(@ARGV){
 	while(<IN>){
 		chomp;
 		my @line = split /\t/;
-		print OUT "$_\t$hash_xls{$line[0]}\n";
+		if(exists $hash_xls{$line[0]}){
+			print OUT "$_\t$hash_xls{$line[0]}\n";
+		}
+		else{
+			my $txt = "\t-" x $desc_col;
+			print OUT "$_" . "$txt\n";
+		}
 	}
 	close OUT;
 	close IN;
