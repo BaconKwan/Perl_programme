@@ -228,6 +228,7 @@ sub set_values{
 
 sub check_path{
 	my ($path, $flag, $text) = @_;
+	$$path =~ s/^\s+|\s+$//g;    #modif by gpk at 20141201, bug example "TK|_____/Bio/Project/PROJECT/GDR0224/RNAseq/out/align/TK/accepted_hits.bam."  -- the dot(blank) at last
 	if(defined $$path){
 		if( -s $$path ){
 			&showInfo("INFO : $$path : OK!");
