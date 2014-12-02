@@ -1,0 +1,619 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Getopt::Std;
+use Getopt::Long;
+use File::Spec;
+use File::Spec::Functions qw(rel2abs);
+
+
+
+&main;
+exit;
+
+
+
+sub main {
+	&usage if (@ARGV < 1);
+	my $command = shift(@ARGV);
+	my %func = (	"tophat"=>\&tophat,
+					"filter"=>\&filter,
+					"trinity"=>\&trinity,
+					"ssa"=>\&ssa,
+					"rsem"=>\&rsem, 
+					"bow2_index"=>\&bow2_index, 
+					"cufflinks"=>\&cufflinks,
+					"cuffmerge"=>\&cuffmerge,
+					"cuffcompare"=>\&cuffcompare,
+					"cuffdiff"=>\&cuffdiff, 
+					"edgeR"=>\&edgeR, 
+					"merge_rsem"=>\&merge_rsem, 
+					"cpc"=>\&cpc, );
+	die("Unknown command \"$command\".\n") if (!defined($func{$command}));
+	&{$func{$command}};
+}
+
+
+
+sub usage {
+  die(qq/
+Usage:    RNAseq_ToolBox <command> [<arguments>]\n
+Command: 
+          filter        filter raw fq.
+          bow2_index    build bowtie 2 indexes.
+          trinity       assembly fq to contig with trinity.
+          tophat        mapping reads against reference by using tophat method.
+          ssa           mapping reads against reference by strand-specific method.
+          rsem          mapping reads against reference by using rsem method.
+          cufflinks     assembly transcripts by using cufflinks method.
+          cuffmerge     merge transcripts by using cuffmerge method.
+          cuffcompare   prediction novel transcript by using cuffcompare method.
+          cuffdiff      expression analysis by cuffdiff.
+          merge_rsem    merge RSEM frag counts single table.
+          edgeR         expression analysis by edgeR.
+\n/);
+}
+
+
+
+sub filter{
+	my $f = "perl /mnt/lustre/users/qiangang/pipeline/utils/FastqQualityControl.pl";
+
+	my ($help, $type, $out);
+	GetOptions(
+		"help!" => \$help,
+		"out=s" => \$out,
+	);
+
+	if ( $help ){
+		my $help_inf = `$f 2>&1`;
+		die "$help_inf";
+	}
+
+	$out ||= "fq";
+
+	die(qq/
+Usage: 
+		RNAseq_ToolBox filter <filedir list> -out fq
+		list: sampleID<TAB>absolute pathway
+
+Options: 
+		-help         see the detail help information about filter.
+		-out          default fq.
+
+\n/) if(@ARGV != 1);
+
+	system "$f -i $ARGV[0] -o $out";
+}
+
+
+
+sub bow2_index{
+	die(qq/\nUsage: RNAseq_ToolBox bow2_index <reference_in> <bt2_index_base>\n\n/) if (@ARGV != 2);
+	#define the bowtie2 build execute bin
+	
+	my $bow2_build = "/mnt/lustre/share/apps/resequencing/bowtie2/bowtie2-2.1.0/bowtie2-build";
+	system $bow2_build, $ARGV[0], $ARGV[1];
+	
+}
+
+
+
+sub trinity{
+	#define the trinity execute bin
+	my $trinity = "/mnt/lustre/share/apps/RNA-Seq/trinityrnaseq_r2013-02-25/Trinity.pl";
+
+	my ($help, $trinity_param, $strand);
+	GetOptions(
+		"trinity_param:s" => \$trinity_param,
+		"strand:s" => \$strand,
+		"help!"  => \$help,
+	);
+
+	if ( $help ){
+		my $help_inf = `$trinity 2>&1`;
+		die "$help_inf";
+	}
+
+	$strand ||= "no";
+
+	if($strand eq "RF")
+	{
+		$strand = "--SS_lib_type $strand";
+	}elsif($strand eq "no"){
+		$strand = "";
+	}else{
+		die "choose strand-specifial: no, RF or FR!!!";
+	}
+
+	$trinity_param ||= "--seqType fq --JM 100G --min_contig_length 350 --CPU 30 --min_kmer_cov 2 --no_run_butterfly";
+
+	die(qq/
+Usage:   RNAseq_ToolBox trinity <output-dir> <se.fq>                    || for se reads
+         RNAseq_ToolBox trinity <output-dir> <pe1.fq> <pe2.fq>          || for pe reads
+
+Options: 
+         -trinity_param       parametes for trinity, default is "--seqType fq --JM 100G --min_contig_length 350 --CPU 30 --min_kmer_cov 2 --no_run_butterfly".
+         -strand              strand default (no) strand-specifial, if paired: RF or FR.
+         -help                see the detail help information about trinity
+
+\n/) if (@ARGV < 2);
+
+		if ( @ARGV == 2)
+		{
+			system "$trinity --output $ARGV[0] $strand --single $ARGV[1] $trinity_param";
+		}
+		if ( @ARGV == 3)
+		{
+			system "$trinity --output $ARGV[0] $strand --left $ARGV[1] --right $ARGV[2] $trinity_param";
+		}
+}
+
+
+
+sub tophat{
+	#define the tophat execute bin
+	my $tophat = "/mnt/lustre/users/sunyong/bin/tophat-2.0.10.Linux_x86_64/tophat";
+	my $samtools = "/mnt/lustre/share/apps/resequencing/samtools/samtools-0.1.19/samtools";
+	my ($help, $tophat_param, $gtf, $strand);
+	GetOptions(
+		"gtf:s" => \$gtf,
+		"tophat_param:s" => \$tophat_param,
+		"strand:s" => \$strand,
+		"help!"  => \$help,
+	);
+
+	if ( $help ){
+		my $help_inf = `$tophat 2>&1`;
+		die "$help_inf";
+	}
+
+	$tophat_param ||= "-p 10 -g 1 -r 50 --mate-std-dev 50";
+	if ( $gtf ){
+		$gtf = "-G $gtf";
+	}else{ 
+		$gtf = "--no-gtf-juncs --no-novel-juncs --no-novel-indels"; 
+	}
+	
+	$strand ||= "no";
+	if($strand eq "RF")
+	{
+		$strand = "--library-type fr-firststrand";
+	}elsif($strand eq "no"){
+		$strand = "";
+	}
+
+	die(qq/
+Usage:   RNAseq_ToolBox tophat <output-dir> <ref_bt2_index_base> <se.fq>                    || for se reads
+         RNAseq_ToolBox tophat <output-dir> <ref_bt2_index_base> <pe1.fq> <pe2.fq>          || for pe reads
+         
+
+Options: -gtf           GTF\/GFF with known transcripts, [optional].
+         -tophat_param  parametes for tophat, default is "-p 10 -g 1 -r 50 --mate-std-dev 50".
+         -strand        strand default (no) strand-specifial, or fr-firststrand(RF).
+
+         -help          see the detail help information about tophat.            
+
+\n/) if (@ARGV < 3);
+	
+	if ( @ARGV == 3){
+
+		system "$tophat -o $ARGV[0] $gtf $strand $tophat_param $ARGV[1] $ARGV[2]";
+	}
+	if ( @ARGV == 4){
+		system "$tophat -o $ARGV[0] $gtf $strand $tophat_param $ARGV[1] $ARGV[2] $ARGV[3]";
+	}
+=cut
+	if ( @ARGV == 5){
+		system "mkdir -p $ARGV[0]";
+		my $pe_dir = "$ARGV[0]/PE";
+		system "mkdir -p $pe_dir";
+		my $se_dir = "$ARGV[0]/SE";
+		system "mkdir -p $se_dir";
+
+		system "$tophat -o $pe_dir $gtf $tophat_param $ARGV[1] $ARGV[2] $ARGV[3]";
+		system "$tophat -o $se_dir $gtf $tophat_param $ARGV[1] $ARGV[4]";
+		my $out_bam = "$ARGV[0]/accepted_hits.bam";
+		my $in1_bam = "$pe_dir/accepted_hits.bam";
+		my $in2_bam = "$se_dir/accepted_hits.bam";
+		system "$samtools merge -f $out_bam $in1_bam $in2_bam";
+	}
+=cut
+}
+
+
+
+sub cufflinks{
+	#define the cufflinks execute bin
+	my $links = "/mnt/lustre/users/sunyong/bin/cufflinks-2.1.1.Linux_x86_64/cufflinks";
+
+	my ($help, $gtf, $genome, $length, $strand);
+	GetOptions(
+		"gtf:s" => \$gtf,
+		"genome:s" => \$genome,
+		"length:s" => \$length,
+		"strand:s" => \$strand,
+		"help!"  => \$help,
+	);
+
+	if ( $help ){
+		my $help_inf = `$links 2>&1`;
+		die "$help_inf";
+	}
+
+	if($gtf)
+	{
+		$gtf = "-g $gtf";
+	}else{
+		$gtf = "";
+	}
+	
+	if($genome)
+	{
+		$genome = "-b $genome";
+	}else{
+		$genome = "";
+	}
+
+	if($strand)
+	{
+		$strand = "--library-type $strand";
+	}
+
+	$length ||= 101;
+	
+	die(qq/
+Usage:   RNAseq_ToolBox cufflinks <output-dir> <fragment type> <bam or sam> -gtf [gtf] -genome [ref.fa] -length [101]
+         fragment type: "pe" or "se", "length" and "se" must exists at the same time.
+
+Options: 
+         -threads       cpu default 6.
+         -gtf           gtf, optional.
+         -genome        genome, optional.
+         -length        se reads length, default 101.
+         -strand        strand default no strand-special, or fr-firststrand(dUTP).
+         -help          see the detail help information about cufflinks
+
+\n/) if (@ARGV != 3);
+		
+		if(lc($ARGV[1]) eq "pe")
+		{
+			system "$links -o $ARGV[0] $gtf $genome $strand -p 6 $ARGV[2]";
+		}elsif(lc($ARGV[1]) eq "se"){
+			system "$links -o $ARGV[0] $gtf $genome $strand -m $length -s 10 -p 6 $ARGV[2]";
+		}else{
+			die "choose correct fragment type: pe or se";
+		}
+}
+
+
+
+sub cuffmerge{
+	#define the cuffmerge execute bin
+	my $merge = "/mnt/lustre/users/sunyong/bin/cufflinks-2.1.1.Linux_x86_64/cuffmerge";
+
+	my ($help, $gtf, $genome);
+	GetOptions(
+		"gtf:s" => \$gtf,
+		"genome:s" => \$genome,
+		"help!"  => \$help,
+	);
+
+	if ( $help ){
+		my $help_inf = `$merge 2>&1`;
+		die "$help_inf";
+	}
+
+	if($gtf)
+	{
+		$gtf = "-g $gtf";
+	}else{
+		$gtf = "";
+	}
+	
+	if($genome)
+	{
+		$genome = "-s $genome";
+	}else{
+		$genome = "";
+	}
+	
+	die(qq/
+Usage:   RNAseq_ToolBox cuffmerge <output-dir> <1.gtf> [2.gtf...] -gtf [gtf] -genome [ref.fa]
+
+Options: 
+         -gtf           gtf, optional.
+         -genome        genome, optional.
+         -help          see the detail help information about cuffmerge.
+
+\n/) if (@ARGV < 2);
+		
+		system "mkdir $ARGV[0]" unless -d $ARGV[0];
+		open GTF, ">$ARGV[0]/gtf.list" or die $!;
+		for(my $i = 1; $i < @ARGV; $i ++)
+		{
+			my $path = rel2abs($ARGV[$i]);
+			print GTF "$path\n";
+		}
+		close GTF;
+		system "$merge -o $ARGV[0] $gtf $genome $ARGV[0]/gtf.list";
+}
+
+
+
+sub cuffcompare{
+	#define the cuffcompare execute bin
+	my $compare = "/mnt/lustre/users/sunyong/bin/cufflinks-2.1.1.Linux_x86_64/cuffcompare";
+
+	my ($help,  $genome);
+	GetOptions(
+		"genome:s" => \$genome,
+		"help!"  => \$help,
+	);
+
+	if ( $help ){
+		my $help_inf = `$compare 2>&1`;
+		die "$help_inf";
+	}
+
+	
+	if($genome)
+	{
+		$genome = rel2abs $genome;
+		$genome = "-s $genome";
+	}else{
+		$genome = "";
+	}
+	
+	die(qq/
+Usage:   RNAseq_ToolBox cuffcompare <out_dir> <ref.gtf> <merge.gtf> -genome [ref.fa]
+
+Options: 
+
+         -genome        genome, optional.
+         -help          see the detail help information about cuffcompare.
+
+\n/) if (@ARGV != 3);
+		$ARGV[0] = rel2abs $ARGV[0];
+		$ARGV[1] = rel2abs $ARGV[1];
+		$ARGV[2] = rel2abs $ARGV[2];
+		system "mkdir -p $ARGV[0] && cd $ARGV[0] && $compare -r $ARGV[1] $genome $ARGV[2]";
+}
+
+
+
+sub ssa{
+	#define the tophat execute bin
+	my $ssa = "/share/apps/RNA-Seq/trinityrnaseq_r2013-02-25/util/alignReads.pl";
+
+	my ($help, $ssa_param, $align);
+	GetOptions(
+		"ssa_param:s" => \$ssa_param,
+		"align:s" => \$align,
+		"help!"  => \$help,
+	);
+
+	if ( $help ){
+		my $help_inf = `$ssa 2>&1`;
+		die "$help_inf";
+	}
+
+	$align ||= "bowtie2";
+	$ssa_param ||= "--SS_lib_type RF --aligner $align --seqType fq -- -p 6 >log.txt 2>&1";
+
+	die(qq/
+Usage:   RNAseq_ToolBox ssa <output-dir> <ref_bt2_index_base> <se.fq>                    || for se reads
+         RNAseq_ToolBox ssa <output-dir> <ref_bt2_index_base> <pe1.fq> <pe2.fq>          || for pe reads
+
+Options: 
+         -ssa_param     parametes for ssa, default is "--SS_lib_type RF --aligner bowtie2 --seqType fq -- -p 6 >log.txt 2>&1" .
+		 -align         aligner default bowtie2, or BLAT, bowtie, bwa, gsnap, or tophat, tophat2.
+         -help          see the detail help information about ssa
+
+\n/) if (@ARGV < 3);
+
+		system "mkdir $ARGV[0]";
+		if ( @ARGV == 3)
+		{
+			system "cd $ARGV[0] && $ssa --target $ARGV[1] --single $ARGV[2] $ssa_param";
+		}
+		if ( @ARGV == 4)
+		{
+			system "cd $ARGV[0] && $ssa --target $ARGV[1] --left $ARGV[2] --right $ARGV[3] $ssa_param";
+		}
+}
+
+
+
+sub rsem{
+        #define the rsem execute bin
+	my $rsem = "perl /parastor/users/luoda/bio/bin/RNA/new/denovo_2.0/trinityrnaseq_r20131110/util/RSEM_util/run_RSEM_align_n_estimate.pl";
+	my $get_gene_trans_map = "perl /parastor/users/luoda/sunyong/bin/get_gene_trans_map.pl";
+        my ($help, $rsem_param, $strand, $qual, $none_trinity_mode );
+        GetOptions(
+		"rsem_param:s" => \$rsem_param,
+		"strand:s" => \$strand,
+		"qual:s" => \$qual,
+		"none_trinity_mode:s"  => \$none_trinity_mode,
+		"help!"  => \$help,
+        );
+
+        if ( $help ){
+                my $help_inf = `$rsem 2>&1`;
+                die "$help_inf";
+        }
+	
+	$qual ||= "33";
+	if($qual == 64)
+	{
+		$rsem_param ||= "--seqType fq --thread_count 6 -- --phred64-quals";
+	}else{
+		$rsem_param ||= "--seqType fq --thread_count 6";
+	}
+	$strand ||= "no";
+	if($strand eq "RF")
+	{
+		$strand = "--SS_lib_type RF";
+	}elsif($strand eq "no"){
+		$strand = "";
+	}else{
+		die "please input correct strand type: no or RF";
+	}
+
+        die(qq/
+Usage:   RNAseq_ToolBox rsem <output-dir> <transcripts.fa> <se.fq>                    || for se reads
+         RNAseq_ToolBox rsem <output-dir> <transcripts.fa> <pe1.fq> <pe2.fq>          || for pe reads
+
+Options: -none_trinity_mode    transcripts.fa is not the trinity assembly results(nont),default is trinity mode(t).
+         -rsem_param           parametes for rsem, default is "--seqType fq --thread_count 6".
+         -strand               orientation of strand, default is no exists(no), or (RF).
+         -qual                 quality system, default 33 or 64.
+
+         -help                 see the detail help information about rsem.
+
+\n/) if (@ARGV < 3);
+
+	my $out_dir = $ARGV[0];
+	my $ref_fa = $ARGV[1];
+	system "mkdir -p $out_dir";
+
+	my $gene_trans_map = "";
+	
+	$none_trinity_mode ||= "t";
+	if ( $none_trinity_mode eq "nont"){
+		$out_dir = rel2abs $out_dir;
+		system "$get_gene_trans_map $ref_fa > $out_dir/gene_trans_map";
+		$gene_trans_map = "--gene_trans_map $out_dir/gene_trans_map";
+	}elsif($none_trinity_mode eq "t"){
+		
+	}else{
+		die "please input correct trinity mode: t or nont";
+	}
+
+	if ( @ARGV == 3){
+		$out_dir = rel2abs $out_dir; $ref_fa = rel2abs $ref_fa; $ARGV[2] = rel2abs $ARGV[2]; 
+		system "cd $out_dir && $rsem $strand --transcripts $ref_fa --single $ARGV[2] --prefix $out_dir/RSEM $gene_trans_map $rsem_param";
+	}
+	if ( @ARGV == 4){
+		$out_dir = rel2abs $out_dir; $ref_fa = rel2abs $ref_fa; $ARGV[2] = rel2abs $ARGV[2]; $ARGV[3] = rel2abs $ARGV[3];
+		system "cd $out_dir && $rsem $strand --transcripts $ref_fa --left $ARGV[2] --right $ARGV[3] --prefix $out_dir/RSEM $gene_trans_map $rsem_param";
+	}
+
+}
+
+
+
+sub cuffdiff{
+        my $cuffdiff = "/mnt/lustre/users/sunyong/bin/cufflinks-2.1.1.Linux_x86_64/cuffdiff";
+        my ($help, $cuffdiff_param,$p, $strand);
+        GetOptions(
+                "cuffdiff_param:s" => \$cuffdiff_param,
+				"p:s" => \$p,
+				"strand:s" => \$strand,
+                "help!"  => \$help,
+        );
+
+        if ( $help ){
+                my $help_inf = `$cuffdiff 2>&1`;
+                die "$help_inf";
+        }
+
+        $cuffdiff_param ||= "pooled";
+		$p ||= "6";
+		if($strand)
+		{
+			$strand = "--library-type $strand";
+		}
+
+        die(qq/
+Usage:   RNAseq_ToolBox cuffdiff <output-dir> <ref.gtf> <input.list>                   
+
+Options: 
+         -cuffdiff_param       parametes for cuffdiff, default is "pooled", "per-condition" and "blind".
+                               "pooled"            if all samples of conditions have low variance.
+                               "per-condition"     if samples of conditions have high variance.
+                               "blind"             if each condition have only one replicate.
+         -p                    threads default 6.
+         -strand               strand default no strand-special, or fr-firststrand(dUTP).
+         -help                 see the detail help information about cuffdiff.
+#####
+input.list example:
+Def12hph1	1.accepted_hits.bam,2.accepted_hits.bam
+Def36hph1	3.accepted_hits.bam
+Defsham12hph1	4.accepted_hits.bam
+     ^                 ^  
+     |                 |
+sample_name        bam_files,rep samples is seperated by ","
+
+\n/) if (@ARGV < 3);
+	
+	my $out_dir = $ARGV[0];
+	my $gtf = $ARGV[1];
+	$out_dir = rel2abs $out_dir;
+	$gtf = rel2abs $gtf;
+
+	my ($labels, $bams);
+	my (@labels, @bams);
+	open IN,"$ARGV[2]";
+	while (<IN>){
+		my ($lab, $bam) = split /\s+/, $_;
+		$bam = rel2abs $bam;
+		push @labels, $lab;
+		push @bams, $bam;
+	}
+	$labels = join ",", @labels;
+	$bams = join " ", @bams;
+	system "$cuffdiff -o $out_dir -p $p $strand --dispersion-method $cuffdiff_param -L $labels $gtf $bams";
+	
+}
+
+
+
+sub merge_rsem {
+	my $merge_rsem = "/parastor/users/luoda/bio/bin/RNA/new/denovo_2.0/trinityrnaseq_r20131110/util/RSEM_util/merge_RSEM_frag_counts_single_table.pl";
+	die(qq/\nUsage: RNAseq_ToolBox merge_rsem [sampleA.RSEM.isoform\/genes.results] [sampleB.RSEM.isoform\/genes.results] ...\n\n/) if (@ARGV < 1);
+	system $merge_rsem, @ARGV;
+}
+
+
+
+sub edgeR{
+	#print "edgeR\n";
+	my $edgeR = "perl /parastor/users/luoda/bio/bin/RNA/new/denovo_2.0/trinityrnaseq_r20131110/Analysis/DifferentialExpression/run_DE_analysis.pl";
+        my ($help, $edgeR_param, $samples_file);
+        GetOptions(
+                "samples_file:s" => \$samples_file,
+                "edgeR_param:s" => \$edgeR_param,
+                "help!"  => \$help,
+        );
+
+        if ( $help ){
+                my $help_inf = `$edgeR 2>&1`;
+                die "$help_inf";
+        }
+	$edgeR_param ||= "--min_rowSum_counts 10 --dispersion 0.1";
+        die(qq/
+Usage:   RNAseq_ToolBox edgeR <output-dir> <matrix>                    
+
+Options: -samples_file   tab-delimited text file indicating biological replicate relationships.
+                         ex.
+                              cond_A    cond_A_rep1.gene(isoform)
+                              cond_A    cond_A_rep2.gene(isoform)
+                              cond_B    cond_B_rep1.gene(isoform)
+                              cond_B    cond_B_rep2.gene(isoform)
+
+         -edgeR_param    parametes for tophat, default is "--min_rowSum_counts 10 --dispersion 0.1".
+
+         -help           see the detail help information about edgeR.
+
+\n/) if (@ARGV < 2);
+	
+	if( $samples_file ){
+		$samples_file = "--samples_file $samples_file";
+	}else{
+		$samples_file = "";
+	}
+	system "$edgeR --matrix $ARGV[1] --method edgeR --output $ARGV[0] $samples_file $edgeR_param";
+}
+
