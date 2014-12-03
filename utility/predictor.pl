@@ -39,6 +39,7 @@ while(<GFF>){
 	$line[8] =~ s/^ID=gene:(\w+).*$/$1/;
 	if($flag eq $line[6] || $flag eq "na"){
 		$flag = $line[6];
+		$re{$cnt}{pone} = $line[6];
 		$q = $line[8];
 		$gene{$q} = "$line[3]|$line[4]|$line[6]";
 		push(@{$re{$cnt}{list}}, $q);
@@ -58,7 +59,6 @@ while(<GFF>){
 			pop(@{$re{$cnt}{list}});
 			if(0 != @{$re{$cnt}{list}}){
 				$cnt++;
-				$re{$cnt}{pone} = $line[6];
 			}
 			$bre{$a} = 1;
 			$bre{$line[4]} = 1;
@@ -95,9 +95,11 @@ open OUT, "> region.txt" || die $!;
 foreach my $i (keys %re){
 	my $start = (split /\|/, $gene{$re{$i}{list}[0]})[0];
 	my $end = (split /\|/, $gene{$re{$i}{list}[-1]})[1];
+	my $tmp1 = (split /\|/, $gene{$re{$i}{list}[0]})[2];
+	my $tmp2 = (split /\|/, $gene{$re{$i}{list}[-1]})[2];
 	@{$re{$i}{region}} = ($start, $end);
 	my $list = join ";", @{$re{$i}{list}};
-	print OUT "$i\t$start\t$end\t$list\n";
+	print OUT "$i\t$start\t$end\t$tmp1\t$tmp2\t$re{$i}{pone}\t$list\n";
 }
 close OUT;
 
@@ -174,7 +176,7 @@ foreach my $i (keys %re){
 		$end++;
 	}
 	@{$re{$i}{region}} = ($start, $end);
-	print OUT "$i\t$start\t$end\n"; ## debug
+	print OUT "$i\t$start\t$end\t$re{$i}{pone}\n"; ## debug
 }
 close OUT;
 
