@@ -92,7 +92,7 @@ close WIG;
 ## ==================== establish region range by the first & last gene location
 
 open OUT, "> region.txt" || die $!;
-foreach my $i (keys %re){
+foreach my $i (sort {$a <=> $b} keys %re){
 	my $start = (split /\|/, $gene{$re{$i}{list}[0]})[0];
 	my $end = (split /\|/, $gene{$re{$i}{list}[-1]})[1];
 	my $tmp1 = (split /\|/, $gene{$re{$i}{list}[0]})[2];
@@ -104,11 +104,11 @@ foreach my $i (keys %re){
 close OUT;
 
 ## ==================== extend upstream & downstream of each region
-my @site = keys %cov;
+my @site = sort keys %cov;
 my ($min, $max);
 
 open OUT, "> filter.region.txt" || die $!;
-foreach my $i (keys %re){
+foreach my $i (sort {$a <=> $b} keys %re){
 	my ($start, $end) = @{$re{$i}{region}};
 	my ($gs, $ge) = ($start, $end);
 	if(exists $re{$i-1}){
@@ -123,34 +123,8 @@ foreach my $i (keys %re){
 	else{
 		$max = @site - 2;
 	}
-	while($start >= $min){
-		last if((0 == $cov{$start-1}) || (0 == $cov{$start-2}) || ($cov{$start-1} < 3));
-		my $sum1 = $cov{$start} + $cov{$start-1};
-		my $sum2 = $cov{$start} + $cov{$start-2};
-		my $pv1 = pbinom($cov{$start-1}, $sum1, 0.5);
-		my $pv2 = pbinom($cov{$start-2}, $sum2, 0.5);
-		my $ratio1 = $cov{$start} / $cov{$start-1};
-		my $ratio2 = $cov{$start} / $cov{$start-2};
-		if($pv1 < 0.01 && $ratio1 > 2){
-			last;
-		}
-		elsif($pv2 < 0.01 && $ratio2 > 2){
-			$start--;
-			last;
-		}
-		if(exists $bre{$start}){
-			$start = $gs;
-			last;
-		}
-		elsif($start == $min){
-			$start = $gs;
-			$re{$i-1}{region}[1] = (split /\|/, $gene{$re{$i-1}{list}[-1]})[1] if (exists $re{$i-1});
-			last;
-		}
-		$start--;
-	}
-	while($end <= $max){
-		last if((0 == $cov{$end+1}) || (0 == $cov{$end+2}) || ($cov{$end+1} < 3));
+	LOOP1:while($end <= $max){
+		last LOOP1 if((0 == $cov{$end+2}) || ($cov{$end+1} < 3));
 		my $sum1 = $cov{$end} + $cov{$end+1};
 		my $sum2 = $cov{$end} + $cov{$end+2};
 		my $pv1 = pbinom($cov{$end+1}, $sum1, 0.5);
@@ -158,26 +132,124 @@ foreach my $i (keys %re){
 		my $ratio1 = $cov{$end} / $cov{$end+1};
 		my $ratio2 = $cov{$end} / $cov{$end+2};
 		if($pv1 < 0.01 && $ratio1 > 2){
-			last;
+			last LOOP1;
 		}
 		elsif($pv2 <0.01 && $ratio2 > 2){
 			$end++;
-			last;
+			last LOOP1;
 		}
 		if(exists $bre{$end}){
 			$end = $ge;
-			last;
+			last LOOP1;
 		}
 		elsif($end == $max){
 			$end = $ge;
 			$re{$i+1}{region}[0] = (split /\|/, $gene{$re{$i+1}{list}[0]})[0] if (exists $re{$i+1});
-			last;
+			last LOOP1;
 		}
 		$end++;
+	}
+	LOOP2:while($start >= $min){
+		last LOOP2 if((0 == $cov{$start-2}) || ($cov{$start-1} < 3));
+		my $sum1 = $cov{$start} + $cov{$start-1};
+		my $sum2 = $cov{$start} + $cov{$start-2};
+		my $pv1 = pbinom($cov{$start-1}, $sum1, 0.5);
+		my $pv2 = pbinom($cov{$start-2}, $sum2, 0.5);
+		my $ratio1 = $cov{$start} / $cov{$start-1};
+		my $ratio2 = $cov{$start} / $cov{$start-2};
+		if($pv1 < 0.01 && $ratio1 > 2){
+			last LOOP2;
+		}
+		elsif($pv2 < 0.01 && $ratio2 > 2){
+			$start--;
+			last LOOP2;
+		}
+		if(exists $bre{$start}){
+			$start = $gs;
+			last LOOP2;
+		}
+		elsif($start == $min){
+			$start = $gs;
+			$re{$i-1}{region}[1] = (split /\|/, $gene{$re{$i-1}{list}[-1]})[1] if (exists $re{$i-1});
+			last LOOP2;
+		}
+		$start--;
 	}
 	@{$re{$i}{region}} = ($start, $end);
 	print OUT "$i\t$start\t$end\t$re{$i}{pone}\n"; ## debug
 }
+=cut
+foreach my $i (sort {$b <=> $a} keys %re){
+	my ($start, $end) = @{$re{$i}{region}};
+	my ($gs, $ge) = ($start, $end);
+	if(exists $re{$i-1}){
+		$min = $re{$i-1}{region}[1];
+	}
+	else{
+		$min = 2;
+	}
+	if(exists $re{$i+1}){
+		$max = $re{$i+1}{region}[0];
+	}
+	else{
+		$max = @site - 2;
+	}
+	LOOP3:while($end <= $max){
+		last LOOP3 if((0 == $cov{$end+2}) || ($cov{$end+1} < 3));
+		my $sum1 = $cov{$end} + $cov{$end+1};
+		my $sum2 = $cov{$end} + $cov{$end+2};
+		my $pv1 = pbinom($cov{$end+1}, $sum1, 0.5);
+		my $pv2 = pbinom($cov{$end+2}, $sum2, 0.5);
+		my $ratio1 = $cov{$end} / $cov{$end+1};
+		my $ratio2 = $cov{$end} / $cov{$end+2};
+		if($pv1 < 0.01 && $ratio1 > 2){
+			last LOOP3;
+		}
+		elsif($pv2 <0.01 && $ratio2 > 2){
+			$end++;
+			last LOOP3;
+		}
+		if(exists $bre{$end}){
+			$end = $ge;
+			last LOOP3;
+		}
+		elsif($end == $max){
+			$end = $ge;
+			$re{$i+1}{region}[0] = (split /\|/, $gene{$re{$i+1}{list}[0]})[0] if (exists $re{$i+1});
+			last LOOP3;
+		}
+		$end++;
+	}
+	LOOP4:while($start >= $min){
+		last LOOP4 if((0 == $cov{$start-2}) || ($cov{$start-1} < 3));
+		my $sum1 = $cov{$start} + $cov{$start-1};
+		my $sum2 = $cov{$start} + $cov{$start-2};
+		my $pv1 = pbinom($cov{$start-1}, $sum1, 0.5);
+		my $pv2 = pbinom($cov{$start-2}, $sum2, 0.5);
+		my $ratio1 = $cov{$start} / $cov{$start-1};
+		my $ratio2 = $cov{$start} / $cov{$start-2};
+		if($pv1 < 0.01 && $ratio1 > 2){
+			last LOOP4;
+		}
+		elsif($pv2 < 0.01 && $ratio2 > 2){
+			$start--;
+			last LOOP4;
+		}
+		if(exists $bre{$start}){
+			$start = $gs;
+			last LOOP4;
+		}
+		elsif($start == $min){
+			$start = $gs;
+			$re{$i-1}{region}[1] = (split /\|/, $gene{$re{$i-1}{list}[-1]})[1] if (exists $re{$i-1});
+			last LOOP4;
+		}
+		$start--;
+	}
+	@{$re{$i}{region}} = ($start, $end);
+#print OUT "$i\t$start\t$end\t$re{$i}{pone}\n"; ## debug
+}
+=cut
 close OUT;
 
 ## ==================== expend upstream & downstream of each gene in the region
@@ -196,13 +268,13 @@ foreach my $i (sort {$a <=> $b} keys %re){
 	while($gene = shift(@id)){
 		my ($nmin, $nmax) = (split /\|/, $gene{$gene})[0..1];
 		my ($pp, $pn) = ($pmax, $nmin);
-		while($pp<$nmin){
-			if((0 == $cov{$pp+1}) || ($cov{$pp+1} < 3)){
-				last;
+		LOOP5:while($pp<$nmin){
+			if($cov{$pp+1} < 3){
+				last LOOP5;
 			}
 			elsif(0 == $cov{$pp+2}){
 				$pp++;
-				last;
+				last LOOP5;
 			}
 			my $sum1 = $cov{$pp} + $cov{$pp+1};
 			my $sum2 = $cov{$pp} + $cov{$pp+2};
@@ -211,21 +283,21 @@ foreach my $i (sort {$a <=> $b} keys %re){
 			my $ratio1 = $cov{$pp} / $cov{$pp+1};
 			my $ratio2 = $cov{$pp} / $cov{$pp+2};
 			if($pv1 < 0.01 && $ratio1 > 2){
-				last;
+				last LOOP5;
 			}
 			elsif($pv2 < 0.01 && $ratio2 > 2){
 				$pp++;
-				last;
+				last LOOP5;
 			}
 			$pp++;
 		}
-		while($pn>$pmax){
-			if((0 == $cov{$pn-1}) || ($cov{$pn-1} < 3)){
-				last;
+		LOOP6:while($pn>$pmax){
+			if($cov{$pn-1} < 3){
+				last LOOP6;
 			}
 			elsif(0 == $cov{$pn-2}){
 				$pn--;
-				last;
+				last LOOP6;
 			}
 			my $sum1 = $cov{$pn} + $cov{$pn-1};
 			my $sum2 = $cov{$pn} + $cov{$pn-2};
@@ -234,11 +306,11 @@ foreach my $i (sort {$a <=> $b} keys %re){
 			my $ratio1 = $cov{$pn} / $cov{$pn-1};
 			my $ratio2 = $cov{$pn} / $cov{$pn-2};
 			if($pv1 < 0.01 && $ratio1 > 2){
-				last;
+				last LOOP6;
 			}
 			elsif($pv2 < 0.01 && $ratio2 > 2){
 				$pn--;
-				last;
+				last LOOP6;
 			}
 			$pn--;
 		}
