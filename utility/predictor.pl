@@ -135,7 +135,7 @@ foreach my $i (keys %re){
 			last;
 		}
 		elsif($pv2 < 0.01 && $ratio2 > 2){
-			$start--;
+#$start--;
 			last;
 		}
 		if(exists $bre{$start}){
@@ -161,7 +161,7 @@ foreach my $i (keys %re){
 			last;
 		}
 		elsif($pv2 <0.01 && $ratio2 > 2){
-			$end++;
+#$end++;
 			last;
 		}
 		if(exists $bre{$end}){
@@ -201,7 +201,7 @@ foreach my $i (sort {$a <=> $b} keys %re){
 				last;
 			}
 			elsif(0 == $cov{$pp+2}){
-				$pp++;
+#$pp++;
 				last;
 			}
 			my $sum1 = $cov{$pp} + $cov{$pp+1};
@@ -214,7 +214,7 @@ foreach my $i (sort {$a <=> $b} keys %re){
 				last;
 			}
 			elsif($pv2 < 0.01 && $ratio2 > 2){
-				$pp++;
+#$pp++;
 				last;
 			}
 			$pp++;
@@ -224,7 +224,7 @@ foreach my $i (sort {$a <=> $b} keys %re){
 				last;
 			}
 			elsif(0 == $cov{$pn-2}){
-				$pn--;
+#$pn--;
 				last;
 			}
 			my $sum1 = $cov{$pn} + $cov{$pn-1};
@@ -237,7 +237,7 @@ foreach my $i (sort {$a <=> $b} keys %re){
 				last;
 			}
 			elsif($pv2 < 0.01 && $ratio2 > 2){
-				$pn--;
+#$pn--;
 				last;
 			}
 			$pn--;
