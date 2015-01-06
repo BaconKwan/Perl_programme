@@ -9,7 +9,7 @@ die"perl $0 <fa> \n" unless(@ARGV eq 1);
 
 my $in = Bio::SeqIO->new(-file=>"< $ARGV[0]", -format=>"fasta");
 
-print "Seq ID\tA%\tG%\tC%\tT%\tN%\tX%\n";
+print "Seq ID\tLength\tA%\tG%\tC%\tT%\tN%\tX%\n";
 while (my $seq = $in->next_seq()){
 	my $len = $seq->length;
 	my $a = $seq->seq =~ tr/Aa/Aa/;
@@ -25,5 +25,5 @@ while (my $seq = $in->next_seq()){
 	$t = 100 * $t / $len;
 	$n = 100 * $n / $len;
 
-	printf("%s\t%.2f%%\t%.2f%%\t%.2f%%\t%.2f%%\t%.2f%%\t%.2f%%\n", $seq->id, $a, $g, $c, $t, $n, $x);
+	printf("%s\t%d\t%.2f%%\t%.2f%%\t%.2f%%\t%.2f%%\t%.2f%%\t%.2f%%\n", $seq->id, $len, $a, $g, $c, $t, $n, $x);
 }
