@@ -28,6 +28,11 @@ my %mail = (
 	root => "yluo",
 	zhulei => "yluo"
 );
+my %server = (
+	"linux-large" => "15 Server",
+	"luoda" => "16 Server",
+	"linux-6wm1" => "19 Server"
+);
 
 open INFO, "/etc/group" || die $!;
 foreach(<INFO>){
@@ -96,12 +101,12 @@ sub sendMail
 	my $suffix = "\@genedenovo.com";
 	my $subject = 'Notice!! clean your project in time.';
 
-	my $message = "your projects on $hostname are over 10G
+	my $message = "your projects on $server{$hostname} are over 10G
 	
 	Details:
 	$content
 
-	来自${username}的监控程序";
+	来自 $server{$hostname} 的监控程序";
 
 	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error:连接到${smtpHost}失败！";
 	$smtp->auth('LOGIN', $username, $passowrd) or die("Error:认证失败！");
