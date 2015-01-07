@@ -11,7 +11,23 @@ use strict;
 use warnings;
 use Net::SMTP_auth;
 
+chomp(my $hostname = `hostname`);
 my %users;
+my %mail = (
+	aipeng => "pai",
+	taoyong => "ytao",
+	gaochuan => "chgao",
+	guanpeikun => "pkguan",
+	lanhaofa => 'hflan',
+	lianglili => 'llliang',
+	miaoxin => 'xmiao',
+	yangjiatao => 'xmiao',
+	sunyong => 'ysun',
+	yaokaixin => 'kxyao',
+	luoyue => "yluo",
+	root => "yluo",
+	zhulei => "yluo"
+);
 
 open INFO, "/etc/group" || die $!;
 foreach(<INFO>){
@@ -57,7 +73,7 @@ foreach my $id (sort keys %users){
 	}
 	next if(@send == 0);
 	my $send_txt = join "\n", $id, @send;
-	&sendMail($send_txt);
+	&sendMail($send_txt, $mail{$id});
 
 #my $path = `pwd`;
 #chomp $path;
@@ -70,41 +86,37 @@ foreach my $id (sort keys %users){
 
 sub sendMail
 {
-	my $content = shift @_;
+	my ($content, $to) = @_;
 	my $smtpHost = 'smtp.exmail.qq.com';
 	my $smtpPort = '25';
 	
 	my $username = 'pkguan@genedenovo.com';
 	my $passowrd = 'terence1990';
 	
-	my @to = ('pkguan');
 	my $suffix = "\@genedenovo.com";
 	my $subject = 'Notice!! clean your project in time.';
 
-	my $message = "your projects on $ server are over 10G
+	my $message = "your projects on $hostname are over 10G
 	
 	Details:
 	$content
 
-	来自$username的监控程序";
+	来自${username}的监控程序";
 
-	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error:连接到$smtpHost失败！";
+	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error:连接到${smtpHost}失败！";
 	$smtp->auth('LOGIN', $username, $passowrd) or die("Error:认证失败！");
 
-	foreach my $i(@to)
-	{
-		my $x = $i.$suffix;
-		$smtp->mail($username);
-		$smtp->to($x);
-		$smtp->data();
-		$smtp->datasend("To: $x\n"); # strict format
-		$smtp->datasend("From: $username\n"); # strict format
-		$smtp->datasend("Subject: $subject\n"); # strict format
-		$smtp->datasend("Content-Type:text/plain;charset=UTF-8\n"); # strict format
-		$smtp->datasend("Content-Trensfer-Encoding:7bit\n\n"); # strict format
-		$smtp->datasend($message);
-		$smtp->dataend();
-		}
+	my $x = $to.$suffix;
+	$smtp->mail($username);
+	$smtp->to($x);
+	$smtp->data();
+	$smtp->datasend("To: $x\n"); # strict format
+	$smtp->datasend("From: $username\n"); # strict format
+	$smtp->datasend("Subject: $subject\n"); # strict format
+	$smtp->datasend("Content-Type:text/plain;charset=UTF-8\n"); # strict format
+	$smtp->datasend("Content-Trensfer-Encoding:7bit\n\n"); # strict format
+	$smtp->datasend($message);
+	$smtp->dataend();
 	$smtp->quit();
 }
 
