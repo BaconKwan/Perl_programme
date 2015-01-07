@@ -78,7 +78,7 @@ foreach my $id (sort keys %users){
 	}
 	next if(@send == 0);
 	my $send_txt = join "\n", $id, @send;
-	&sendMail($send_txt, $mail{$id});
+	&sendMail($send_txt, $mail{guanpeikun});
 
 #my $path = `pwd`;
 #chomp $path;
