@@ -26,6 +26,7 @@ my %mail = (
 	yaokaixin => 'kxyao',
 	luoyue => "yluo",
 	root => "yluo",
+	genedenovo => "yluo",
 	zhulei => "yluo"
 );
 my %server = (
@@ -34,59 +35,63 @@ my %server = (
 	"linux-6wm1" => "19 Server"
 );
 
-open INFO, "/etc/group" || die $!;
-foreach(<INFO>){
-	chomp;
-	my @line = split /:/;
-	next unless($line[0] =~ /users|root/);
-	my @users = split /,/, $line[-1];
-	foreach my $i (@users){
-		$users{$i}{name} = $i;
+while(1){
+	open INFO, "/etc/group" || die $!;
+	foreach(<INFO>){
+		chomp;
+		my @line = split /:/;
+		next unless($line[0] =~ /users|root/);
+		my @users = split /,/, $line[-1];
+		foreach my $i (@users){
+			$users{$i}{name} = $i;
+		}
 	}
-}
-close INFO;
-
-#foreach my $id (sort keys %users){
-#print "$id\n";
-#}
-
-my @list = `ls -l /Bio/Project/PROJECT/`;
-shift @list;
-
-foreach my $line (@list){
-	chomp $line;
-	my @tmp = split /\s+/, $line;
-	push(@{$users{$tmp[2]}{dir}}, "/Bio/Project/PROJECT/$tmp[8]");
-}
-
-foreach my $id (sort keys %users){
-	next unless(exists $users{$id}{dir});
-#print "$id\n";
-	my @send;
-
-	foreach my $dir (@{$users{$id}{dir}}){
-#print "$dir\n";
-		my $line = `du --max-depth=0 $dir`;
+	close INFO;
+	
+	#foreach my $id (sort keys %users){
+	#print "$id\n";
+	#}
+	
+	my @list = `ls -l /Bio/Project/PROJECT/`;
+	shift @list;
+	
+	foreach my $line (@list){
 		chomp $line;
-		my @line = split /\s+/, $line;
-		$line[0] = $line[0] / 1024 / 1024;
-		my $size = $line[0];
-		$line[0] = sprintf("%.2fG", $line[0]);
-		$line = join "\t", @line;
-		push(@send, $line) if($size >= 10); ## >= 10G
-#print "$line\n" if($size >= 10485760);
+		my @tmp = split /\s+/, $line;
+		push(@{$users{$tmp[2]}{dir}}, "/Bio/Project/PROJECT/$tmp[8]");
 	}
-	next if(@send == 0);
-	my $send_txt = join "\n", $id, @send;
-	&sendMail($send_txt, $mail{guanpeikun});
+	
+	foreach my $id (sort keys %users){
+		next unless(exists $users{$id}{dir});
+	#print "$id\n";
+		my @send;
+	
+		foreach my $dir (@{$users{$id}{dir}}){
+	#print "$dir\n";
+			my $line = `du --max-depth=0 $dir`;
+			chomp $line;
+			my @line = split /\s+/, $line;
+			$line[0] = $line[0] / 1024 / 1024;
+			my $size = $line[0];
+			$line[0] = sprintf("%.2fG", $line[0]);
+			$line = join "\t", @line;
+			push(@send, $line) if($size >= 10); ## >= 10G
+	#print "$line\n" if($size >= 10485760);
+		}
+		next if(@send == 0);
+		my $send_txt = join "\n", $id, @send;
+		&sendMail($send_txt, $mail{$id});
+	
+	#my $path = `pwd`;
+	#chomp $path;
+	#open TXT, ">", "$path/send.txt" || die $!;
+	#print TXT "$send_txt\n";
+	#close TXT;
+	#`mail $id -s 'WARNING!!! clean your project size' < $path/send.txt`;
+	#`rm $path/send.txt -rf`;
+	}
 
-#my $path = `pwd`;
-#chomp $path;
-#open TXT, ">", "$path/send.txt" || die $!;
-#print TXT "$send_txt\n";
-#close TXT;
-#`mail $id -s 'WARNING!!! clean your project size' < $path/send.txt`;
-#`rm $path/send.txt -rf`;
+	sleep(1296000);
 }
 
 sub sendMail
