@@ -11,6 +11,8 @@ use strict;
 use warnings;
 use Net::SMTP_auth;
 
+die "perl $0 <dir> <size[GB]>\n" unless(@ARGV eq 2);
+
 chomp(my $hostname = `hostname`);
 my %users;
 my %mail = (
@@ -52,13 +54,13 @@ while(1){
 	#print "$id\n";
 	#}
 	
-	my @list = `ls -l /Bio/Project/PROJECT/`;
+	my @list = `ls -l $ARGV[0]`;
 	shift @list;
 	
 	foreach my $line (@list){
 		chomp $line;
 		my @tmp = split /\s+/, $line;
-		push(@{$users{$tmp[2]}{dir}}, "/Bio/Project/PROJECT/$tmp[8]");
+		push(@{$users{$tmp[2]}{dir}}, "$ARGV[0]/$tmp[8]");
 	}
 	
 	foreach my $id (sort keys %users){
@@ -75,13 +77,14 @@ while(1){
 			my $size = $line[0];
 			$line[0] = sprintf("%.2fG", $line[0]);
 			$line = join "\t", @line;
-			push(@send, $line) if($size >= 10); ## >= 10G
-	#print "$line\n" if($size >= 10485760);
+			push(@send, $line) if($size >= $ARGV[1]); ## >= 10G
 		}
 		next if(@send == 0);
 		my $send_txt = join "\n", $id, @send;
+
 		&sendMail($send_txt, $mail{$id});
-	
+	#&sendMail($send_txt, $mail{guanpeikun});
+
 	#my $path = `pwd`;
 	#chomp $path;
 	#open TXT, ">", "$path/send.txt" || die $!;
@@ -106,7 +109,7 @@ sub sendMail
 	my $suffix = "\@genedenovo.com";
 	my $subject = 'Notice!! clean your project in time.';
 
-	my $message = "your projects on $server{$hostname} are over 10G
+	my $message = "your projects on $server{$hostname} are over $ARGV[1]G
 	
 	Details:
 	$content
