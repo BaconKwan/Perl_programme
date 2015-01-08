@@ -16,20 +16,20 @@ die "perl $0 <dir> <size[GB]>\n" unless(@ARGV eq 2);
 chomp(my $hostname = `hostname`);
 my %users;
 my %mail = (
-	aipeng => "pai",
-	taoyong => "ytao",
-	gaochuan => "chgao",
-	guanpeikun => "pkguan",
-	lanhaofa => 'hflan',
-	lianglili => 'llliang',
-	miaoxin => 'xmiao',
-	yangjiatao => 'xmiao',
-	sunyong => 'ysun',
-	yaokaixin => 'kxyao',
-	luoyue => "yluo",
-	root => "yluo",
-	genedenovo => "yluo",
-	zhulei => "yluo"
+	aipeng => 'pai@genedenovo.com',
+	taoyong => 'ytao@genedenovo.com',
+	gaochuan => 'chgao@genedenovo.com',
+	guanpeikun => 'pkguan@genedenovo.com',
+	lanhaofa => 'hflan@genedenovo.com',
+	lianglili => 'llliang@genedenovo.com',
+	miaoxin => 'xmiao@genedenovo.com',
+	yangjiatao => 'jiataoangqianxian@qq.com',
+	sunyong => 'ysun@genedenovo.com',
+	yaokaixin => 'kxyao@genedenovo.com',
+	luoyue => 'yluo@genedenovo.com',
+	root => 'yluo@genedenovo.com',
+	genedenovo => 'yluo@genedenovo.com',
+	zhulei => 'yluo@genedenovo.com'
 );
 my %server = (
 	"linux-large" => "15 Server",
@@ -83,7 +83,7 @@ while(1){
 		my $send_txt = join "\n", $id, @send;
 
 		&sendMail($send_txt, $mail{$id});
-	#&sendMail($send_txt, $mail{guanpeikun});
+#&sendMail($send_txt, $mail{guanpeikun});
 
 	#my $path = `pwd`;
 	#chomp $path;
@@ -99,27 +99,23 @@ while(1){
 
 sub sendMail
 {
-	my ($content, $to) = @_;
+	my ($content, $x) = @_;
 	my $smtpHost = 'smtp.exmail.qq.com';
 	my $smtpPort = '25';
 	
 	my $username = 'pkguan@genedenovo.com';
 	my $passowrd = 'terence1990';
 	
-	my $suffix = "\@genedenovo.com";
 	my $subject = 'Notice!! clean your project in time.';
 
-	my $message = "your projects on $server{$hostname} are over $ARGV[1]G
-	
+	my $message = "your projects on $server{$hostname} are over $ARGV[1]G\n
 	Details:
 	$content
-
-	来自 $server{$hostname} 的监控程序";
+	\n
+	来自 $server{$hostname} 的监控程序\n";
 
 	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error:连接到${smtpHost}失败！";
 	$smtp->auth('LOGIN', $username, $passowrd) or die("Error:认证失败！");
-
-	my $x = $to.$suffix;
 	$smtp->mail($username);
 	$smtp->to($x);
 	$smtp->data();
