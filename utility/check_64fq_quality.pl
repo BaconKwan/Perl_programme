@@ -9,7 +9,7 @@ die
 
 "if(@ARGV != 1);
 
-open IN , "gzip -cd $ARGV[0] |" or die $!;
+open IN, ($ARGV[0] =~ /\.gz$/) ? "gzip -cd $ARGV[0] |" : "$ARGV[0]" || die $!;
 
 my %char;
 
