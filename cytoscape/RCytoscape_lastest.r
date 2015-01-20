@@ -9,7 +9,7 @@ port = 9000
 
 ## read node file
 node = read.table(args[1], sep="\t", comment.char = "`")
-cl <- colorRampPalette(c("green", "black", "red"))(1000)
+cl <- colorRampPalette(c("green", "white", "red"))(1000)
 for (i in 1:nrow(node)){
 	g <- graph::addNode(as.character(node[i,1]), g)
 	if(node[i, 2] < -5)
