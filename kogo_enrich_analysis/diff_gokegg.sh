@@ -14,7 +14,7 @@ echo "START at `date`"
 for i in `ls $dir/*.glist`
 do
 	name=`basename $i ".glist"`
-	`sed -i '1i\GeneID' $i`
+	`sed -i '1i\GeneID\tlog2FC' $i`
 	echo '================================'
 	echo "processing with $name"
 	echo '================================'
