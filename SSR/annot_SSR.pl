@@ -48,7 +48,7 @@ close ANNOT;
 open SSR, "$ARGV[5]" || die $!;
 <SSR>;
 my $chr = "xxx";
-print "Chr\tSSR\tSize\tStart\tEnd\tEnsembl Gene ID\tPosition\tAssociated Gene Name\tDescription\n";
+print "Chr\tNum\tType\tSSR\tSize\tStart\tEnd\tEnsembl Gene ID\tPosition\tAssociated Gene Name\tDescription\n";
 while(<SSR>){
 	chomp;
 	my @line = split /\t/;
@@ -60,40 +60,40 @@ while(<SSR>){
 			my $end = ${$chr{$line[0]}{region}}[$pos+1] + $ARGV[3];
 			if($line[5] > $end){
 				last if($flag > 0);
-				my $txt = join "\t", $line[0], @line[3..6], "-";
+				my $txt = join "\t", @line[0..6], "-";
 				print "$txt\n";
 				last;
 			}
 			if($line[6] < $start){
 				last if($flag > 0);
-				my $txt = join "\t", $line[0], @line[3..6], "-";
+				my $txt = join "\t", @line[0..6], "-";
 				print "$txt\n";
 				last;
 			}
 			if($line[6] >= ${$chr{$line[0]}{region}}[$pos] && $line[6] <= ${$chr{$line[0]}{region}}[$pos+1]){
-				my $txt = join "\t", $line[0], @line[3..6], ${$chr{$line[0]}{region}}[$pos+2], "intragenic", $annot{${$chr{$line[0]}{region}}[$pos+2]};
+				my $txt = join "\t", @line[0..6], ${$chr{$line[0]}{region}}[$pos+2], "intragenic", $annot{${$chr{$line[0]}{region}}[$pos+2]};
 				print "$txt\n";
 				$flag++;
 			}
 			elsif($line[5] <= ${$chr{$line[0]}{region}}[$pos+1] && $line[5] >= ${$chr{$line[0]}{region}}[$pos]){
-				my $txt = join "\t", $line[0], @line[3..6], ${$chr{$line[0]}{region}}[$pos+2], "intragenic", $annot{${$chr{$line[0]}{region}}[$pos+2]};
+				my $txt = join "\t", @line[0..6], ${$chr{$line[0]}{region}}[$pos+2], "intragenic", $annot{${$chr{$line[0]}{region}}[$pos+2]};
 				print "$txt\n";
 				$flag++;
 			}
 			elsif($line[6] >= $start && $line[6] < ${$chr{$line[0]}{region}}[$pos]){
-				my $txt = join "\t", $line[0], @line[3..6], ${$chr{$line[0]}{region}}[$pos+2], "upstream", $annot{${$chr{$line[0]}{region}}[$pos+2]};
+				my $txt = join "\t", @line[0..6], ${$chr{$line[0]}{region}}[$pos+2], "upstream", $annot{${$chr{$line[0]}{region}}[$pos+2]};
 				print "$txt\n";
 				$flag++;
 			}
 			elsif($line[5] <= $end && $line[5] > ${$chr{$line[0]}{region}}[$pos+1]){
-				my $txt = join "\t", $line[0], @line[3..6], ${$chr{$line[0]}{region}}[$pos+2], "downstream", $annot{${$chr{$line[0]}{region}}[$pos+2]};
+				my $txt = join "\t", @line[0..6], ${$chr{$line[0]}{region}}[$pos+2], "downstream", $annot{${$chr{$line[0]}{region}}[$pos+2]};
 				print "$txt\n";
 				$flag++;
 			}
 		}
 	}
 	else{
-		my $txt = join "\t", $line[0], @line[3..6], "-";
+		my $txt = join "\t", @line[0..6], "-";
 		print "$txt\n";
 	}
 }
