@@ -14,7 +14,6 @@ use Net::SMTP_auth;
 die "perl $0 <dir> <size[GB]>\n" unless(@ARGV eq 2);
 
 chomp(my $hostname = `hostname`);
-my %users;
 my %mail = (
 	aipeng => 'pai@genedenovo.com',
 	taoyong => 'ytao@genedenovo.com',
@@ -38,6 +37,8 @@ my %server = (
 );
 
 while(1){
+	my %users;
+
 	open INFO, "/etc/group" || die $!;
 	foreach(<INFO>){
 		chomp;

@@ -1,12 +1,12 @@
 ###
 dir=`pwd`
-ref=
-wego=
-ko=
-komap=/Bio/Database/Database/kegg/data/map_class/animal_ko_map.tab
+ref=/Bio/Project/PROJECT/GDI0731/diff_analysis
+wego=$ref/all.desc.wego
+ko=$ref/all.desc.ko
+komap=/Bio/Database/Database/kegg/data/map_class/plant_ko_map.tab
 go=$ref/
-go_species=
-rpkm=
+go_species=all.desc
+rpkm=$ref/all.desc
 
 ###
 echo "START at `date`"
@@ -21,24 +21,24 @@ do
 
 # KO
 	mkdir -p $dir/KO
-	#awk -F "\t" '{printf("%s\t\t\t\t\t%s\n", $1, $2)}' $i > $dir/KO/"$name".glist
-	cp $i $dir/KO/"$name".glist
-	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/getKO.pl -glist $dir/KO/"$name".glist -bg $ko -outdir $dir/KO
-	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/pathfind.pl -fg $dir/KO/"$name".ko -komap $komap -bg $ko -output $dir/KO/"$name".path
-	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/keggMap.pl -ko $dir/KO/"$name".ko -komap $komap -diff $dir/KO/"$name".glist -outdir $dir/KO/"$name"_map
+	awk -F "\t" '{printf("%s\t\t\t\t\t%s\n", $1, $2)}' $i > $dir/KO/"$name".glist
+	#cp $i $dir/KO/"$name".glist
+	perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/getKO.pl -glist $dir/KO/"$name".glist -bg $ko -outdir $dir/KO
+	perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/pathfind.pl -fg $dir/KO/"$name".ko -komap $komap -bg $ko -output $dir/KO/"$name".path
+	perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/keggMap.pl -ko $dir/KO/"$name".ko -komap $komap -diff $dir/KO/"$name".glist -outdir $dir/KO/"$name"_map
 
 # GO
 	mkdir -p $dir/GO
 	awk '{if ($2 >= 1){print $1}}' $i > $dir/GO/"$name"_up.glist
 	awk '{if ($2 <= -1){print $1}}' $i > $dir/GO/"$name"_down.glist
-	perl /home/guanpeikun/bin/kogo_enrich_analysis/getwego.pl $dir/GO/"$name"_up.glist $wego > $dir/GO/"$name"_up.wego
-	perl /home/guanpeikun/bin/kogo_enrich_analysis/getwego.pl $dir/GO/"$name"_down.glist $wego > $dir/GO/"$name"_down.wego
+	perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/getwego.pl $dir/GO/"$name"_up.glist $wego > $dir/GO/"$name"_up.wego
+	perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/getwego.pl $dir/GO/"$name"_down.glist $wego > $dir/GO/"$name"_down.wego
 	if [ -s $dir/GO/"$name"_up.wego ] && [ -s $dir/GO/"$name"_down.wego ]; then
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist $dir/GO/"$name"_up.wego,$dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
+		perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/drawGO_black.pl -gglist $dir/GO/"$name"_up.wego,$dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
 	elif [ -s $dir/GO/"$name"_up.wego ]; then
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist $dir/GO/"$name"_up.wego -output $dir/GO/"$name".go.class
+		perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/drawGO_black.pl -gglist $dir/GO/"$name"_up.wego -output $dir/GO/"$name".go.class
 	elif [ -s $dir/GO/"$name"_down.wego ]; then
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist $dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
+		perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/drawGO_black.pl -gglist $dir/GO/"$name"_down.wego -output $dir/GO/"$name".go.class
 	fi
 	java -jar /Bio/Bin/pipe/RNA/tools/batik-rasterizer.jar -m image/png $dir/GO/"$name".go.class.svg
 done
@@ -46,8 +46,8 @@ done
 echo '================================'
 echo "processing functional programmes"
 echo '================================'
-perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/functional_nodiff.pl -go -gldir $dir -sdir $go -species $go_species -outdir $dir
-perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/genPathHTML.pl -indir $dir/KO
+perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/functional.pl -go -gldir $dir -sdir $go -species $go_species -outdir $dir
+perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/genPathHTML.pl -indir $dir/KO
 
 if [ -e "$rpkm" ]; then
 	perl /home/guanpeikun/bin/trends_analysis/add_desc.pl $rpkm 5 $dir/*.glist

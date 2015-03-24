@@ -23,10 +23,10 @@ while(<IN>){
 #shift(@line);
 #}
 	my $txt = join "\t", @line;
-	while($txt =~ s/K\d\d\d\d\d//){
+	while($txt =~ s/K\d{5}//){
 		$hash{$id}{KO} = $&;
 	}
-	while($txt =~ s/GO:\d\d\d\d\d\d\d//){
+	while($txt =~ s/GO:\d{7}//){
 		push(@{$hash{$id}{GO}}, $&);
 	}
 }
