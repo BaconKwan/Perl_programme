@@ -24,7 +24,7 @@ open GFF, "< $ARGV[0]" || die $!;
 my $init_line = <GFF>;
 chomp $init_line;
 my @init_line = split /\t/, $init_line;
-$init_line[8] =~ s/^ID=gene:(\w+).*$/$1/;
+$init_line[8] =~ s/^\s+gene_id "(\S+)"; .*$/$1/;
 $flag = $init_line[6];
 $cnt = 1;
 $q = $init_line[8];
@@ -36,7 +36,12 @@ open OUT, "> break.txt" || die $!;
 while(<GFF>){
 	chomp;
 	my @line = split /\t/;
-	$line[8] =~ s/^ID=gene:(\w+).*$/$1/;
+	$line[8] =~ s/^\s+gene_id "(\S+)"; .*$/$1/;
+	if(exists $gene{$line[8]}){
+		my ($a, $b, $c) = split /\|/, $gene{$line[8]};
+		my @tmp = sort ($a, $b, $line[3], $line[4]);
+		my ($ss, $es) = ($tmp[0], $tmp[-1]);
+	}
 	if($flag eq $line[6] || $flag eq "na"){
 		$flag = $line[6];
 		$re{$cnt}{pone} = $line[6];
@@ -77,6 +82,7 @@ open OUT, "> all.cov" || die $!;
 while(<WIG>){
 	chomp;
 	my @line = split /\t/;
+	next unless(@line eq 2);
 	while($cnt < $line[0]){
 		$cov{$cnt} = 0.0;
 		print OUT "$cnt\t0.0\n";
