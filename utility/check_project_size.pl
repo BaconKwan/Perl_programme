@@ -17,52 +17,30 @@ die "perl $0 <dir> <size[GB]>\n" unless(@ARGV eq 2);
 my $bin_path = File::Spec->rel2abs($0);
 my ($vol, $dirs, $file) = File::Spec->splitpath($bin_path);
 
-open MAIL, "$dirs/users.conf" || die $!;
-my %mail;
-while(<MAIL>){
-	chomp;
-	next if(/^#|^$/);
-	my @line = split;
-	$mail{$line[0]} = $line[1];
-}
-close MAIL;
-
-open SERVER, "$dirs/hostname.conf" || die $!;
-my %server;
-while(<SERVER>){
-	chomp;
-	next if(/^#|^$/);
-	my @line = split;
-	$server{$line[0]} = $line[1];
-}
-close SERVER;
-
-chomp(my $hostname = `hostname`);
-=cut
-my %mail = (
-	aipeng => 'pai@genedenovo.com',
-	taoyong => 'ytao@genedenovo.com',
-	gaochuan => 'chgao@genedenovo.com',
-	guanpeikun => 'pkguan@genedenovo.com',
-	lanhaofa => 'hflan@genedenovo.com',
-	lianglili => 'llliang@genedenovo.com',
-	miaoxin => 'xmiao@genedenovo.com',
-	yangjiatao => 'jtyang@genedenovo.com',
-	sunyong => 'ysun@genedenovo.com',
-	yaokaixin => 'kxyao@genedenovo.com',
-	luoyue => 'yluo@genedenovo.com',
-	root => 'yluo@genedenovo.com',
-	genedenovo => 'yluo@genedenovo.com',
-	zhulei => 'yluo@genedenovo.com'
-);
-my %server = (
-	"linux-large" => "15 Server",
-	"luoda" => "16 Server",
-	"linux-6wm1" => "19 Server"
-);
-=cut
-
 while(1){
+	
+	open MAIL, "$dirs/users.conf" || die $!;
+	my %mail;
+	while(<MAIL>){
+		chomp;
+		next if(/^#|^$/);
+		my @line = split;
+		$mail{$line[0]} = $line[1];
+	}
+	close MAIL;
+	
+	open SERVER, "$dirs/hostname.conf" || die $!;
+	my %server;
+	while(<SERVER>){
+		chomp;
+		next if(/^#|^$/);
+		my @line = split;
+		$server{$line[0]} = $line[1];
+	}
+	close SERVER;
+	
+	chomp(my $hostname = `hostname`);
+	
 	my %users;
 
 	open INFO, "/etc/group" || die $!;
