@@ -87,7 +87,7 @@ while(1){
 		next if(@send == 0);
 		my $send_txt = join "\n", $id, @send;
 
-		&sendMail($send_txt, $mail{$id});
+		&sendMail($send_txt, $mail{$id}, \%mail, \%server, $hostname);
 #&sendMail($send_txt, $mail{guanpeikun});
 
 	#my $path = `pwd`;
@@ -104,7 +104,7 @@ while(1){
 
 sub sendMail
 {
-	my ($content, $x) = @_;
+	my ($content, $x, $mail, $server, $hostname) = @_;
 	my $smtpHost = 'smtp.exmail.qq.com';
 	my $smtpPort = '25';
 	
@@ -113,11 +113,11 @@ sub sendMail
 	
 	my $subject = 'Notice!! clean your project in time.';
 
-	my $message = "your projects on $server{$hostname} are over $ARGV[1]G\n
+	my $message = "your projects on $$server{$hostname} are over $ARGV[1]G\n
 	Details:
 	$content
 	\n
-	来自 $server{$hostname} 的监控程序\n";
+	来自 $$server{$hostname} 的监控程序\n";
 
 	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error:连接到${smtpHost}失败！";
 	$smtp->auth('LOGIN', $username, $passowrd) or die("Error:认证失败！");
