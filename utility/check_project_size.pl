@@ -24,7 +24,7 @@ while(1){
 	while(<MAIL>){
 		chomp;
 		next if(/^#|^$/);
-		my @line = split;
+		my @line = split /\t/;
 		$mail{$line[0]} = $line[1];
 	}
 	close MAIL;
@@ -34,7 +34,7 @@ while(1){
 	while(<SERVER>){
 		chomp;
 		next if(/^#|^$/);
-		my @line = split;
+		my @line = split /\t/;
 		$server{$line[0]} = $line[1];
 	}
 	close SERVER;
