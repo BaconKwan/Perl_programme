@@ -35,7 +35,8 @@ $/ = "\n>";
 while(<FA>){
 	s/>//g;
 	my @tag = split /\n/;
-	$hash{$tag[0]} = $_;
+	my $id = (split /\s+/, $tag[0])[0];
+	$hash{$id} = $_;
 #print ">" if(exists $hash{$tag[0]});
 #print if(exists $hash{$tag[0]});
 }
