@@ -15,10 +15,11 @@ my %hash;
 while(<>){
 	chomp;
 	my @line = split /\t/;
-	next if(exists $hash{$line[0]});
-	$hash{$line[0]} = $_;
-}
-
-foreach my $i (sort keys %hash){
-	print "$hash{$i}\n";
+	if(exists $hash{$line[0]}){
+		next;
+	}
+	else{
+		$hash{$line[0]} = $_;
+		print "$_\n";
+	}
 }
