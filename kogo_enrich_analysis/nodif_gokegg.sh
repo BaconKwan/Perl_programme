@@ -41,7 +41,7 @@ perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/functional_nodiff.pl -go -gldir $di
 perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/genPathHTML.pl -indir $dir/KO
 
 if [ -e "$rpkm" ]; then
-	perl /home/guanpeikun/bin/trends_analysis/add_desc.pl $rpkm 5 $dir/*.glist
+	perl /home/guanpeikun/bin/trends_analysis/add_desc.pl $rpkm 1 $dir/*.glist
 	rm $dir/*.glist -rf
 fi
 

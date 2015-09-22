@@ -50,7 +50,7 @@ perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/functional.pl -go
 perl /home/miaoxin/Pipeline/RNA_seq/RNAseq_Programs/functional/genPathHTML.pl -indir $dir/KO
 
 if [ -e "$rpkm" ]; then
-	perl /home/guanpeikun/bin/trends_analysis/add_desc.pl $rpkm 5 $dir/*.glist
+	perl /home/guanpeikun/bin/trends_analysis/add_desc.pl $rpkm 1 $dir/*.glist
 	rm $dir/*.glist -rf
 fi
 
