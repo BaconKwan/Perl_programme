@@ -43,15 +43,12 @@ while(1){
 	
 	my %users;
 
-	open INFO, "/etc/group" || die $!;
+	open INFO, "/etc/passwd" || die $!;
 	foreach(<INFO>){
 		chomp;
 		my @line = split /:/;
-		next unless($line[0] =~ /users|root/);
-		my @users = split /,/, $line[-1];
-		foreach my $i (@users){
-			$users{$i}{name} = $i;
-		}
+		next unless(exists $mail{$line[0]});
+		$users{$line[0]}{name} = $line[0];
 	}
 	close INFO;
 	
@@ -117,10 +114,10 @@ sub sendMail
 	Details:
 	$content
 	\n
-	来自 $$server{$hostname} 的监控程序\n";
+	From monitoring program of $$server{$hostname}\n";
 
-	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error:连接到${smtpHost}失败！";
-	$smtp->auth('LOGIN', $username, $passowrd) or die("Error:认证失败！");
+	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error: connecting ${smtpHost} fail!\n";
+	$smtp->auth('LOGIN', $username, $passowrd) or die("Error: authentication fail!\n");
 	$smtp->mail($username);
 	$smtp->to($x);
 	$smtp->data();
