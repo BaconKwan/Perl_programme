@@ -79,7 +79,7 @@ while(1){
 			my $size = $line[0];
 			$line[0] = sprintf("%.2fG", $line[0]);
 			$line = join "\t", @line;
-			push(@send, $line) if($size >= $ARGV[1]); ## >= 10G
+			push(@send, $line) if($size >= $ARGV[1]);
 		}
 		next if(@send == 0);
 		my $send_txt = join "\n", $id, @send;
@@ -110,11 +110,15 @@ sub sendMail
 	
 	my $subject = 'Notice!! clean your project in time.';
 
-	my $message = "your projects on $$server{$hostname} are over $ARGV[1]G\n
-	Details:
-	$content
-	\n
-	From monitoring program of $$server{$hostname}\n";
+	my $message = "
+Your projects on $$server{$hostname} are over $ARGV[1]G
+We recommend you that project which is finished 3 months ago should be clean up!
+
+Details:
+$content
+
+From monitoring program of $$server{$hostname}
+";
 
 	my $smtp = Net::SMTP_auth->new($smtpHost, Timeout => 30) or die "Error: connecting ${smtpHost} fail!\n";
 	$smtp->auth('LOGIN', $username, $passowrd) or die("Error: authentication fail!\n");
