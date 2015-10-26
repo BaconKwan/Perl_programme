@@ -26,11 +26,11 @@ chomp $init_line;
 my @init_line = split /\t/, $init_line;
 $init_line[8] =~ s/^\s+gene_id "(\S+)"; .*$/$1/;
 $flag = $init_line[6];
-$q = $init_line[8];
 $cnt = 1;
+$q = $init_line[8];
 $gene{$q} = "$init_line[3]|$init_line[4]|$init_line[6]";
-push(@{$re{"${cnt}:$flag"}{list}}, $q);
-$re{"${cnt}:$flag"}{pone} = $flag;
+push(@{$re{$cnt}{list}}, $q);
+$re{$cnt}{pone} = $init_line[6];
 
 open OUT, "> break.txt" || die $!;
 while(<GFF>){
@@ -39,15 +39,15 @@ while(<GFF>){
 	$line[8] =~ s/^\s+gene_id "(\S+)"; .*$/$1/;
 	if(exists $gene{$line[8]}){
 		my ($a, $b, $c) = split /\|/, $gene{$line[8]};
-		my @tmp = sort ($a, $b, $line[3], $line[4]);
+		my @tmp = sort {$a <=> $b} ($a, $b, $line[3], $line[4]);
 		my ($ss, $es) = ($tmp[0], $tmp[-1]);
 	}
 	if($flag eq $line[6] || $flag eq "na"){
 		$flag = $line[6];
-		$re{"${cnt}:$flag"}{pone} = $line[6];
+		$re{$cnt}{pone} = $line[6];
 		$q = $line[8];
 		$gene{$q} = "$line[3]|$line[4]|$line[6]";
-		push(@{$re{"${cnt}:$flag"}{list}}, $q);
+		push(@{$re{$cnt}{list}}, $q);
 	}
 	else{
 		my ($a, $b, $c) = split /\|/, $gene{$q};
@@ -56,13 +56,13 @@ while(<GFF>){
 			$q = $line[8];
 			$gene{$q} = "$line[3]|$line[4]|$line[6]";
 			$cnt++;
-			push(@{$re{"${cnt}:$flag"}{list}}, $q);
-			$re{"${cnt}:$flag"}{pone} = $line[6];
+			push(@{$re{$cnt}{list}}, $q);
+			$re{$cnt}{pone} = $line[6];
 		}
 		else{
 			$flag = "na";
-			pop(@{$re{"${cnt}:$flag"}{list}});
-			if(0 != @{$re{"${cnt}:$flag"}{list}}){
+			pop(@{$re{$cnt}{list}});
+			if(0 != @{$re{$cnt}{list}}){
 				$cnt++;
 			}
 			$bre{$a} = 1;
