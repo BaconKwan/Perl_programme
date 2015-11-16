@@ -1,5 +1,5 @@
 body {
-	font-size: 100%;
+	font-size: 14px;
 	font-family: "Microsoft YaHei","微软雅黑","雅黑宋体","新宋体","宋体","Microsoft JhengHei","华文细黑",STHeiti,MingLiu;
 	background-color: #FFFFFF;
 	padding-left: 8px;
@@ -35,6 +35,7 @@ table {
 	border-top: 4px #009933 solid;
 	border-bottom: 4px #009933 solid;
 	text-align: center;
+	border-collapse: collapse;
 }
 
 th {

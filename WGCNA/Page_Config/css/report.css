@@ -13,14 +13,13 @@ html * {
 }
 
 body {
-	font-size: 100%;
+	font-size: 14px;
 	font-family: "Microsoft YaHei","微软雅黑","雅黑宋体","新宋体","宋体","Microsoft JhengHei","华文细黑",STHeiti,MingLiu;
 	background-color: #FFFFFF;
 }
 
 img {
   border: 0px;
-  max-height: 600px;
   max-width: 100%;
 }
 
@@ -52,6 +51,7 @@ table {
 	border-top: 4px #009933 solid;
 	border-bottom: 4px #009933 solid;
 	text-align: center;
+	border-collapse: collapse;
 }
 
 th {
@@ -63,8 +63,8 @@ Custom style
 -------------------------------- */
 #report_body {
 	width: 100%;
-	padding-left: 10%;
-	padding-right: 10%;
+	padding-left: 16%;
+	padding-right: 4%;
 }
 
 .normal_cont {
@@ -72,7 +72,7 @@ Custom style
 }
 
 .VerticalTab {
-	height: 680px;
+	height: 740px;
 }
 
 .help_logo {
@@ -94,7 +94,6 @@ Custom style
 #show_help h3 {
 	background:#009933;
 	color:#fff;
-	font-size:14px;
 	padding:5px;
 	margin-top: 0px;
 	margin-bottom: 0px;
@@ -103,8 +102,8 @@ Custom style
 
 #show_help span {
 	position: absolute;
-	right: 10px;
-	top: 3px;
+	right: 12px;
+	top: 8px;
 	display: block;
 	cursor: pointer;
 	color: #fff;

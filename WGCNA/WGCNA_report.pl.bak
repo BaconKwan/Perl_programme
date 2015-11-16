@@ -44,20 +44,67 @@ print HTML <<HTML_cont;
 		
 		<!-- CSS文档 -->
 		<link rel="stylesheet" type="text/css" href="css/report.css" />
-		<link rel="stylesheet" type="text/css" href="css/jumpto.css" />
+		<link rel="stylesheet" type="text/css" href="css/nav.css" />
 		<link rel="stylesheet" type="text/css" href="css/easy-responsive-tabs.css" />
 		
 		<!-- JS脚本 -->
 		<script src="js/jquery-1.9.1/jquery.min.js"></script>
+		<script src="js/nav_scroll.js"></script>
 		<script src="js/modernizr.js"></script>
-		<script src="js/jquery.jumpto.js"></script>
-		<script src="js/jquery.nicescroll.min.js"></script>
 		<script src="js/easyResponsiveTabs.js"></script>
 		<script src="js/show_help.js"></script>
-		
+		<script src="js/jquery.nicescroll.min.js"></script>
 		
 	</head>
 	<body>
+		<!-- 导航栏 -->
+		<nav id="cd-vertical-nav">
+			<ul>
+				<li>
+					<a href="#wgcna_info" data-number="1">
+						<span class="cd-dot"></span>
+						<span class="cd-label">WGCNA介绍</span>
+					</a>
+				</li>
+				<li>
+					<a href="#filter" data-number="2">
+						<span class="cd-dot"></span>
+						<span class="cd-label">数据过滤</span>
+					</a>
+				</li>
+				<li>
+					<a href="#module_construction" data-number="3">
+						<span class="cd-dot"></span>
+						<span class="cd-label">模块划分</span>
+					</a>
+				</li>
+				<li>
+					<a href="#basic_info" data-number="4">
+						<span class="cd-dot"></span>
+						<span class="cd-label">模块概况</span>
+					</a>
+				</li>
+				<li>
+					<a href="#modules" data-number="5">
+						<span class="cd-dot"></span>
+						<span class="cd-label">表达模式</span>
+					</a>
+				</li>
+				<li>
+					<a href="#enrichment" data-number="6">
+						<span class="cd-dot"></span>
+						<span class="cd-label">富集分析</span>
+					</a>
+				</li>
+				<li>
+					<a href="#catalog" data-number="7">
+						<span class="cd-dot"></span>
+						<span class="cd-label">目录结构</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+		
 		<div id="report_body">
 			<!-- WGCNA分析方法介绍 -->
 			<section id="wgcna_info" class="normal_cont">
@@ -214,7 +261,7 @@ if( -s "$out/5.enrichment/GO" || -s "$out/5.enrichment/KO"){
 	if( -s "$out/5.enrichment/GO" ){
 		print HTML <<HTML_cont;
 				<p>各模块GO富集分析结果：</p>
-				<table>
+				<table cellspacing="0">
 					<tr>
 						<th>模块名称</th>
 						<th>细胞组分</th>
@@ -300,7 +347,7 @@ HTML_cont
 	if( -s "$out/5.enrichment/KO" ){
 		print HTML <<HTML_cont;
 				<p>各模块KO富集分析结果：</p>
-				<table>
+				<table cellspacing="0">
 					<tr>
 						<th>模块名称</th>
 						<th>Pathway富集结果</th>
@@ -486,16 +533,6 @@ upload        报告总目录
 		<!-- JS插件初始化 -->
 		<script type="text/javascript">
 			\$(document).ready(function() {
-				\$("#report_body").jumpto({
-					innerWrapper: "section",
-					firstLevel: "> h3",
-					secondLevel: "> h5",
-					offset: 0,
-					anchorTopPadding: 0,
-					animate: 600,
-					showTitle: "目录",
-					closeButton: false
-				});
 HTML_cont
 for(my $cnt = 1; $cnt <= 7; $cnt++){
 	print HTML <<HTML_cont;

@@ -4,13 +4,9 @@ Primary style
 body {
 	margin: 0px;
 	padding: 0px;
-	font-size: 24px;
+	font-size: 14px;
 	font-family: "Microsoft YaHei","微软雅黑","雅黑宋体","新宋体","宋体","Microsoft JhengHei","华文细黑",STHeiti,MingLiu;
 	background-color: #FFFFFF;
-}
-
-div span {
-	color: #009933;
 }
 
 #header_banner {
@@ -31,9 +27,15 @@ div span {
 	width: 40%;
 	text-align: center;
 	font-weight: bold;
+	font-size: 24px;
 	float: left;
 	margin-top: 22px;
 	white-space: nowrap;
+}
+
+#banner_title span {
+	color: #009933;
+	font-size: 28px;
 }
 
 #banner_bg {

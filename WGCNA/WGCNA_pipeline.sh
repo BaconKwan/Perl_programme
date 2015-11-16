@@ -61,7 +61,7 @@ OUT_DIR=$2
 
 echo "==== creat output directorys ===="
 mkdir -p $OUT_DIR/1.filter \
-         $OUT_DIR/2.feature_evaluation \
+         $OUT_DIR/2.module_construction \
          $OUT_DIR/3.basic_info \
          $OUT_DIR/4.modules \
          $OUT_DIR/4.modules/cytoscape \
@@ -150,7 +150,7 @@ done
 echo "==== arrange files ===="
 mv WGCNA.options *.RData $OUT_DIR
 mv 0.remove* $OUT_DIR/1.filter
-mv 1.sampleClustering* 2.softPower* 3.eigengeneClustering* 4.ModuleTree* 4.netcolor2gene.xls $OUT_DIR/2.feature_evaluation
+mv 1.sampleClustering* 2.softPower* 3.eigengeneClustering* 4.ModuleTree* 4.netcolor2gene.xls $OUT_DIR/2.module_construction
 mv 5.Module* 6.gene* 7.Sample* 8.network* $OUT_DIR/3.basic_info
 mv 9.*Express* 10.*glist.xls $OUT_DIR/4.modules
 mv 11.CytoscapeInput* $OUT_DIR/4.modules/cytoscape
@@ -167,4 +167,4 @@ perl $REPORT $OUT_DIR $OUT_DIR/WGCNA.options || exit 0;
 ## package
 
 echo "==== package files ===="
-tar -zvcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.feature_evaluation $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html
+tar -zvcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html
