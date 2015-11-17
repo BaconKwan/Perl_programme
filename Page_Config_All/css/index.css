@@ -39,20 +39,20 @@ body {
 }
 
 #banner_bg_circRNA {
-	max-width: 600px;
-	width: 45%;
-	height: 80px;
-	background-size: 100% 80px;
 	background: url(../image/circRNA_banner_bg.jpg) no-repeat right top;
+	background-size: 100% 80px;
+	height: 80px;
+	width: 45%;
+	max-width: 600px;
 	float: right;
 }
 
 #banner_bg_wgcna {
-	max-width: 600px;
-	width: 45%;
-	height: 80px;
-	background-size: 100% 80px;
 	background: url(../image/wgcna_1.jpg) no-repeat right top;
+	background-size: 100% 80px;
+	height: 80px;
+	width: 45%;
+	max-width: 600px;
 	float: right;
 }
 
