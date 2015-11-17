@@ -1,0 +1,67 @@
+body {
+	font-size: 14px;
+	font-family: "Microsoft YaHei","微软雅黑","雅黑宋体","新宋体","宋体","Microsoft JhengHei","华文细黑",STHeiti,MingLiu;
+	background-color: #FFFFFF;
+	padding-left: 8px;
+	padding-right:8px;
+}
+
+img {
+	border: 0px;
+	max-width: 100%;
+}
+
+a {
+	color: #009933;
+	text-decoration: none;
+	outline: none;
+	hide-focus: expression(this.hideFocus=true);
+}
+
+a:hover {
+	color:#FF0000;
+	text-decoration:none;
+	outline:none;
+	hide-focus: expression(this.hideFocus=true);
+}
+
+p {
+	margin: 12px 0;
+}
+
+table {
+	width: 100%;
+	border: 0px;
+	border-top: 4px #009933 solid;
+	border-bottom: 4px #009933 solid;
+	text-align: center;
+	border-collapse: collapse;
+	caption-side: top;
+}
+
+th {
+	border-bottom: 2px #009933 solid
+}
+
+table caption{
+	font-weight: bold;
+	font-size: 16px;
+	color: #009933;
+	margin-bottom: 8px;
+}
+
+.formula {
+	width: 25%;
+}
+
+.enrich_img{
+	width: 85%;
+}
+
+.cytoscape_img{
+	width: 50%;
+}
+
+.help_img {
+	text-align: center;
+}

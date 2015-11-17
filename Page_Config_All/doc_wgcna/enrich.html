@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<!-- 基本信息 -->
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<title>基迪奥生物 WGCNA富集分析 帮助文档</title>
+		
+		<!-- CSS文档 -->
+		<link rel="stylesheet" type="text/css" href="../css/help_document.css" />
+		
+	</head>
+	<body>
+		<div>
+			<h3>1.功能显著性富集分析</h3>
+			<p>Gene Ontology（简称GO）是一个国际标准化的基因功能分类体系，提供了一套动态更新的标准词汇表（controlled vocabulary）来全面描述生物体中基因和基因产物的属性。GO总共有三个ontology（本体），分别描述基因的分子功能（molecular function）、细胞组分（cellular component）、参与的生物过程（biological process）。GO的基本单位是term（词条、节点），每个term都对应一个属性。</p>
+			<p>GO功能分析一方面给出差异表达基因的GO功能分类注释；另一方面给出差异表达基因的GO功能显著性富集分析。</p>
+			<p>首先，我们将差异表达基因向GO数据库(<a href="http://www.geneontology.org/" target="_blank">http://www.geneontology.org/</a>)的各term映射，并计算每个term的基因数，从而得到具有某个GO功能的基因列表及基因数目统计。然后应用超几何检验，找出与整个基因组背景相比，在差异表达基因中显著富集的GO条目,该假设检验的p-value计算公式为：</p>
+			<div class="help_img">
+				<a href="../image/go_enrich_fun.jpg" target="_blank"><img class="formula" src="../image/go_enrich_fun.jpg"/></a>
+			</div>
+			<p>其中，N为所有Unigene中具有GO注释的基因数目；n为N中差异表达基因的数目；M为所有Unigene中注释为某特定GO term的基因数目；m为注释为某特定GO term的差异表达基因数目。计算得到的pvalue通过Bonferroni校正之后，以corrected-pvalue≤0.05为阈值，满足此条件的GO term定义为在差异表达基因中显著富集的GO term。通过GO功能显著性富集分析能确定差异表达基因行使的主要生物学功能。</p>
+			<p>我们的GO功能分析同时整合了表达模式聚类分析，研究人员能方便地看到具有某一功能的所有差异基因的表达模式。例，secondary metabolic process 为在差异表达基因中最显著富集的一个GO term。</p>
+			<div class="help_img">
+				<a href="../image/go_enrich_table.jpg" target="_blank"><img class="enrich_img" src="../image/go_enrich_table.jpg"/></a>
+			</div>
+			
+			<h3>2.Pathway显著性富集分析</h3>
+			<p>在生物体内，不同基因相互协调行使其生物学，基于Pathway的分析有助于更进一步了解基因的生物学功能。KEGG是有关Pathway的主要公共数据库。</p>
+			<p>Pathway显著性富集分析以KEGG Pathway为单位，应用超几何检验，找出与整个基因组背景相比，在差异表达基因中显著性富集的Pathway。</p>
+			<p>该假设检验的p-value计算公式同GO功能显著性富集分析的相似，在这里N为所有Unigene中具有Pathway注释的基因数目；n为N中差异表达基因的数目；M为所有Unigene中注释为某特定Pathway的基因数目；m为注释为某特定Pathway的差异表达基因数目。计算公式如下:</p>
+			<div class="help_img">
+				<a href="../image/ko_enrich_fun.jpg" target="_blank"><img class="formula" src="../image/ko_enrich_fun.jpg"/></a>
+			</div>
+			<p>经过多重检验校正后，选择Qvalue≤0.05的Pathway定义为在差异表达基因中显著富集的Pathway。Q-value和FDR类似，都是对p-value的一种校正。某一个假设检验的Q-value就是FDR的最小值，在这些FDR下该假设检验可以被认为是显著的。</p>
+			<p>通过Pathway显著性富集能确定差异表达基因参与的最主要生化代谢途径和信号转导途径。</p>
+			<div class="help_img">
+				<a href="../image/ko_enrich_table.jpg" target="_blank"><img class="enrich_img" src="../image/ko_enrich_table.jpg"/></a>
+			</div>
+			<p>差异表达基因的Pathway显著性富集分析不但得到最有意义的Pathway列表，点击其中的Pathway链接还将得到KEGG数据库中Pathway的详细信息，如点击上表第一列第五行的Oxidative phosphorylation，可以看到如下图所示的详细信息，上调基因所在位置用红色标记，下调基因所在位置用绿色标记。</p>
+			<div class="help_img">
+				<a href="../image/pathway_example.jpg" target="_blank"><img class="enrich_img" src="../image/pathway_example.jpg"/></a>
+			</div>
+			<p>
+				<h4>Pathway注释表各列含义：</h4>
+				<ul>
+					<li>第一列 ：KEGG A级分类</li>
+					<li>第二列 ：KEGG B级分类</li>
+					<li>第三列 ：KEGG 通路名称（D级分类）</li>
+					<li>第四列 ：特定基因集中注释到该KEGG pathway的基因数</li>
+					<li>第五列 ：背景基因集中注释到该KEGG pathway的基因数</li>
+					<li>第六列 ：P-value</li>
+					<li>第七列 ：Q-value</li>
+					<li>第八列 ：KEGG 通路ko编号</li>
+					<li>第九列 ：注释到KEGG 通路中的基因ID</li>
+					<li>第十列 ：注释到KEGG 通路中的基因的KO号</li>
+				</ul>
+			</p>
+		</div>
+	</body>
+</html>
