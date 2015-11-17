@@ -65,7 +65,7 @@ print HTML <<HTML_cont;
 		<div id="report_body">
 			<!-- WGCNA分析方法介绍 -->
 			<section id="wgcna_info" class="normal_cont">
-				<h3>WGCNA介绍<a href="http://www.genedenovo.com/" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
+				<h3>WGCNA介绍<a href="http://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
 				<p>WGCNA（weighted gene co-expression network analysis，权重基因共表达网络分析）是一种分析多个样本基因表达模式的分析方法，可将表达模式相似的基因进行聚类，并分析模块与特定性状或表型之间的关联关系，因此在疾病以及其他性状与基因关联分析等方面的研究中被广泛应用。</p>
 				<p>WGCNA算法是构建基因共表达网络的常用算法。我们使用R语言包进行分析。WGCNA算法首先假定基因网络服从无尺度分布，并定义基因共表达相关矩阵、基因网络形成的邻接函数，然后计算不同节点的相异系数，并据此构建分层聚类树(hierarchical clustering tree)，该聚类树的不同分支代表不同的基因模块(module)，模块内基因共表达程度高，而分属不同模块的基因共表达程度低。最后，探索模块与特定表型或疾病的关联关系，最终达到鉴定疾病治疗的靶点基因、基因网络的目的。</p>
 			</section>
@@ -74,7 +74,7 @@ print HTML <<HTML_cont;
 
 			<!-- WGCNA过滤 -->
 			<section id="filter" class="normal_cont">
-				<h3>数据过滤<a href="doc/wgcna_filter.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
+				<h3>数据过滤<a href="doc/filter.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
 				<p>在进行WGCNA分析之前，我们对选用的基因集进行筛选过滤，把低质量的对结果造成不稳定影响的基因或样品从中去掉，提高网络构建的精度。</p>
 				<p>过滤掉的基因列表： <a href="../1.filter/0.removeGene.xls"> 0.removeGene.xls </a></p>
 				<p>过滤掉的样本列表： <a href="../1.filter/0.removeSample.xls"> 0.removeSample.xls </a></p>
@@ -84,7 +84,7 @@ print HTML <<HTML_cont;
 
 			<!-- WGCNA模块划分 -->
 			<section id="module_construction" class="normal_cont">
-				<h3>模块划分<a href="doc/wgcna_assess.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
+				<h3>模块划分<a href="doc/module_construction.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
 				<p>WGCNA算法首先假定基因网络服从无尺度网络分布（scale-free networks），即连接节点个数的对数（log(i)）与此节点出现概率的对数值（log(p(i))）为负相关关系。因此，构建WGCNA网络首先要计算基因间的表达相关系数，然后寻找使数据整体符合无尺度分布的power值（即找到最优的数值对基因间表达量的相关系数取n次幂），构建基因聚类树，并根据基因间的聚类关系进行基因模块的划分。再根据模块特征值的相似度对表达模式相近的模块进行合并。</p>
 				<p>本次分析选用的特征参数如下：</p>
 				<p>Power值： $wgcna{softPower}</p>
@@ -174,7 +174,7 @@ print HTML <<HTML_cont;
 				<h3>表达模式</h3>
 				<p>WGCNA分析还可以得到每个模块包含的基因以及这些基因的表达模式等信息。</p>
 				<p>基因总列表： <a href="../4.modules/10.all.glist.xls" target="_blank"> 10.all.glist.xls </a></p>
-				<p>各模块网络信息（可用于Cytoscape作图<a href="doc/wgcna_cytoscape.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a>）： <a href="../4.modules/cytoscape/" target="_blank"> Cytoscape输入文件目录 </a></p>
+				<p>各模块网络信息（可用于Cytoscape作图<a href="doc/cytoscape.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a>）： <a href="../4.modules/cytoscape/" target="_blank"> Cytoscape输入文件目录 </a></p>
 				<div id="parentVerticalTab3" class="VerticalTab">
 					<ul id="resp-tabs-list3" class="resp-tabs-list hor_3">
 HTML_cont
@@ -211,7 +211,7 @@ print HTML <<HTML_cont;
 
 			<!-- WGCNA富集分析 -->
 			<section id="enrichment" class="normal_cont">
-				<h3>富集分析<a href="doc/wgcna_enrich.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
+				<h3>富集分析<a href="doc/enrichment.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
 HTML_cont
 
 if( -s "$out/5.enrichment/GO" || -s "$out/5.enrichment/KO"){
@@ -485,7 +485,7 @@ upload                                                报告总目录
 		<!-- 帮助文档窗口 -->
 		<div id="show_help">
 			<h3>帮助文档</h3>
-			<iframe id="help_page" name="help_page" src="http://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/"></iframe>
+			<iframe id="help_page" name="help_page" src="http://www.genedenovo.com/"></iframe>
 		</div>
 		
 		<!-- JS插件初始化 -->
@@ -549,7 +549,7 @@ print INDEX <<HTML_index;
 			<div id="header_banner">
 				<div id="banner_logo"></div>
 				<div id="banner_title">基迪奥生物 <span> WGCNA分析 </span> 结题报告</div>
-				<div id="banner_bg"></div>
+				<div id="banner_bg_wgcna"></div>
 			</div>
 		</section>
 		

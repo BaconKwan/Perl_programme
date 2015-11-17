@@ -38,13 +38,20 @@ body {
 	font-size: 28px;
 }
 
-#banner_bg {
+#banner_bg_circRNA, #banner_bg_wgcna {
 	max-width: 600px;
 	width: 45%;
 	height: 80px;
-	background: url(../image/wgcna_1.jpg) no-repeat right top;
 	background-size: 100% 80px;
 	float: right;
+}
+
+#banner_bg_circRNA {
+	background: url(../image/circRNA_banner_bg.jpg) no-repeat right top;
+}
+
+#banner_bg_wgcna {
+	background: url(../image/wgcna_1.jpg) no-repeat right top;
 }
 
 #iframepage {
