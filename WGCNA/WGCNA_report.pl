@@ -29,9 +29,13 @@ while(<IN>){
 close IN;
 $wgcna{disSimilarity} = 1 - $wgcna{disSimilarity};
 
-#################################### generate HTML code ###########################################
+mkdir "$out/Page_Config";
+mkdir "$out/Page_Config/image"; system("cp $base_dir/Page_Config_All/image_wgcna/* $out/Page_Config/image/ -rf");
+mkdir "$out/Page_Config/doc"; system("cp $base_dir/Page_Config_All/doc_wgcna/* $out/Page_Config/doc/ -rf");
+mkdir "$out/Page_Config/js"; system("cp $base_dir/Page_Config_All/js/*-min.js $out/Page_Config/js/ -rf");
+mkdir "$out/Page_Config/css"; system("cp $base_dir/Page_Config_All/css/* $out/Page_Config/css/ -rf");
 
-`cp -rf $base_dir/Page_Config $out`;
+#################################### generate content HTML code ###########################################
 
 open HTML, "> $out/Page_Config/content.html" || die $!;
 print HTML <<HTML_cont;
@@ -399,80 +403,81 @@ print HTML <<HTML_cont;
 			<section id="catalog" class="normal_cont">
 				<h3>目录结构</h3>
 				<pre>
-upload        报告总目录
-├── 1.filter        过滤结果目录
-│   ├── 0.removeGene.xls        过滤掉的基因列表
-│   └── 0.removeSample.xls        过滤掉的样本列表
-├── 2.module_construction        模块划分目录
-│   ├── 1.sampleClustering.pdf        样本层次聚类树-矢量图
-│   ├── 1.sampleClustering.png        样本层次聚类树-位图
-│   ├── 2.softPower.pdf        Power值曲线图-矢量图
-│   ├── 2.softPower.png        Power值曲线图-位图
-│   ├── 3.eigengeneClustering.pdf        特征值聚类树-矢量图
-│   ├── 3.eigengeneClustering.png        特征值聚类树-位图
-│   ├── 4.ModuleTree.pdf        模块层次聚类树-矢量图
-│   ├── 4.ModuleTree.png        模块层次聚类树-位图
-│   └── 4.netcolor2gene.xls        基因-模块对应关系列表
-├── 3.basic_info        模块概况目录
-│   ├── 5.ModuleModuleHeatmap.pdf        模块间相关性热图-矢量图
-│   ├── 5.ModuleModuleHeatmap.png        模块间相关性热图-位图
-│   ├── 5.ModuleModuleMembership.xls        模块-模块相关性结果
-│   ├── 6.geneModuleMembership.xls        基因-模块相关性结果
-│   ├── 7.SampleExpressionHeatmap.pdf        样本表达模式热图-矢量图
-│   ├── 7.SampleExpressionHeatmap.png        样本表达模式热图-位图图
-│   ├── 7.sampleExpressionPattern.xls        样本表达模式结果
-│   ├── 8.networkHeatmap.pdf        模块基因聚类热图-矢量图
-│   └── 8.networkHeatmap.png        模块基因聚类热图-位图
-├── 4.modules        表达模式目录
-│   ├── 9.*Express.pdf        各模块表达模式热图-矢量图
-│   ├── 9.*Express.png        各模块表达模式热图-位图
-│   ├── 10.all.glit.xls        基因总列表
-│   ├── 10.*glist.xls        各模块基因列表
-│   └── cytoscape        Cytoscape输入文件目录
-│       ├── 11.CytoscapeInput-nodes-*.txt        各模块网络节点文件
-│       └── 11.CytoscapeInput-edges-*.txt        各模块网络节点关系文件
-├── 5.enrichment        富集分析目录
-│   ├── GO        GO 富集分析结果目录
-│   │   ├── *.wego.xls        各模块基因集 GO 汇总表
-│   │   ├── *.go.xls        各模块基因集 GO 分类表
-│   │   ├── *.go.svg        各模块基因集 GO 分类统计图-矢量图
-│   │   ├── *.go.png        各模块基因集 GO 分类统计图-位图
-│   │   ├── *_C.png        各模块基因集 Go Cellular Component 富集分析有向无环图
-│   │   ├── *_F.png        各模块基因集 Go Molecular Function 富集分析有向无环图
-│   │   ├── *_P.png        各模块基因集 Go Biological Process 富集分析有向无环图
-│   │   ├── *_C.xls        各模块基因集 Go Cellular Component 富集分析结果
-│   │   ├── *_F.xls        各模块基因集 Go Molecular Function 富集分析结果
-│   │   ├── *_P.xls        各模块基因集 Go Biological Process 富集分析结果
-│   │   ├── *_C.html        各模块基因集 Go Cellular Component 富集分析报告
-│   │   ├── *_F.html        各模块基因集 Go Molecular Function 富集分析报告
-│   │   ├── *_P.html        各模块基因集 Go Biological Process 富集分析报告
-│   │   ├── pv.go.pdf        GO 富集分析P值热图-矢量图
-│   │   ├── pv.go.png        GO 富集分析P值热图-位图
-│   │   ├── qv.go.pdf        GO 富集分析Q值热图-矢量图
-│   │   ├── qv.go.png        GO 富集分析Q值热图-位图
-│   │   ├── rf.go.pdf        GO 富集分析富集因子热图-矢量图
-│   │   ├── rf.go.png        GO 富集分析富集因子热图-位图
-│   │   ├── GOViewList.html        GO 富集分析网页报告索引
-│   │   └── GOView.html        GO 富集分析网页报告
-│   └── KO        KO 富集分析结果目录
-│       ├── all.pathway.xls        Pathway 富集分析汇总表
-│       ├── pv.kegg.pdf        Pathway 富集分析P值热图-矢量图
-│       ├── pv.kegg.png        Pathway 富集分析P值热图-位图
-│       ├── qv.kegg.pdf        Pathway 富集分析Q值热图-矢量图
-│       ├── qv.kegg.png        Pathway 富集分析Q值热图-位图
-│       ├── rf.kegg.pdf        Pathway 富集分析富集因子热图-矢量图
-│       ├── rf.kegg.png        Pathway 富集分析富集因子热图-位图
-│       ├── *.ko.xls        各模块基因集 KO 列表
-│       ├── *.path.xls        各模块基因集 Pathway 富集分析结果
-│       ├── *.path.png        各模块基因集 Pathway 富集分析气泡图
-│       ├── *_map        各模块基因集 Pathway 富集分析通路图
-│       └── *.htm        各模块基因集 Pathway 富集分析报告
-├── Page_Config        结题报告相关文件目录
-│   ├── content.html        结题报告主题内容页面
-│   ├── css        结题报告样式设置相关文件
-│   ├── image        结题报告必要图片
-│   └── js        结题报告网页脚本
-└── index.html        结题报告索引
+upload                                                报告总目录
+├── 1.filter                                           过滤结果目录
+│   ├── 0.removeGene.xls                                  过滤掉的基因列表
+│   └── 0.removeSample.xls                                过滤掉的样本列表
+├── 2.module_construction                              模块划分目录
+│   ├── 1.sampleClustering.pdf                            样本层次聚类树-矢量图
+│   ├── 1.sampleClustering.png                            样本层次聚类树-位图
+│   ├── 2.softPower.pdf                                   Power值曲线图-矢量图
+│   ├── 2.softPower.png                                   Power值曲线图-位图
+│   ├── 3.eigengeneClustering.pdf                         特征值聚类树-矢量图
+│   ├── 3.eigengeneClustering.png                         特征值聚类树-位图
+│   ├── 4.ModuleTree.pdf                                  模块层次聚类树-矢量图
+│   ├── 4.ModuleTree.png                                  模块层次聚类树-位图
+│   └── 4.netcolor2gene.xls                               基因-模块对应关系列表
+├── 3.basic_info                                       模块概况目录
+│   ├── 5.ModuleModuleHeatmap.pdf                         模块间相关性热图-矢量图
+│   ├── 5.ModuleModuleHeatmap.png                         模块间相关性热图-位图
+│   ├── 5.ModuleModuleMembership.xls                      模块-模块相关性结果
+│   ├── 6.geneModuleMembership.xls                        基因-模块相关性结果
+│   ├── 7.SampleExpressionHeatmap.pdf                     样本表达模式热图-矢量图
+│   ├── 7.SampleExpressionHeatmap.png                     样本表达模式热图-位图图
+│   ├── 7.sampleExpressionPattern.xls                     样本表达模式结果
+│   ├── 8.networkHeatmap.pdf                              模块基因聚类热图-矢量图
+│   └── 8.networkHeatmap.png                              模块基因聚类热图-位图
+├── 4.modules                                          表达模式目录
+│   ├── 9.*Express.pdf                                    各模块表达模式热图-矢量图
+│   ├── 9.*Express.png                                    各模块表达模式热图-位图
+│   ├── 10.all.glit.xls                                   基因总列表
+│   ├── 10.*glist.xls                                     各模块基因列表
+│   └── cytoscape                                         Cytoscape输入文件目录
+│       ├── 11.CytoscapeInput-nodes-*.txt                     各模块网络节点文件
+│       └── 11.CytoscapeInput-edges-*.txt                     各模块网络节点关系文件
+├── 5.enrichment                                       富集分析目录
+│   ├── GO                                                GO 富集分析结果目录
+│   │   ├── *.wego.xls                                       各模块基因集 GO 汇总表
+│   │   ├── *.go.xls                                         各模块基因集 GO 分类表
+│   │   ├── *.go.svg                                         各模块基因集 GO 分类统计图-矢量图
+│   │   ├── *.go.png                                         各模块基因集 GO 分类统计图-位图
+│   │   ├── *_C.png                                          各模块基因集 Go Cellular Component 富集分析有向无环图
+│   │   ├── *_F.png                                          各模块基因集 Go Molecular Function 富集分析有向无环图
+│   │   ├── *_P.png                                          各模块基因集 Go Biological Process 富集分析有向无环图
+│   │   ├── *_C.xls                                          各模块基因集 Go Cellular Component 富集分析结果
+│   │   ├── *_F.xls                                          各模块基因集 Go Molecular Function 富集分析结果
+│   │   ├── *_P.xls                                          各模块基因集 Go Biological Process 富集分析结果
+│   │   ├── *_C.html                                         各模块基因集 Go Cellular Component 富集分析报告
+│   │   ├── *_F.html                                         各模块基因集 Go Molecular Function 富集分析报告
+│   │   ├── *_P.html                                         各模块基因集 Go Biological Process 富集分析报告
+│   │   ├── pv.go.pdf                                        GO 富集分析P值热图-矢量图
+│   │   ├── pv.go.png                                        GO 富集分析P值热图-位图
+│   │   ├── qv.go.pdf                                        GO 富集分析Q值热图-矢量图
+│   │   ├── qv.go.png                                        GO 富集分析Q值热图-位图
+│   │   ├── rf.go.pdf                                        GO 富集分析富集因子热图-矢量图
+│   │   ├── rf.go.png                                        GO 富集分析富集因子热图-位图
+│   │   ├── GOViewList.html                                  GO 富集分析网页报告索引
+│   │   └── GOView.html                                      GO 富集分析网页报告
+│   └── KO                                                KO 富集分析结果目录
+│       ├── all.pathway.xls                                   Pathway 富集分析汇总表
+│       ├── pv.kegg.pdf                                       Pathway 富集分析P值热图-矢量图
+│       ├── pv.kegg.png                                       Pathway 富集分析P值热图-位图
+│       ├── qv.kegg.pdf                                       Pathway 富集分析Q值热图-矢量图
+│       ├── qv.kegg.png                                       Pathway 富集分析Q值热图-位图
+│       ├── rf.kegg.pdf                                       Pathway 富集分析富集因子热图-矢量图
+│       ├── rf.kegg.png                                       Pathway 富集分析富集因子热图-位图
+│       ├── *.ko.xls                                          各模块基因集 KO 列表
+│       ├── *.path.xls                                        各模块基因集 Pathway 富集分析结果
+│       ├── *.path.png                                        各模块基因集 Pathway 富集分析气泡图
+│       ├── *_map                                             各模块基因集 Pathway 富集分析通路图
+│       └── *.htm                                             各模块基因集 Pathway 富集分析报告
+├── Page_Config                                        结题报告相关文件目录
+│   ├── content.html                                      结题报告主题内容页面
+│   ├── css                                               结题报告样式设置相关文件
+│   ├── doc                                               结题报告必要帮助文档
+│   ├── image                                             结题报告必要图片
+│   └── js                                                结题报告网页脚本
+└── index.html                                         结题报告索引
 				</pre>
 			</section>
 		</div>
@@ -496,34 +501,32 @@ upload        报告总目录
 					showTitle: "目录",
 					closeButton: false
 				});
-HTML_cont
-for(my $cnt = 1; $cnt <= 7; $cnt++){
-	print HTML <<HTML_cont;
-				\$('#resp-tabs-list$cnt').niceScroll({cursoropacitymax:0.5,cursorwidth:"8px"});
-				\$('#resp-tabs-container$cnt').niceScroll({cursoropacitymax:0.5,cursorwidth:"8px"});
-				\$('#parentVerticalTab$cnt').easyResponsiveTabs({
-					type: 'vertical', //Types: default, vertical, accordion
-					width: 'auto', //auto or any width like 600px
-					fit: true, // 100% fit in a container
-					closed: 'accordion', // Start closed if in accordion view
-					tabidentify: 'hor_$cnt', // The tab groups identifier
-					activate: function(event) { // Callback function if tab is switched
-						var \$tab = \$(this);
-						var \$info = \$('#nested-tabInfo2');
-						var \$name = \$('span', \$info);
-						\$name.text(\$tab.text());
-						\$info.show();
-					}
-				});
-HTML_cont
-}
-print HTML <<HTML_cont;
+				for (var i = 1; i <= 7; i++){
+					\$('#resp-tabs-list' + i).niceScroll({cursoropacitymax:0.5,cursorwidth:"8px"});
+					\$('#resp-tabs-container' + i).niceScroll({cursoropacitymax:0.5,cursorwidth:"8px"});
+					\$('#parentVerticalTab' + i).easyResponsiveTabs({
+						type: 'vertical', //Types: default, vertical, accordion
+						width: 'auto', //auto or any width like 600px
+						fit: true, // 100% fit in a container
+						closed: 'accordion', // Start closed if in accordion view
+						tabidentify: 'hor_' + i, // The tab groups identifier
+						activate: function(event) { // Callback function if tab is switched
+							var \$tab = \$(this);
+							var \$info = \$('#nested-tabInfo2');
+							var \$name = \$('span', \$info);
+							\$name.text(\$tab.text());
+							\$info.show();
+						}
+					});
+				}
 			});
 		</script>
 	</body>
 </html>
 HTML_cont
 close HTML;
+
+#################################### generate index HTML code ###########################################
 
 open INDEX, "> $out/index.html" || die $!;
 print INDEX <<HTML_index;
