@@ -52,12 +52,12 @@ print HTML <<HTML_cont;
 		<link rel="stylesheet" type="text/css" href="css/easy-responsive-tabs.css" />
 		
 		<!-- JS脚本 -->
-		<script src="js/jquery-1.9.1/jquery.min.js"></script>
-		<script src="js/modernizr.js"></script>
-		<script src="js/jquery.jumpto.js"></script>
-		<script src="js/jquery.nicescroll.min.js"></script>
-		<script src="js/easyResponsiveTabs.js"></script>
-		<script src="js/show_help.js"></script>
+		<script src="js/jquery-1.9.1-min.js"></script>
+		<script src="js/modernizr-min.js"></script>
+		<script src="js/jquery.jumpto-min.js"></script>
+		<script src="js/jquery.nicescroll-min.js"></script>
+		<script src="js/easyResponsiveTabs-min.js"></script>
+		<script src="js/show_help-min.js"></script>
 		
 		
 	</head>
@@ -541,7 +541,7 @@ print INDEX <<HTML_index;
 		<link rel="stylesheet" type="text/css" href="Page_Config/css/index.css" />
 		
 		<!-- JS脚本 -->
-		<script src="Page_Config/js/jquery-1.9.1/jquery.min.js"></script>
+		<script src="Page_Config/js/jquery-1.9.1-min.js"></script>
 	</head>
 	<body>
 		<!-- 结题报告页眉 -->
