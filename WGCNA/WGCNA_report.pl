@@ -65,7 +65,7 @@ print HTML <<HTML_cont;
 		<div id="report_body">
 			<!-- WGCNA分析方法介绍 -->
 			<section id="wgcna_info" class="normal_cont">
-				<h3>WGCNA介绍<a href="http://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
+				<h3>WGCNA介绍<a href="http://www.genedenovo.com/" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
 				<p>WGCNA（weighted gene co-expression network analysis，权重基因共表达网络分析）是一种分析多个样本基因表达模式的分析方法，可将表达模式相似的基因进行聚类，并分析模块与特定性状或表型之间的关联关系，因此在疾病以及其他性状与基因关联分析等方面的研究中被广泛应用。</p>
 				<p>WGCNA算法是构建基因共表达网络的常用算法。我们使用R语言包进行分析。WGCNA算法首先假定基因网络服从无尺度分布，并定义基因共表达相关矩阵、基因网络形成的邻接函数，然后计算不同节点的相异系数，并据此构建分层聚类树(hierarchical clustering tree)，该聚类树的不同分支代表不同的基因模块(module)，模块内基因共表达程度高，而分属不同模块的基因共表达程度低。最后，探索模块与特定表型或疾病的关联关系，最终达到鉴定疾病治疗的靶点基因、基因网络的目的。</p>
 			</section>
