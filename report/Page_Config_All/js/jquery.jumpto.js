@@ -35,7 +35,8 @@
 
       //return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 	  //return (elemTop >= docViewTop);
-	  return ((elemTop <= $(window).scrollTop() + ($(window).height() / 8)) && (elemBottom >= $(window).scrollTop()));
+	  //return ((elemTop <= $(window).scrollTop() + ($(window).height() / 8)) && (elemBottom >= $(window).scrollTop()));
+	  return ((elemTop <= $(window).scrollTop() + 20) && (elemBottom >= $(window).scrollTop()));
   }
 	
   $.fn.jumpto = function(options){

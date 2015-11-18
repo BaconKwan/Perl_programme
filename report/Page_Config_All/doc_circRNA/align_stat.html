@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<!-- 基本信息 -->
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<title>基迪奥生物 WGCNA富集分析 帮助文档</title>
+		
+		<!-- CSS文档 -->
+		<link rel="stylesheet" type="text/css" href="../css/help_document.css" />
+		
+	</head>
+	<body>
+		<div>
+			<h3>比对统计</h3>
+			<h5 id="sub_1">比对核糖体</h5>
+			<p>受样品质量和物种的影响，实验方法去核糖体的效率可能不太稳定，而核糖体的污染会影响后续的分析，因此我们首先使用短 reads 比对工具 <i><b>bowtie</b></i> 将 High quality clean reads 比对到核糖体数据库，最多允许 5 个错配，去除比对上核糖体的 reads，将保留下来的数据用于后续的分析。</p>
+			<p>此后，我们将统计 HQ Clean Data 与核糖体 RNA 的比对率。该统计反应了样品中核糖体的比例，有助于我们了解样品质量，同时也是评估建库的一个质控点，我们主要关注 Total Mapped Reads 的比例。</p>
+			<h5 id="sub_2">比对基因组</h5>
+			<table class="pic_table">
+				<tr>
+					<td style="width: 50%"><a href="../image/tophat_pipeline.png" target="_blank"><img src="../image/tophat_pipeline.png" /></td>
+					<td class="pic_table_desc" style="width: 50%">
+						<p>我们使用转录组数据比对软件<b><i>TopHat2</i></b> 将过滤完核糖体的 reads 比对到参考基因组上。TopHat 利用 <b><i>Bowtie</i></b> 做为比对“引擎”，把不能比对上的 reads 打断成小段，并推断 reads 分段及分段的位置。对于最初未比对上的 reads，TopHat 会在不依赖已知基因注释的前提下构建一个 splice 位点的参考集。RNA-seq序列的比对用于鉴定表达的基因及其定量, 有助于发现可变剪切及新转录本。<p>
+					</td>
+				</tr>
+				<tr>
+					<td>TopHat 比对流程图</td>
+					<td></td>
+				</tr>
+			</table>
+			<p><br /></p>
+			<p>由于环状RNA与线性RNA的不同点在于环状RNA成环打断后会使成环断点上下游序列方向相对于成环前恰好相反，因此在测序过程中，若成环断点位于某一Reads上 ，则会造成该Reads的一端与另一端方向相反。这种 Reads 在比对的时候是没有办法比对到基因组上的。而环状RNA的分析正需要这类 Reads ，所以需要从上述的 TopHat 比对结果中提取 Unmapped Reads ，然后取出这些 Reads 两端的序列，然后使用短 reads 比对工具 <i><b>bowtie</b></i>比对到参考基因组。该步骤十分重要，是进行环状RNA分析的入门。</p>
+		</div>
+	</body>
+</html>

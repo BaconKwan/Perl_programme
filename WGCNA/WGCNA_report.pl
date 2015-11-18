@@ -309,7 +309,7 @@ HTML_cont
 						<th>模块名称</th>
 						<th>Pathway富集结果</th>
 						<th>Pathway注释表</th>
-						<th>KO注释表</th>
+						<th>基因ID与K号对照表</th>
 					</tr>
 HTML_cont
 

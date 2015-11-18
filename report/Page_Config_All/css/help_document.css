@@ -50,6 +50,14 @@ table caption{
 	margin-bottom: 8px;
 }
 
+h3 {
+	font-size: 18px;
+}
+
+h5 {
+	font-size: 16px;
+}
+
 .formula {
 	width: 25%;
 }
@@ -64,4 +72,12 @@ table caption{
 
 .help_img {
 	text-align: center;
+}
+
+.pic_table{
+	border: 0px;
+}
+
+.pic_table_desc {
+	text-align: left;
 }

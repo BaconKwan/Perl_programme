@@ -23,7 +23,7 @@ function show_help(){
 	oShow.appendChild(oClosebtn);
 	
 	var oPage = document.getElementById('help_page');
-	oPage.style.height = iHeight * ratio - 33 + "px";
+	oPage.style.height = iHeight * ratio - 39 + "px";
 
 	function oClose(){
 		oShow.style.display = 'none';

@@ -24,10 +24,6 @@ img {
   max-height: 500px;
 }
 
-ul li {
-  list-style-type: none;
-}
-
 a {
 	color: #009933;
 	text-decoration: none;
@@ -89,8 +85,9 @@ Custom style
 }
 
 .help_logo {
-	height: 30px;
-	width: 30px;
+	margin-left: 5px;
+	height: 16px;
+	width: 16px;
 }
 
 .project_info_separator{
@@ -125,6 +122,10 @@ Custom style
 
 .pic_table{
 	border: 0px;
+}
+
+.pic_table_desc {
+	text-align: left;
 }
 
 .pic_table_strong{
