@@ -851,12 +851,12 @@ print HTML <<HTML_cont;
 			<!-- 表达与差异分析 -->
 			<section id="exp_diff" class="normal_cont">
 				<h3>表达与差异分析<a href="doc/exp_diff.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
-				<h5>表达量统计</h5>
+				<h5>表达量统计<a href="doc/exp_diff.html#sub_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 				<table class="pic_table">
 					<tr><td>
-						<a href="../$folders{ExpressionStat}/circ.rpkm.distribution.png" target="_blank"><img src="../$folders{ExpressionStat}/circ.rpkm.distribution.png" /></a>
+						<a href="../$folders{ExpressionStat}/circ.rpm.distribution.png" target="_blank"><img src="../$folders{ExpressionStat}/circ.rpm.distribution.png" /></a>
 					</td><tr>
-					<tr><td>表达量丰度分布图</td></tr>
+					<tr><td>表达量丰度分布图<a href="doc/exp_diff.html#sub_1_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></td></tr>
 				</table>
 HTML_cont
 
@@ -867,7 +867,7 @@ my $exp_diff_sample_exp;
 	my $head = <IN>;
 	chomp $head;
 	my @head = split /\t/, $head;
-	$head[1] =~ s/_rpkm/ RPKM/;
+	$head[1] =~ s/_rpm/ RPM/;
 	$head[$skip + 1] =~ s/_count/ Count/;
 	@head = ("Transcript ID", $head[1], "...", $head[$skip + 1], "...", "Gene ID", "Source Gene", "...", "Annot Type");
 	$head = join "", map {"<th>" . $_ . "</th>"} @head;
@@ -894,7 +894,7 @@ TEMP
 print HTML <<HTML_cont;
 				<p><br /></p>
 				<table>
-					<caption>样品表达量统计表</caption>
+					<caption>样品表达量统计表<a href="doc/exp_diff.html#sub_1_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 $exp_diff_sample_exp
 				</table>
 				<p>
@@ -912,7 +912,7 @@ if(scalar(@group_lab) >= 1){
 		my $head = <IN>;
 		chomp $head;
 		my @head = split /\t/, $head;
-		$head[1] =~ s/_rpkm/ RPKM/;
+		$head[1] =~ s/_rpm/ RPM/;
 		$head[$skip + 1] =~ s/_count/ Count/;
 		@head = ("Transcript ID", $head[1], "...", $head[$skip + 1], "...", "Gene ID", "Source Gene", "...", "Annot Type");
 		$head = join "", map {"<th>" . $_ . "</th>"} @head;
@@ -939,7 +939,7 @@ TEMP
 	print HTML <<HTML_cont;
 				<p><br /></p>
 				<table>
-					<caption>分组表达量统计表</caption>
+					<caption>分组表达量统计表<a href="doc/exp_diff.html#sub_1_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 $exp_diff_group_exp
 				</table>
 				<p>
@@ -952,7 +952,7 @@ HTML_cont
 
 if($opts{Sde} ne "none" && scalar(@sample_lab) >= 2){
 	print HTML <<HTML_cont;
-				<h5>样品间差异表达分析</h5>
+				<h5>样品间差异表达分析<a href="doc/exp_diff.html#sub_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 HTML_cont
 	my $sample_diff_pair_list;
 	my $sample_diff_table;
@@ -988,7 +988,7 @@ TEMP
 	print HTML <<HTML_cont;
 				<table>
 					<caption>样品间差异基因统计表</caption>
-					<tr><th>差异比较组</th><th>显著上调差异基因</th><th>显著下调差异基因</th><th>显著差异基因总数</th><th>差异基因注释表</th><th>显著差异基因注释表</th></tr>
+					<tr><th>差异比较组</th><th>显著上调差异基因</th><th>显著下调差异基因</th><th>显著差异基因总数</th><th>差异基因注释表<a href="doc/exp_diff.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></th><th>显著差异基因注释表</th></tr>
 $sample_diff_table
 				</table>
 				<p><br /></p>
@@ -1002,7 +1002,7 @@ $sample_diff_table
 						<td><span class="pic_table_strong">样品间</span> 差异基因统计柱状图（纵向）</td>
 					</tr>
 				</table>
-				<p>样品间差异基因散点图</p>
+				<p>样品间差异基因散点图<a href="doc/exp_diff.html#sub_2_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></p>
 HTML_cont
 	$resp_tabs_cnt++;
 	print HTML <<HTML_cont;
@@ -1017,7 +1017,7 @@ $sample_diff_pic_scatter_plot
 HTML_cont
 	$resp_tabs_cnt++;
 	print HTML <<HTML_cont;
-				<p>样品间差异基因火山图</p>
+				<p>样品间差异基因火山图<a href="doc/exp_diff.html#sub_2_3" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></p>
 				<div id="parentVerticalTab$resp_tabs_cnt" class="VerticalTab">
 					<ul id="resp-tabs-list$resp_tabs_cnt" class="resp-tabs-list hor_$resp_tabs_cnt">
 $sample_diff_pair_list
@@ -1026,6 +1026,15 @@ $sample_diff_pair_list
 $sample_diff_pic_volcano_plot
 					</div>
 				</div>
+				<p>样品间差异表达模式聚类分析<a href="doc/exp_diff.html#sub_2_4" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></p>
+				<table class="pic_table">
+					<tr>
+						<td style="width: 50%"><a href="../$folders{SamplesDifferentialExpression}/allsamples.heatmap.png" target="_blank"><img src="../$folders{SamplesDifferentialExpression}/allsamples.heatmap.png" /></a></td>
+					</tr>
+					<tr>
+						<td>样品间差异基因热图</td>
+					</tr>
+				</table>
 HTML_cont
 }
 
@@ -1061,7 +1070,7 @@ TEMP
 	print HTML <<HTML_cont;
 				<table>
 					<caption>分组间差异基因统计表</caption>
-					<tr><th>差异比较组</th><th>显著上调差异基因</th><th>显著下调差异基因</th><th>显著差异基因总数</th><th>差异基因注释表</th><th>显著差异基因注释表</th></tr>
+					<tr><th>差异比较组</th><th>显著上调差异基因</th><th>显著下调差异基因</th><th>显著差异基因总数</th><th>差异基因注释表<a href="doc/exp_diff.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></th><th>显著差异基因注释表</th></tr>
 $group_diff_table
 				</table>
 				<p><br /></p>
@@ -1078,7 +1087,7 @@ $group_diff_table
 HTML_cont
 	$resp_tabs_cnt++;
 	print HTML <<HTML_cont;
-				<p>分组间差异基因火山图</p>
+				<p>分组间差异基因火山图<a href="doc/exp_diff.html#sub_2_3" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></p>
 				<div id="parentVerticalTab$resp_tabs_cnt" class="VerticalTab">
 					<ul id="resp-tabs-list$resp_tabs_cnt" class="resp-tabs-list hor_$resp_tabs_cnt">
 $group_diff_pair_list
@@ -1087,6 +1096,15 @@ $group_diff_pair_list
 $group_diff_pic_volcano_plot
 					</div>
 				</div>
+				<p>分组间差异表达模式聚类分析<a href="doc/exp_diff.html#sub_2_4" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></p>
+				<table class="pic_table">
+					<tr>
+						<td style="width: 50%"><a href="../$folders{GroupsDifferentialExpression}/allgroups.heatmap.png" target="_blank"><img src="../$folders{GroupsDifferentialExpression}/allgroups.heatmap.png" /></a></td>
+					</tr>
+					<tr>
+						<td>分组间差异基因热图</td>
+					</tr>
+				</table>
 HTML_cont
 }
 
@@ -1403,7 +1421,7 @@ HTML_cont
 }
 
 print HTML <<HTML_cont;
-│   └── circ.rpkm.distribution.png                        表达量丰度分布图
+│   └── circ.rpm.distribution.png                        表达量丰度分布图
 HTML_cont
 
 if($opts{Sde} ne "none" && scalar(@sample_lab) >= 2){

@@ -11,50 +11,80 @@
 	</head>
 	<body>
 		<div>
-			<h3>1.功能显著性富集分析</h3>
-			<p>Gene Ontology（简称GO）是一个国际标准化的基因功能分类体系，提供了一套动态更新的标准词汇表（controlled vocabulary）来全面描述生物体中基因和基因产物的属性。GO总共有三个ontology（本体），分别描述基因的分子功能（molecular function）、细胞组分（cellular component）、参与的生物过程（biological process）。GO的基本单位是term（词条、节点），每个term都对应一个属性。</p>
-			<p>GO功能分析一方面给出差异表达基因的GO功能分类注释；另一方面给出差异表达基因的GO功能显著性富集分析。</p>
-			<p>首先，我们将差异表达基因向GO数据库(<a href="http://www.geneontology.org/" target="_blank">http://www.geneontology.org/</a>)的各term映射，并计算每个term的基因数，从而得到具有某个GO功能的基因列表及基因数目统计。然后应用超几何检验，找出与整个基因组背景相比，在差异表达基因中显著富集的GO条目,该假设检验的p-value计算公式为：</p>
+			<h3>表达与差异分析</h3>
+			<h5 id="sub_1">表达量统计</h5>
+			<p>在计算环状RNA表达量的时候，会遇到环状RNA和线性RNA有相同的Exon区域，而Reads无法准确分配的情况。这时为了计算的准确性，我们只取环状RNA的Support Reads，也就是跨越Break Point的Reads，而丢弃掉其他Reads。</p>
+			<p>因此，环状RNA表达量的计算使用RPM(Reads Per Million mapped reads)法，设RPM(A)为基因A的表达量，则C为比对到基因A的测序片段数，N为比对到参考基因的总测序片段数，其计算公式为：</p>
 			<div class="help_img">
-				<a href="../image/go_enrich_fun.jpg" target="_blank"><img class="formula" src="../image/go_enrich_fun.jpg"/></a>
+				<a href="../image/RPM.png" target="_blank"><img class="formula" src="../image/RPM.png"/></a>
 			</div>
-			<p>其中，N为所有Unigene中具有GO注释的基因数目；n为N中差异表达基因的数目；M为所有Unigene中注释为某特定GO term的基因数目；m为注释为某特定GO term的差异表达基因数目。计算得到的pvalue通过Bonferroni校正之后，以corrected-pvalue≤0.05为阈值，满足此条件的GO term定义为在差异表达基因中显著富集的GO term。通过GO功能显著性富集分析能确定差异表达基因行使的主要生物学功能。</p>
-			<p>我们的GO功能分析同时整合了表达模式聚类分析，研究人员能方便地看到具有某一功能的所有差异基因的表达模式。例，secondary metabolic process 为在差异表达基因中最显著富集的一个GO term。</p>
-			<div class="help_img">
-				<a href="../image/go_enrich_table.jpg" target="_blank"><img class="enrich_img" src="../image/go_enrich_table.jpg"/></a>
-			</div>
-			
-			<h3>2.Pathway显著性富集分析</h3>
-			<p>在生物体内，不同基因相互协调行使其生物学，基于Pathway的分析有助于更进一步了解基因的生物学功能。KEGG是有关Pathway的主要公共数据库。</p>
-			<p>Pathway显著性富集分析以KEGG Pathway为单位，应用超几何检验，找出与整个基因组背景相比，在差异表达基因中显著性富集的Pathway。</p>
-			<p>该假设检验的p-value计算公式同GO功能显著性富集分析的相似，在这里N为所有Unigene中具有Pathway注释的基因数目；n为N中差异表达基因的数目；M为所有Unigene中注释为某特定Pathway的基因数目；m为注释为某特定Pathway的差异表达基因数目。计算公式如下:</p>
-			<div class="help_img">
-				<a href="../image/ko_enrich_fun.jpg" target="_blank"><img class="formula" src="../image/ko_enrich_fun.jpg"/></a>
-			</div>
-			<p>经过多重检验校正后，选择Qvalue≤0.05的Pathway定义为在差异表达基因中显著富集的Pathway。Q-value和FDR类似，都是对p-value的一种校正。某一个假设检验的Q-value就是FDR的最小值，在这些FDR下该假设检验可以被认为是显著的。</p>
-			<p>通过Pathway显著性富集能确定差异表达基因参与的最主要生化代谢途径和信号转导途径。</p>
-			<div class="help_img">
-				<a href="../image/ko_enrich_table.jpg" target="_blank"><img class="enrich_img" src="../image/ko_enrich_table.jpg"/></a>
-			</div>
-			<p>差异表达基因的Pathway显著性富集分析不但得到最有意义的Pathway列表，点击其中的Pathway链接还将得到KEGG数据库中Pathway的详细信息，如点击上表第一列第五行的Oxidative phosphorylation，可以看到如下图所示的详细信息，上调基因所在位置用红色标记，下调基因所在位置用绿色标记。</p>
-			<div class="help_img">
-				<a href="../image/pathway_example.jpg" target="_blank"><img class="enrich_img" src="../image/pathway_example.jpg"/></a>
-			</div>
-			<p>
-				<h4>Pathway注释表各列含义：</h4>
-				<ul>
-					<li>第一列 ：KEGG A级分类</li>
-					<li>第二列 ：KEGG B级分类</li>
-					<li>第三列 ：KEGG 通路名称（D级分类）</li>
-					<li>第四列 ：特定基因集中注释到该KEGG pathway的基因数</li>
-					<li>第五列 ：背景基因集中注释到该KEGG pathway的基因数</li>
-					<li>第六列 ：P-value</li>
-					<li>第七列 ：Q-value</li>
-					<li>第八列 ：KEGG 通路ko编号</li>
-					<li>第九列 ：注释到KEGG 通路中的基因ID</li>
-					<li>第十列 ：注释到KEGG 通路中的基因的KO号</li>
-				</ul>
-			</p>
+			<p id="sub_1_1">表达量丰度分布图</p>
+			<table class="pic_table">
+				<tr>
+					<td style="width: 50%"><a href="../image/rpm_dist.png" target="_blank"><img src="../image/rpm_dist.png" /></td>
+					<td class="pic_table_desc" style="width: 50%">
+						<p>所有样本基因的表达量丰度分布图如左图所示，图中横坐标为log10FPKM，该数值越高，表示基因表达量越高；纵坐标为基因的丰度，即为对应横轴表达量的基因数 / 检测已表达基因的总数；图中每种颜色表示一个样本；分布曲线的峰值表示整个样本基因表达量最集中的区域；一般情况下，可作为评估某个样本跟其它样本在建库、测序、比对或定量中的差异。</p>
+					</td>
+				</tr>
+			</table>
+			<p id="sub_1_2">样品（分组）表达量统计表说明</p>
+			<ul>
+				<li>Transcript ID : 转录本名称</li>
+				<li>XXX RPM : 该项目第一个样品该转录本的表达量</li>
+				<li>XXX Count : 该项目第一个样品比对到该转录本的read数目</li>
+				<li>Gene ID : 该转录本所属的基因名称</li>
+				<li>Source Gene : 该转录本成环前所属的基因名称</li>
+				<li>Annot Type : 该转录本的类型</li>
+			</ul>
+			<h5 id="sub_2">样品(分组)间差异表达分析</h5>
+			<p id="sub_2_1">差异基因注释表</p>
+			<ul>
+				<li>id : 转录本名称</li>
+				<li>sample_1_count : 样品1 的转录本 count 值</li>
+				<li>sample_2_count : 样品2 的转录本 count 值</li>
+				<li>sample_1_rpm : 样品1 的转录本 RPM 值</li>
+				<li>sample_2_rpm : 样品2 的转录本 RPM 值</li>
+				<li>log2(FC) : 样品1 与 样品2 RPM 差异倍数的对数值，以2为底</li>
+				<li>P_value : 检验统计量的 P-value 值</li>
+				<li>FDR : 经过FDR校正后的 P-value 值</li>
+				<li>significant : 值为yes或no，yes表示为显著差异，判定条件：若 FDR &lt; 0.05，并且 |log<sub>2</sub>FC| &gt; 1 此值就为 “yes”</li>
+				<li>gene_id : 该转录本所属的基因名称</li>
+				<li>source_gene : 该转录本所属的基因名称</li>
+				<li>chr : 转录本所在的染色体</li>
+				<li>strand : 转录本所在的单链</li>
+				<li>genomic_start : 转录本在基因组上的起始位置</li>
+				<li>genomic_end : 转录本在基因组上的终止位置</li>
+				<li>spliced_length : 转录本剪切加工，成环后的长度</li>
+				<li>annot_type : 该转录本的类型</li>
+			</ul>
+			<p id="sub_2_2">样品(分组)间差异基因散点图</p>
+			<table class="pic_table">
+				<tr>
+					<td style="width: 50%"><a href="../image/DE.scatter.png" target="_blank"><img src="../image/DE.scatter.png" /></td>
+					<td class="pic_table_desc" style="width: 50%">
+						<p>左图中，横纵坐标分别表示 sample_1 与 sample_2 两个样品表达量，红色（sample_2 相对于 sample_1 表达量上调）和绿色（表达量下调）的点表示基因的表达量有差异（判断标准为 FDR &lt; 0.05, 且差异倍数两倍以上），黑色的点为没有差异。</p>
+					</td>
+				</tr>
+			</table>
+			<p id="sub_2_3">样品间差异基因火山图</p>
+			<table class="pic_table">
+				<tr>
+					<td style="width: 50%"><a href="../image/DE.volcano.png" target="_blank"><img src="../image/DE.volcano.png" /></td>
+					<td class="pic_table_desc" style="width: 50%">
+						<p>左图中，横坐标表示两个样品的差异倍数对数值，纵坐标表示两个样品的FDR的负Log<sub>10</sub>值，红色（sample_2 相对于 sample_1 表达量上调）和绿色（表达量下调）的点表示基因的表达量有差异（判断标准为 FDR &lt; 0.05, 且差异倍数两倍以上），黑色的点为没有差异。</p>
+					</td>
+				</tr>
+			</table>
+			<p id="sub_2_4">样品(分组)间差异表达模式聚类分析</p>
+			<table class="pic_table">
+				<tr>
+					<td style="width: 50%"><a href="../image/heatmap_test.png" target="_blank"><img src="../image/heatmap_test.png" /></td>
+					<td class="pic_table_desc" style="width: 50%">
+						<p>我们基于基因表达量，对样本和基因间的关系进行层级聚类，并使用热图来呈现聚类结果。我们对各个样本的基因表达量以 2 为底求对数值，对不同样品和基因进行层级聚类分析，图中每列代表一个样品，每行代表一个基因，基因在不同样品中的表达量用不同颜色表示，颜色越红表示表达量越高，颜色越蓝表示表达量越低。</p>
+						<p>样品间差异表达模式聚类分析，选取的是样品间显著差异基因并集；分组间差异表达模式聚类分析，选取的是分组间显著差异基因并集。</p>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</body>
 </html>
