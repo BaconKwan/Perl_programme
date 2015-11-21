@@ -1,0 +1,1 @@
+../fetch_info_from_fa_v2.pl

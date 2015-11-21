@@ -1,0 +1,1291 @@
+********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 4.10.2 (Release date: Thu Sep 03 15:00:54 2015 -0700)
+
+For further information on how to interpret these results or to get
+a copy of the MEME software please access http://meme-suite.org .
+
+This file may be used as input to the MAST algorithm for searching
+sequence databases for matches to groups of motifs.  MAST is available
+for interactive use and downloading at http://meme-suite.org .
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to discover
+motifs in biopolymers", Proceedings of the Second International
+Conference on Intelligent Systems for Molecular Biology, pp. 28-36,
+AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+DATAFILE= seq.need.fa
+ALPHABET= ACDEFGHIKLMNPQRSTVWY
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+ACJ06430.1|Fc.CTL6       1.0000    258  AHA83582.1|Mj.CTL3       1.0000    250  
+Ph.CTL11                 1.0000    163  Ph.CTL3                  1.0000    148  
+Ph.CTL37                 1.0000    183  Ph.CTL38                 1.0000    159  
+ADF27340.1|Sp.CTL8       1.0000    244  ACR20475.1|Pc.CTL6       1.0000    271  
+Ph.CTL5                  1.0000    272  Ph.CTL34                 1.0000    230  
+ACJ06432.1|Fc.CTL4       1.0000    237  AHA85979.1|Mj.CTL4       1.0000    253  
+Ph.CTL27                 1.0000    143  Ph.CTL22                 1.0000    296  
+Ph.CTL24                 1.0000    293  ADU25463.1|Sp.CTL9       1.0000    347  
+ABI97374.1|Lv.CTL6       1.0000    345  ACJ06428.1|Fc.CTL2       1.0000    333  
+ACJ06429.1|Fc.CTL5       1.0000    335  AHF21000.1|Mj.CTL7       1.0000    336  
+AGW27416.1|Mj.CTL1       1.0000    336  AGI92548.1|Pc.CTL3       1.0000    167  
+Ph.CTL23                 1.0000    166  AHM25604.1|Sp.CTL7       1.0000    169  
+AAX63905.1|Fc.CTL7       1.0000    287  Ph.CTL36                 1.0000    130  
+AFN66645.1|Fc.CTL9       1.0000    220  Ph.CTL4                  1.0000    230  
+ABA54612.1|Fc.CTL1       1.0000    159  ADG85658.1|Mj.CTLE       1.0000    159  
+ADX60057.1|Pc.CTL1       1.0000    169  Ph.CTL28                 1.0000    152  
+Ph.CTL29                 1.0000    148  Ph.CTL1                  1.0000    135  
+AGL46986.1|Pc.CTL5       1.0000    252  Ph.CTL20                 1.0000    148  
+ACJ06431.1|Fc.CTL3       1.0000    158  Ph.CTL39                 1.0000    146  
+AIC80997.1|Sp.CTL4       1.0000    159  AHH02662.1|Sp.CTL5       1.0000    158  
+AGL93170.1|Fc.CTL8       1.0000    170  Ph.CTL14                 1.0000    149  
+Ph.CTL21                 1.0000    136  Ph.CTL8                  1.0000    140  
+Ph.CTL30                 1.0000    173  ADK27312.1|Pc.CTL4       1.0000    163  
+Ph.CTL18                 1.0000    154  Ph.CTL16                 1.0000    150  
+Ph.CTL17                 1.0000    152  ADG85659.1|Mj.CTLD       1.0000    170  
+Ph.CTL33                 1.0000    150  Ph.CTL35                 1.0000    135  
+Ph.CTL10                 1.0000    130  AHV85237.1|Mj.CTL5       1.0000    157  
+AFJ59945.1|Mj.CTL2-1     1.0000    394  Ph.CTL12                 1.0000    143  
+Ph.CTL31                 1.0000    101  AEH05998.1|Lv.CTL3       1.0000    311  
+Ph.CTL2                  1.0000    192  AFJ59946.1|Mj.CTL2-2     1.0000    306  
+AHA83583.1|Mj.CTL2       1.0000    313  Ph.CTL32                 1.0000    313  
+AGV68681.1|Lv.CTL5       1.0000    163  Ph.CTL6                  1.0000    135  
+Ph.CTL15                 1.0000    139  Ph.CTL19                 1.0000    140  
+AEO92002.1|Sp.CTL2       1.0000    176  AEO92001.1|Sp.CTL1       1.0000    165  
+Ph.CTL25                 1.0000    163  ADG85661.1|Mj.CTLB       1.0000    168  
+ADG85666.1|Mj.CTLA       1.0000    132  Ph.CTL9                  1.0000    111  
+AKA64754.1|Lv.CTL4       1.0000    156  Ph.CTL13                 1.0000    125  
+AIC80998.1|Sp.CTL3       1.0000    160  AFU52948.1|Sp.CTL6       1.0000    160  
+Ph.CTL26                 1.0000    160  ADW08727.1|Lv.CTL2       1.0000    162  
+ADW08726.1|Lv.CTL1       1.0000    156  Ph.CTL7                  1.0000    266  
+AEB54625.1|Pc.CTL2       1.0000    253  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme seq.need.fa -protein -oc . -nostatus -time 18000 -maxsize 60000 -mod zoops -nmotifs 3 -minw 6 -maxw 50 
+
+model:  mod=         zoops    nmotifs=         3    evt=           inf
+object function=  E-value of product of p-values
+width:  minw=            6    maxw=           50    minic=        0.00
+width:  wg=             11    ws=              1    endgaps=       yes
+nsites: minsites=        2    maxsites=       81    wnsites=       0.8
+theta:  prob=            1    spmap=         pam    spfuzz=        120
+global: substring=     yes    branching=      no    wbranch=        no
+em:     prior=       megap    b=           80180    maxiter=        50
+        distance=    1e-05
+data:   n=           16036    N=              81
+
+sample: seed=            0    seqfrac=         1
+Dirichlet mixture priors file: prior30.plib
+Letter frequencies in dataset:
+A 0.065 C 0.041 D 0.066 E 0.056 F 0.044 G 0.084 H 0.031 I 0.040 K 0.028 
+L 0.076 M 0.022 N 0.052 P 0.049 Q 0.040 R 0.040 S 0.071 T 0.057 V 0.059 
+W 0.034 Y 0.044 
+Background letter frequencies (from dataset with add-one prior applied):
+A 0.065 C 0.041 D 0.066 E 0.056 F 0.044 G 0.084 H 0.031 I 0.040 K 0.029 
+L 0.076 M 0.022 N 0.052 P 0.049 Q 0.040 R 0.040 S 0.071 T 0.057 V 0.059 
+W 0.034 Y 0.044 
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  1 MEME	width =  20  sites =  63  llr = 1794  E-value = 1.3e-418
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 1 Description
+--------------------------------------------------------------------------------
+Simplified        A  :::3::12:::::::::::1
+pos.-specific     C  ::::::::::::::::::::
+probability       D  ::1::8::11:1::::421:
+matrix            E  ::::::2118:1:::1::2:
+                  F  ::::::::::::1:1:::::
+                  G  ::96:::2::8::::::6::
+                  H  ::::::::2::::1::::::
+                  I  :3::::1::::::::1::::
+                  K  :::::::::::::1::::1:
+                  L  :3::::2::::::1:1:::2
+                  M  ::::::::::::::::::::
+                  N  :::::::::::1::::211:
+                  P  :::::::::::::::::::3
+                  Q  ::::::111:::::::::1:
+                  R  ::::1::::::::2::::1:
+                  S  ::::4:1:1::1:::12:11
+                  T  ::::3::1:1:2:1:11:11
+                  V  :2::::11:::1:3:3::::
+                  W  9:::::::::::9:8:::::
+                  Y  ::::::::1:::::1:::::
+
+         bits    5.5                     
+                 4.9                     
+                 4.4 *           *       
+                 3.8 *           * *     
+Relative         3.3 *           * *     
+Entropy          2.7 * *  *   ** * *     
+(41.1 bits)      2.2 **** *   ** * *  *  
+                 1.6 ******   ** * * **  
+                 1.1 ******* *** ********
+                 0.5 ********************
+                 0.0 --------------------
+
+Multilevel           WIGGSDEGxEGxWVWVDGxP
+consensus             L AT           SD  
+sequence              V                  
+                                         
+                                         
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                    Site      
+-------------             ----- ---------            --------------------
+ADG85659.1|Mj.CTLD          100  4.73e-19 RDNGNKDHSF WVGASDAGHEGSWTWTDGTP VAMGAPLWEQ
+ADW08727.1|Lv.CTL2           93  1.92e-18 DHQDLQDEGF WIGGTDEGHEGSWTWVSDNS PMPMGVPHWY
+Ph.CTL6                      65  5.71e-18 NAHPFNAGRY WIGASDLGHEGNWRWPDGSL VRLGTPFWGD
+Ph.CTL25                     90  1.13e-17 HENARPDFYY WIGATDAGHEGSWVWPDGSA VQMGTPFWAN
+ADG85661.1|Mj.CTLB           96  3.42e-17 HQEGLTERSY WIGGSDRTSEGTWVWTDGSS VRMGTPTWGV
+AFJ59945.1|Mj.CTL2-1        318  5.37e-17 RSEGLDNHDY WLGGSDAAEEGSWKWLDGAA IEQGSPFWAT
+Ph.CTL17                     78  5.37e-17 INKGWTSQHM WVGASDKAQEGMWMWIDGRP LDMTSNLWRA
+Ph.CTL26                     92  6.22e-17 QHPDLQDEAF WIGGSDAQHEGYWVWVQDNT PMPMGTPHWY
+AHV85237.1|Mj.CTL5           84  6.22e-17 LSRYGTGHVF WLGGSDSVSEGDWRWVSGKS IPKESWRGVQ
+ADX60057.1|Pc.CTL1           96  6.22e-17 LDGEFSTTEF WIGATDEVTEGVWKWVNGKT VRMPMPFWLT
+AEO92002.1|Sp.CTL2           99  7.20e-17 KSLHLPYVHL WIGATDEATEGIWMWTDGTP VRMGTPYWAN
+Ph.CTL19                     66  9.60e-17 HEHQLATKGY WMGASDEGHEGDWRWRDGTS VRMGTPFWGY
+ADK27312.1|Pc.CTL4           87  1.46e-16 YALNTETPYL WVGGTDEGHEGFWNWVVGRP VNLLATYWRE
+Ph.CTL30                    101  1.46e-16 GQEVPERWSY WVGGTDLGDEGSWYWIDGVP MAMGVPFWGE
+AHH02662.1|Sp.CTL5           92  1.93e-16 RYQLRLNADL WLGGSDSVKEGEWRWENDEL VPVGIPFWHP
+AIC80997.1|Sp.CTL4           93  1.93e-16 RYQLRLNADL WLGGSDSVKEGEWRWENDEL VPVGIPFWHP
+Ph.CTL29                     85  3.29e-16 LLLYHGVGDY WLGGYDIAQEGFWHWVNDQP LDMGIPFWVI
+ACJ06428.1|Fc.CTL2          260  4.28e-16 QANGLDGNTF WLGGSDLASEGTWVYTTGEP VPMGTPFWGL
+Ph.CTL12                     61  7.15e-16 LTLPGDYQRC WIGGSDGEAEGEWKWLSGEA VGRGEWRAGQ
+ADG85666.1|Mj.CTLA           63  8.11e-16 LVKYGLQDSF WIGGSDIEAEGNWTWVDDTD IVRGTPYWAL
+AGL46986.1|Pc.CTL5          188  9.19e-16 ILIYYTGKWF WVGGTDLGQEGEWYFINGNP VPMGLPFWLP
+ABI97374.1|Lv.CTL6          270  9.19e-16 HQDNLSSHAF WLGGTDLASEGTWVYTTGEP VPMGTPFWGL
+ADU25463.1|Sp.CTL9          272  1.04e-15 HQDNLSSHAF WLGGSDLTSEGTWVYTTGEP VPMGTPFWGI
+AGL93170.1|Fc.CTL8           96  1.33e-15 YYQVGESKDY WIGGSDEAHEDLWLWTDGTL MRTGVPLWYH
+ABA54612.1|Fc.CTL1           91  1.33e-15 SQDVTKGKHY WLGATDEVEEGTWKFVNNRL TPMGIPYWGV
+Ph.CTL15                     64  2.16e-15 QEREITDVNF WVGGVDEGHEGDWRWLDDSK VTLGTPFWGN
+Ph.CTL31                     40  3.08e-15 INSERTEVSV WLGGTDQTVEGVWLWVTGDP MPRGPPFWGY
+Ph.CTL20                     84  3.08e-15 AYSLHMKVDY WIGGSDVGHEGIWRWVRNNG LVTMGVPFWY
+ADG85658.1|Mj.CTLE           91  4.37e-15 SQEVTKAKHY WLGATDEVNEGTWKFVNNRA VPMGVPFWGA
+Ph.CTL8                      68  8.66e-15 QEEVPFNFSF FVGGTDRGDEGAWYWVDGTP MNMGLPYWGQ
+Ph.CTL28                     90  9.68e-15 LLLDHVLDEY WLGGYDIEQEGVWHWVSSKL VNMGVPFWPA
+ADW08726.1|Lv.CTL1           90  1.21e-14 QNPDLMDEAF WIGGTDAAREGTWLWATDNT VMDMQSPPWY
+Ph.CTL16                     76  1.35e-14 YIISKGYTNI WVGASDTAMEGFWKWVDNRV VDMTSTLWFY
+Ph.CTL1                      72  1.68e-14 IVFNHVLDDY WLGGFDVGLEGSWHWVDGSL MPMGIPFWST
+Ph.CTL35                     63  1.87e-14 ETYGKNVSRW FLGGTDADEEGNWRWIRGEP VSHEEWSQGE
+AEO92001.1|Sp.CTL1           92  2.08e-14 EILHLGKMHF WIGSSDEAIEDTWVWTDGSA TRMGTPFWAN
+AKA64754.1|Lv.CTL4           81  2.58e-14 ILTYGLSGSY WLGASDQSYEGDWLWVADNS RVNKGTPYWA
+Ph.CTL14                     76  2.87e-14 QDTGHTDVSY WVGATDLQQEGKWEWIKTSS KIHMNTPLWG
+AIC80998.1|Sp.CTL3           90  4.38e-14 ATPGLTDHCF WIGGPDHQEEGHWVWESDGS DISMGTPHWD
+AGW27416.1|Mj.CTL1           99  4.38e-14 YSQGYTGRQF WLDGSDAQQEGKWVTSSGQA VPRGTPFWAA
+AHF21000.1|Mj.CTL7           99  4.38e-14 YSQGYTGRHF WLDGSDAQQEGKWVTSSGQA VPRGTPFWAA
+AGV68681.1|Lv.CTL5           92  4.86e-14 RNNGLDGYYY WIGASEEGHDGTFRWTDGTA VKMGTPFWGD
+Ph.CTL13                     56  7.34e-14 IMTYGLDGSY WLDASDIMYEGDWVWSDDSR VERGTPFWAI
+AAX63905.1|Fc.CTL7           89  7.34e-14 VFGKVEGPGV WIGGTDQYNEGVWNYINGDP IKAQDWSETQ
+Ph.CTL39                     80  1.10e-13 EGLPDGKVNY WIGGKDEEEEGTFRWVSTGL EIPSEVPFWY
+ACJ06429.1|Fc.CTL5           99  1.49e-13 HAYGYTGRQF WLDGSDAEKEGNWVTSSGQA VPRGTPFWAA
+AFU52948.1|Sp.CTL6           90  2.21e-13 ATPGLTDHCF WIGGSDHQEEGHRVWESDGS DISMGTPHWD
+Ph.CTL18                     82  2.21e-13 MSVAAITPAH WVGASQLGHQGYWTWIDSRP MDLSASYWRE
+ACJ06431.1|Fc.CTL3           88  3.26e-13 AYTLQQKVDY WMGGYDVLEEGRWKWLNGRE MPMGVPFWYP
+Ph.CTL9                      41  7.67e-13 ITTYGLSGSF WVGATDETVEDDWVWAMDET RVDAGTPFWA
+AEH05998.1|Lv.CTL3          212  3.60e-12 LVDNRITSDF WLGGRYEVDDLSWTWLDGTP MPRGTPFWSL
+Ph.CTL22                    227  1.32e-11 LEADESVNSY WVGAEDVSGQEEWTWVDGQL VPGGPPYWAS
+Ph.CTL24                    224  2.01e-11 LEVAERDKSH WVGAADISGHQEWFWVNGDP VPGGPPFWAT
+Ph.CTL7                      65  4.57e-11 MAQENAFTDA WIGLSNLQDEQVFEWSDGWP TLYTNWAHGE
+AFJ59946.1|Mj.CTL2-2        191  3.01e-10 LREIRMTTDF WVGGRYTKDTEAWTWLDDAL MDLGSPYWAV
+Ph.CTL32                    217  5.91e-10 LGAHQITSDF WIGGRLLNNTQGWTWNNGKL MEMGAPYWAV
+Ph.CTL21                     70  1.15e-09 QGTTGTADWV WVGAHLDEYTGQFRWLDGNF ANAGVPFWCP
+Ph.CTL2                     104  3.58e-09 QSSDLDTDLW IGGHTDSEEYSEWLWVDNTP MPKGSPYWAI
+Ph.CTL4                     159  3.84e-09 SVYSASGGWG FWIGASLDDDGTWHWVSGVP METQVDFWGR
+AHA83583.1|Mj.CTL2          206  1.50e-08 LKETLITSDF WIGGRYDMDVNAWAWAIDDT PMPLGSPYWA
+Ph.CTL27                     77  1.95e-08 PENEKGYDGY WINGIQDCYTGEYVFPSGEP VPMGTPFWAA
+Ph.CTL33                     82  3.73e-08 AQTVYDIHQY YLWLGGQQEEGEIRWLSGES IWKADQENAY
+Ph.CTL36                     60  2.54e-07 LTGLPDRPEY LWVGGTQLDDGSWVWSSGPQ AGVPIDMSKD
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+ADG85659.1|Mj.CTLD                4.7e-19  99_[1]_51
+ADW08727.1|Lv.CTL2                1.9e-18  92_[1]_50
+Ph.CTL6                           5.7e-18  64_[1]_51
+Ph.CTL25                          1.1e-17  89_[1]_54
+ADG85661.1|Mj.CTLB                3.4e-17  95_[1]_53
+AFJ59945.1|Mj.CTL2-1              5.4e-17  317_[1]_57
+Ph.CTL17                          5.4e-17  77_[1]_55
+Ph.CTL26                          6.2e-17  91_[1]_49
+AHV85237.1|Mj.CTL5                6.2e-17  83_[1]_54
+ADX60057.1|Pc.CTL1                6.2e-17  95_[1]_54
+AEO92002.1|Sp.CTL2                7.2e-17  98_[1]_58
+Ph.CTL19                          9.6e-17  65_[1]_55
+ADK27312.1|Pc.CTL4                1.5e-16  86_[1]_57
+Ph.CTL30                          1.5e-16  100_[1]_53
+AHH02662.1|Sp.CTL5                1.9e-16  91_[1]_47
+AIC80997.1|Sp.CTL4                1.9e-16  92_[1]_47
+Ph.CTL29                          3.3e-16  84_[1]_44
+ACJ06428.1|Fc.CTL2                4.3e-16  259_[1]_54
+Ph.CTL12                          7.2e-16  60_[1]_63
+ADG85666.1|Mj.CTLA                8.1e-16  62_[1]_50
+AGL46986.1|Pc.CTL5                9.2e-16  187_[1]_45
+ABI97374.1|Lv.CTL6                9.2e-16  269_[1]_56
+ADU25463.1|Sp.CTL9                  1e-15  271_[1]_56
+AGL93170.1|Fc.CTL8                1.3e-15  95_[1]_55
+ABA54612.1|Fc.CTL1                1.3e-15  90_[1]_49
+Ph.CTL15                          2.2e-15  63_[1]_56
+Ph.CTL31                          3.1e-15  39_[1]_42
+Ph.CTL20                          3.1e-15  83_[1]_45
+ADG85658.1|Mj.CTLE                4.4e-15  90_[1]_49
+Ph.CTL8                           8.7e-15  67_[1]_53
+Ph.CTL28                          9.7e-15  89_[1]_43
+ADW08726.1|Lv.CTL1                1.2e-14  89_[1]_47
+Ph.CTL16                          1.3e-14  75_[1]_55
+Ph.CTL1                           1.7e-14  71_[1]_44
+Ph.CTL35                          1.9e-14  62_[1]_53
+AEO92001.1|Sp.CTL1                2.1e-14  91_[1]_54
+AKA64754.1|Lv.CTL4                2.6e-14  80_[1]_56
+Ph.CTL14                          2.9e-14  75_[1]_54
+AIC80998.1|Sp.CTL3                4.4e-14  89_[1]_51
+AGW27416.1|Mj.CTL1                4.4e-14  98_[1]_218
+AHF21000.1|Mj.CTL7                4.4e-14  98_[1]_218
+AGV68681.1|Lv.CTL5                4.9e-14  91_[1]_52
+Ph.CTL13                          7.3e-14  55_[1]_50
+AAX63905.1|Fc.CTL7                7.3e-14  88_[1]_179
+Ph.CTL39                          1.1e-13  79_[1]_47
+ACJ06429.1|Fc.CTL5                1.5e-13  98_[1]_217
+AFU52948.1|Sp.CTL6                2.2e-13  89_[1]_51
+Ph.CTL18                          2.2e-13  81_[1]_53
+ACJ06431.1|Fc.CTL3                3.3e-13  87_[1]_51
+Ph.CTL9                           7.7e-13  40_[1]_51
+AEH05998.1|Lv.CTL3                3.6e-12  211_[1]_80
+Ph.CTL22                          1.3e-11  226_[1]_50
+Ph.CTL24                            2e-11  223_[1]_50
+Ph.CTL7                           4.6e-11  64_[1]_182
+AFJ59946.1|Mj.CTL2-2                3e-10  190_[1]_96
+Ph.CTL32                          5.9e-10  216_[1]_77
+Ph.CTL21                          1.1e-09  69_[1]_47
+Ph.CTL2                           3.6e-09  103_[1]_69
+Ph.CTL4                           3.8e-09  158_[1]_52
+AHA83583.1|Mj.CTL2                1.5e-08  205_[1]_88
+Ph.CTL27                          1.9e-08  76_[1]_47
+Ph.CTL33                          3.7e-08  81_[1]_49
+Ph.CTL36                          2.5e-07  59_[1]_51
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 1 width=20 seqs=63
+ADG85659.1|Mj.CTLD       (  100) WVGASDAGHEGSWTWTDGTP  1 
+ADW08727.1|Lv.CTL2       (   93) WIGGTDEGHEGSWTWVSDNS  1 
+Ph.CTL6                  (   65) WIGASDLGHEGNWRWPDGSL  1 
+Ph.CTL25                 (   90) WIGATDAGHEGSWVWPDGSA  1 
+ADG85661.1|Mj.CTLB       (   96) WIGGSDRTSEGTWVWTDGSS  1 
+AFJ59945.1|Mj.CTL2-1     (  318) WLGGSDAAEEGSWKWLDGAA  1 
+Ph.CTL17                 (   78) WVGASDKAQEGMWMWIDGRP  1 
+Ph.CTL26                 (   92) WIGGSDAQHEGYWVWVQDNT  1 
+AHV85237.1|Mj.CTL5       (   84) WLGGSDSVSEGDWRWVSGKS  1 
+ADX60057.1|Pc.CTL1       (   96) WIGATDEVTEGVWKWVNGKT  1 
+AEO92002.1|Sp.CTL2       (   99) WIGATDEATEGIWMWTDGTP  1 
+Ph.CTL19                 (   66) WMGASDEGHEGDWRWRDGTS  1 
+ADK27312.1|Pc.CTL4       (   87) WVGGTDEGHEGFWNWVVGRP  1 
+Ph.CTL30                 (  101) WVGGTDLGDEGSWYWIDGVP  1 
+AHH02662.1|Sp.CTL5       (   92) WLGGSDSVKEGEWRWENDEL  1 
+AIC80997.1|Sp.CTL4       (   93) WLGGSDSVKEGEWRWENDEL  1 
+Ph.CTL29                 (   85) WLGGYDIAQEGFWHWVNDQP  1 
+ACJ06428.1|Fc.CTL2       (  260) WLGGSDLASEGTWVYTTGEP  1 
+Ph.CTL12                 (   61) WIGGSDGEAEGEWKWLSGEA  1 
+ADG85666.1|Mj.CTLA       (   63) WIGGSDIEAEGNWTWVDDTD  1 
+AGL46986.1|Pc.CTL5       (  188) WVGGTDLGQEGEWYFINGNP  1 
+ABI97374.1|Lv.CTL6       (  270) WLGGTDLASEGTWVYTTGEP  1 
+ADU25463.1|Sp.CTL9       (  272) WLGGSDLTSEGTWVYTTGEP  1 
+AGL93170.1|Fc.CTL8       (   96) WIGGSDEAHEDLWLWTDGTL  1 
+ABA54612.1|Fc.CTL1       (   91) WLGATDEVEEGTWKFVNNRL  1 
+Ph.CTL15                 (   64) WVGGVDEGHEGDWRWLDDSK  1 
+Ph.CTL31                 (   40) WLGGTDQTVEGVWLWVTGDP  1 
+Ph.CTL20                 (   84) WIGGSDVGHEGIWRWVRNNG  1 
+ADG85658.1|Mj.CTLE       (   91) WLGATDEVNEGTWKFVNNRA  1 
+Ph.CTL8                  (   68) FVGGTDRGDEGAWYWVDGTP  1 
+Ph.CTL28                 (   90) WLGGYDIEQEGVWHWVSSKL  1 
+ADW08726.1|Lv.CTL1       (   90) WIGGTDAAREGTWLWATDNT  1 
+Ph.CTL16                 (   76) WVGASDTAMEGFWKWVDNRV  1 
+Ph.CTL1                  (   72) WLGGFDVGLEGSWHWVDGSL  1 
+Ph.CTL35                 (   63) FLGGTDADEEGNWRWIRGEP  1 
+AEO92001.1|Sp.CTL1       (   92) WIGSSDEAIEDTWVWTDGSA  1 
+AKA64754.1|Lv.CTL4       (   81) WLGASDQSYEGDWLWVADNS  1 
+Ph.CTL14                 (   76) WVGATDLQQEGKWEWIKTSS  1 
+AIC80998.1|Sp.CTL3       (   90) WIGGPDHQEEGHWVWESDGS  1 
+AGW27416.1|Mj.CTL1       (   99) WLDGSDAQQEGKWVTSSGQA  1 
+AHF21000.1|Mj.CTL7       (   99) WLDGSDAQQEGKWVTSSGQA  1 
+AGV68681.1|Lv.CTL5       (   92) WIGASEEGHDGTFRWTDGTA  1 
+Ph.CTL13                 (   56) WLDASDIMYEGDWVWSDDSR  1 
+AAX63905.1|Fc.CTL7       (   89) WIGGTDQYNEGVWNYINGDP  1 
+Ph.CTL39                 (   80) WIGGKDEEEEGTFRWVSTGL  1 
+ACJ06429.1|Fc.CTL5       (   99) WLDGSDAEKEGNWVTSSGQA  1 
+AFU52948.1|Sp.CTL6       (   90) WIGGSDHQEEGHRVWESDGS  1 
+Ph.CTL18                 (   82) WVGASQLGHQGYWTWIDSRP  1 
+ACJ06431.1|Fc.CTL3       (   88) WMGGYDVLEEGRWKWLNGRE  1 
+Ph.CTL9                  (   41) WVGATDETVEDDWVWAMDET  1 
+AEH05998.1|Lv.CTL3       (  212) WLGGRYEVDDLSWTWLDGTP  1 
+Ph.CTL22                 (  227) WVGAEDVSGQEEWTWVDGQL  1 
+Ph.CTL24                 (  224) WVGAADISGHQEWFWVNGDP  1 
+Ph.CTL7                  (   65) WIGLSNLQDEQVFEWSDGWP  1 
+AFJ59946.1|Mj.CTL2-2     (  191) WVGGRYTKDTEAWTWLDDAL  1 
+Ph.CTL32                 (  217) WIGGRLLNNTQGWTWNNGKL  1 
+Ph.CTL21                 (   70) WVGAHLDEYTGQFRWLDGNF  1 
+Ph.CTL2                  (  104) IGGHTDSEEYSEWLWVDNTP  1 
+Ph.CTL4                  (  159) FWIGASLDDDGTWHWVSGVP  1 
+AHA83583.1|Mj.CTL2       (  206) WIGGRYDMDVNAWAWAIDDT  1 
+Ph.CTL27                 (   77) WINGIQDCYTGEYVFPSGEP  1 
+Ph.CTL33                 (   82) YLWLGGQQEEGEIRWLSGES  1 
+Ph.CTL36                 (   60) LWVGGTQLDDGSWVWSSGPQ  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 20 w= 20 n= 14497 bayes= 7.82162 E= 1.3e-418 
+  -417   -478   -475   -436    -70   -484   -422   -242   -327   -218   -305   -434   -483   -387   -350   -443   -428   -375    471   -169 
+  -494   -604   -801   -689   -404   -242   -642    308   -569    212     61   -681   -684   -608   -612   -609   -502    200    -15   -562 
+  -303   -567    -53   -435   -570    337   -472   -180   -328   -577   -476   -182   -509   -472   -388   -365   -468   -225   -164   -554 
+   218   -556   -690   -685   -721    290   -101   -663   -600   -130   -619   -596   -604   -641   -627   -185   -469   -550   -832   -762 
+  -105   -398   -411   -200   -186   -181   -138   -167    -85   -421   -341   -267   -193   -342     16    288    202   -217   -572    -46 
+  -363   -537    366   -102   -479   -306   -349   -410   -333   -224   -417   -110   -511   -133   -397   -259   -257   -424   -579   -104 
+   106   -572    -43    189   -463   -220      3     85     -7    107   -328   -284   -403    100    -14     -9    -67      4   -593   -427 
+   120   -147    -92     97   -462    125   -306   -388     -7   -121     46   -128   -403    161   -230    -43     17     81   -592   -142 
+   -78   -573     85    130   -463   -138    247   -127     95   -201    -44     -7   -402    144    -85     19    -67    -86   -593     42 
+  -437   -961      3    378   -812   -618   -101   -619   -313   -632   -572   -506   -558    -23   -508   -519     10   -188   -927   -154 
+  -306   -570    -89   -124   -572    332   -471   -514   -329   -267   -479   -180   -511    -26   -390   -212   -468   -499   -618   -556 
+   -33   -573     46    130      0   -219      3    -39     95   -201    -44     29   -402    -78    -85     80    151     35   -593    -53 
+  -418   -478   -475   -437    -46   -484   -422   -241   -328   -267   -306   -434   -484   -387   -227   -444   -428   -375    470   -168 
+  -149   -520   -376    -60   -139   -456     94   -289    193      4     51    -61   -433   -258    215   -312    109    200   -571      4 
+  -583   -630   -648   -610     44   -652   -449   -516   -492   -426   -457   -572   -641   -534   -510   -592    -52   -525    459     47 
+   -36   -453   -584     10   -344   -528   -450    147   -353     75   -226   -165    -13   -424   -125     38    127    244   -537   -412 
+  -145   -573    244   -220   -464   -428   -306   -127     -8   -399    -44    165   -404    -78    -14    155     46   -168   -594   -428 
+  -508   -737    183   -427   -719    283   -443   -732   -373   -741   -711     70   -591   -461   -516   -101    -80   -719   -857   -633 
+   -78   -573     -7    144   -463    -86   -305   -391    128   -399   -328    103   -153    100    141     80    124    -86   -122   -427 
+   105   -572   -169   -114   -149   -222   -314   -390    -12    106   -333   -294    264    -82    -88     94     44   -169   -598   -435 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 20 w= 20 nsites= 63 E= 1.3e-418 
+ 0.000000  0.000000  0.000000  0.000000  0.047619  0.000000  0.000000  0.015873  0.000000  0.015873  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.904762  0.015873 
+ 0.000000  0.000000  0.000000  0.000000  0.000000  0.015873  0.000000  0.349206  0.000000  0.333333  0.031746  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.238095  0.031746  0.000000 
+ 0.000000  0.000000  0.063492  0.000000  0.000000  0.873016  0.000000  0.015873  0.000000  0.000000  0.000000  0.015873  0.000000  0.000000  0.000000  0.000000  0.000000  0.015873  0.015873  0.000000 
+ 0.301587  0.000000  0.000000  0.000000  0.000000  0.634921  0.015873  0.000000  0.000000  0.031746  0.000000  0.000000  0.000000  0.000000  0.000000  0.015873  0.000000  0.000000  0.000000  0.000000 
+ 0.031746  0.000000  0.000000  0.015873  0.015873  0.031746  0.015873  0.015873  0.015873  0.000000  0.000000  0.000000  0.015873  0.000000  0.063492  0.428571  0.285714  0.015873  0.000000  0.047619 
+ 0.000000  0.000000  0.809524  0.015873  0.000000  0.015873  0.000000  0.000000  0.000000  0.031746  0.000000  0.015873  0.000000  0.031746  0.000000  0.015873  0.015873  0.000000  0.000000  0.047619 
+ 0.142857  0.000000  0.047619  0.222222  0.000000  0.015873  0.031746  0.079365  0.015873  0.174603  0.000000  0.000000  0.000000  0.079365  0.031746  0.063492  0.031746  0.063492  0.000000  0.000000 
+ 0.158730  0.015873  0.031746  0.111111  0.000000  0.222222  0.000000  0.000000  0.015873  0.031746  0.031746  0.015873  0.000000  0.126984  0.000000  0.047619  0.063492  0.111111  0.000000  0.015873 
+ 0.031746  0.000000  0.126984  0.142857  0.000000  0.031746  0.190476  0.015873  0.047619  0.015873  0.015873  0.047619  0.000000  0.111111  0.015873  0.079365  0.031746  0.031746  0.000000  0.063492 
+ 0.000000  0.000000  0.063492  0.793651  0.000000  0.000000  0.015873  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.031746  0.000000  0.000000  0.063492  0.015873  0.000000  0.015873 
+ 0.000000  0.000000  0.047619  0.031746  0.000000  0.825397  0.000000  0.000000  0.000000  0.015873  0.000000  0.015873  0.000000  0.047619  0.000000  0.015873  0.000000  0.000000  0.000000  0.000000 
+ 0.047619  0.000000  0.095238  0.142857  0.047619  0.015873  0.031746  0.031746  0.047619  0.015873  0.015873  0.063492  0.000000  0.015873  0.015873  0.126984  0.174603  0.079365  0.000000  0.031746 
+ 0.000000  0.000000  0.000000  0.000000  0.063492  0.000000  0.000000  0.015873  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.015873  0.000000  0.000000  0.000000  0.888889  0.015873 
+ 0.015873  0.000000  0.000000  0.031746  0.015873  0.000000  0.063492  0.000000  0.111111  0.079365  0.031746  0.031746  0.000000  0.000000  0.190476  0.000000  0.126984  0.253968  0.000000  0.047619 
+ 0.000000  0.000000  0.000000  0.000000  0.063492  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.047619  0.000000  0.825397  0.063492 
+ 0.047619  0.000000  0.000000  0.063492  0.000000  0.000000  0.000000  0.111111  0.000000  0.126984  0.000000  0.015873  0.047619  0.000000  0.015873  0.095238  0.142857  0.333333  0.000000  0.000000 
+ 0.015873  0.000000  0.396825  0.000000  0.000000  0.000000  0.000000  0.015873  0.015873  0.000000  0.015873  0.174603  0.000000  0.015873  0.031746  0.222222  0.079365  0.015873  0.000000  0.000000 
+ 0.000000  0.000000  0.238095  0.000000  0.000000  0.619048  0.000000  0.000000  0.000000  0.000000  0.000000  0.079365  0.000000  0.000000  0.000000  0.031746  0.031746  0.000000  0.000000  0.000000 
+ 0.031746  0.000000  0.063492  0.158730  0.000000  0.047619  0.000000  0.000000  0.063492  0.000000  0.000000  0.111111  0.015873  0.079365  0.111111  0.126984  0.142857  0.031746  0.015873  0.000000 
+ 0.142857  0.000000  0.015873  0.015873  0.015873  0.015873  0.000000  0.000000  0.015873  0.174603  0.000000  0.000000  0.333333  0.015873  0.015873  0.142857  0.079365  0.015873  0.000000  0.000000 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 1 regular expression
+--------------------------------------------------------------------------------
+W[ILV]G[GA][ST]DEGxEGxWVWV[DS][GD]xP
+--------------------------------------------------------------------------------
+
+
+
+
+Time 19.04 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  2 MEME	width =  21  sites =  78  llr = 1808  E-value = 5.7e-372
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 2 Description
+--------------------------------------------------------------------------------
+Simplified        A  :::::7:11::1112:141::
+pos.-specific     C  :::::::::a:::::::::::
+probability       D  :::13::2:::1:114:::13
+matrix            E  1::34::1::1111:11:::1
+                  F  ::::::::2::::::::::::
+                  G  2::1:1:1::11:4411:1::
+                  H  :::1::::::1::::::::::
+                  I  ::::::::::::1:::1:12:
+                  K  1:::::11::1:::::::2::
+                  L  1:::::::2:::4:::61:11
+                  M  1::::2::1:::1::::::::
+                  N  :1::1:11:::1:::1::1::
+                  P  :1:::::::::::::::::1:
+                  Q  :::11::1::3::1::::1::
+                  R  ::::::71::11::::::::1
+                  S  12:1::::::13111::11:1
+                  T  :4:1:::11:::::1:::111
+                  V  1:::::1::::::::::212:
+                  W  ::9:::::::::::::1::::
+                  Y  1::1:::13::::::::::::
+
+         bits    5.5                      
+                 4.9                      
+                 4.4   *      *           
+                 3.8   *      *           
+Relative         3.3   *      *           
+Entropy          2.7   *  **  *           
+(33.4 bits)      2.2   *  **  *           
+                 1.6  ** *** *** *   *    
+                 1.1 ******* *** ****** * 
+                 0.5 *********************
+                 0.0 ---------------------
+
+Multilevel           xTWEEARxYCQSLGGDLAxID
+consensus             S  D   F            
+sequence                                  
+                                          
+                                          
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 2 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                    Site       
+-------------             ----- ---------            ---------------------
+Ph.CTL25                     47  1.36e-17 RCLLIDFNDF STWEGMRTFCQSLGGDLVKID SGDLFSAIVR
+Ph.CTL33                     36  2.68e-17 CFYIHQFVPL LSWEDARTFCQSAGGDLAQPE FFGALIAYLY
+Ph.CTL10                     23  2.14e-16 ECFYVNPYQR VSWGEARKFCQGLGAELAQPS DVNKLRATLL
+Ph.CTL16                     34  6.13e-16 YRFSQEYGDT KTWEQARTFCQFLDSDLAVLD LDCNDNNHLI
+AAX63905.1|Fc.CTL7           50  1.69e-15 DECFYLSDVK KNWNEARRRCQGLGGDLAVPS DVPALDAFVF
+AFN66645.1|Fc.CTL9          110  3.39e-15 GCFTVHSDVR KTWEEARDDCKNIDGDLANPF DLFDLALFLD
+Ph.CTL22                     28  3.89e-15 QCLYLEYETL MSWQEARDYCRSMAGDGAEGD LASFPTCGDF
+ADG85659.1|Mj.CTLD           57  4.46e-15 RCLIIESVRK GTWSDMREMCQMLNGDLVKIN TMEIMGGIVE
+AEO92001.1|Sp.CTL1           49  7.65e-15 RCVHVALTTS GSWHDMRKYCQELGGELVNLA DVQFYSDLIL
+AEO92002.1|Sp.CTL2           56  8.73e-15 RCLHIEVATT GSWHNMRKLCQDLGGDLVNLS DLQFYGDLIL
+Ph.CTL24                     27  4.09e-14 MCVYVNKDMP LSWQEARDFCTSMAGDGATSD LAIFPTCDAF
+AEH05998.1|Lv.CTL3          170  5.93e-14 QCLSVFYVGS SSWGEARSFCKHIGGDLLSIQ NVNHYVDLVN
+Ph.CTL4                     113  7.58e-14 GCFTIHSTER YSWEQARQHCRDIEGDLANPF DLYDVVLFLD
+Ph.CTL6                      22  8.56e-14 RCLVVLDKVT GSWADMRKQCNNLGGDLLKVD DANFMADLIQ
+ADG85658.1|Mj.CTLE           47  9.66e-14 RCIFLDAYVT YTWQDAVDLCKSHGGQLLVIE DCETFALVYD
+Ph.CTL8                      22  1.38e-13 KCYYLELEEP RQWDEARTRCQELDGDLAVIH TCDDLGDLVR
+Ph.CTL36                     21  1.75e-13 ECYHLKKDEK LGWEDARRDCERLGGDLASPR SLPALRDYLT
+Ph.CTL18                     35  1.97e-13 ENCYYFATET MSWDEARDYCRSLSQNFASDL AVFDFTCDDY
+Ph.CTL30                     55  1.97e-13 YCYYFVLNVT TSWSEGRQYCQRFGGDLAVIH NCDHFGVLVR
+AHA83583.1|Mj.CTL2          164  2.79e-13 KCLAFFSLAK VPWPEARQFCKSIYGDLVTFK NLQDFGHVIE
+Ph.CTL35                     22  2.79e-13 QCYYANKFHK LQWEEAHRFCQGMDGELAQPR HVNALLVFLL
+ADG85661.1|Mj.CTLB           53  3.13e-13 RCLFVDNVAH LNWDAARTFCQGFQGDLVTLD EANLLGYIVD
+Ph.CTL27                     34  3.94e-13 QCLYFANAFK KTREEGRLYCESLGGDLVAIK TATQMQNIMK
+AGV68681.1|Lv.CTL5           49  4.94e-13 DHCIQFRTQE VSWYEGKNLCSNMGAKLAKVD DANFMYYLVK
+ADW08726.1|Lv.CTL1           47  6.91e-13 VCLSFATYGK GTWTNLRQMCQAQGADLAKLD GNLHFQVIQY
+Ph.CTL14                     33  8.63e-13 RCLAVENIVA GTWENMRTVCQDMNSDLVVLQ DANFLSSIFQ
+Ph.CTL19                     23  1.07e-12 RCLFFDPLAT GTWHQTQALCESLHGNLAKID TGIFLADIVD
+Ph.CTL26                     49  1.84e-12 VCLRFAKEFK GTWDTMRFVCQSEQADLAKLE GQLHNEVYRY
+AKA64754.1|Lv.CTL4           39  2.28e-12 VCFYFHQDQS MPWEDAKRFCETSGAVLAKVA NAQTLREFYE
+ADG85666.1|Mj.CTLA           20  3.13e-12 ECLFFHQETR MPWQDARIFCQELGGGDLAVI DRANTLREIY
+ADU25463.1|Sp.CTL9          229  3.47e-12 LCLMFVTWAE ETWEDARRACTGASAELLAIT DVEVFRALYL
+ABI97374.1|Lv.CTL6          227  3.85e-12 LCLMFVTWAE ETWEDARRACAGASAELLAIT DVEVFRALYL
+AGL93170.1|Fc.CTL8           53  4.27e-12 RCLFVAHQST GNWYAMRDYCILLRGDLLKLD DASLLTDIVE
+Ph.CTL11                     39  4.27e-12 FSWCNDRGQK YTWSEAINYCQQLGQGWHAVS IETQKENAAI
+ACJ06428.1|Fc.CTL2           56  5.24e-12 KCLMFEIFAS ETHEEAKNFCHDAQGELASIT TATDFKNLVD
+Ph.CTL1                      25  7.11e-12 LCIYVNSREK MTWYEGRDYCRSLQSTEGQPD LALVTSCHDL
+ACR20475.1|Pc.CTL6          142  8.69e-12 FSWCADGGQK YVWEQAKNYCKKLGPGWSSVS IETPTENQFI
+ABA54612.1|Fc.CTL1           47  1.06e-11 RCIFLDAFVS YTWQETVDLCKSHGGEILTIE DCETFALVYD
+Ph.CTL32                    175  1.43e-11 ACISVFFIGN VSWGDAGAFCNSIGGDLITFD DVIQFTKVVR
+AGW27416.1|Mj.CTL1          220  1.43e-11 LCMMFVTWAQ VTWTEARQTCGDSSDLLAITD AEVLRAVYLY
+AHF21000.1|Mj.CTL7          220  1.43e-11 LCMMFVTWAQ VTWTEARQTCGDSSDLLAITD AEVLRALYLY
+Ph.CTL12                     21  1.57e-11 QCFYLSHEVK LSWHDAKAACEGMEAQLARPR YIRGLANFLL
+Ph.CTL37                     68  2.10e-11 FSWCHNYGQT YTWHDATDYCSSLGNGFQAVS IEDSSEDDFL
+Ph.CTL3                      32  2.10e-11 LSWCHDGGAS YSWENAKHYCQMLGSGFRALS IEDQGEDDFI
+ADX60057.1|Pc.CTL1           53  2.32e-11 RCILFAVAEA GAWHDMGYFCETLGGKLVVID DSTFMEVLTD
+Ph.CTL29                     38  4.09e-11 ACIYVNSEEK MNWSQARDYCRAIDYSYGQPD LAVVNDCRDL
+ADK27312.1|Pc.CTL4           41  5.93e-11 EGCYYLSQTA MTWSEARGYCQDLLPGEDADL AVFETYCNDY
+Ph.CTL2                      61  7.12e-11 RCIAFFTVAR VPWSAAREFCHGIFGDLITFK NAHQYIDLLN
+Ph.CTL17                     34  7.12e-11 YLFSVEIGDT SSWDLARDACHLWDADLAVLD MDCNDNHHLI
+AFJ59945.1|Mj.CTL2-1        275  8.55e-11 VCVFVEPLFS SDWGTMKYFCHEIGADILKIE DANFFHQLLR
+AGI92548.1|Pc.CTL3           42  8.55e-11 YAVIDEPGSN ITWSECRTLCQGLAFDAWSVD LATFDNAEQL
+Ph.CTL13                     14  1.22e-10 HCLSFQSQVV LPWAEAQEFCGNMSTTLAVVR SPTTLRGIYE
+Ph.CTL34                     78  1.34e-10 PQTGVKKGVK VNWLEARNLCRRYCMDAVGME SEEENSMIFD
+Ph.CTL7                      24  1.75e-10 DACYRTYASA KTWEEAESTCAHEGAHLASVH DLSEDSFMWV
+AHA85979.1|Mj.CTL4           92  2.27e-10 QDHPKMKGQK VDWLEARNLCRERCMDAVGME TRQENDMIFE
+ADW08727.1|Lv.CTL2           50  2.48e-10 VCLKFVMYGK GTWYSLRGLCQAEGADLAELR GELHHQVYEY
+Ph.CTL28                     43  2.48e-10 ACILVNSKDK MNWTQARDYCKSVAYAYDPTD LAVVTNCQDL
+Ph.CTL23                     42  2.70e-10 FGVIDQQGVD LTWDDCRKLCQDLSTSESHVD LATFDDAEQL
+Ph.CTL5                     140  2.70e-10 FSWCSDGGRK YVWEDANGYCEKLGSGWGGVS IETEEENQYI
+Ph.CTL15                     21  3.20e-10 RCLFIDTVGT GTWTERKSLCEQLVGQMVKID DANLLGAIYD
+ACJ06429.1|Fc.CTL5          219  3.20e-10 LCLMFVTWAV ETWHEAQQTCGDSSDLLAITD AEVLRAVYLY
+AFJ59946.1|Mj.CTL2-2        147  3.49e-10 KCLSLLYFVK VGWGEARALCSAIGGELALYP SASDGEFAAL
+Ph.CTL38                     37  3.80e-10 FSWRHDGGQK YPWDKANYYCSSLGYGWQGVS IESRKEDKII
+AHH02662.1|Sp.CTL5           43  4.90e-10 TTCIKVFEEI KTWEEARDACKSTENFDTGSP HLARINDCSL
+AIC80997.1|Sp.CTL4           44  4.90e-10 ITCIKVFEEI KTWEEARDACKSTENFDTGSP HLARINDCSL
+AFU52948.1|Sp.CTL6           47  5.79e-10 PECLNFVLNT GTWQHMNYMCGIIHANISKIT GDLHYRLYNY
+AIC80998.1|Sp.CTL3           47  5.79e-10 PECLNFVLNT GTWQHMNYMCGIIHANISKIT GDLHYRLYNY
+AHM25604.1|Sp.CTL7           42  1.12e-09 FNVIDKPGED LTWEECRGLCEKEAEGEWKAD LAVFDNAEEL
+AHV85237.1|Mj.CTL5           44  1.31e-09 QCFKAVLEYR SRWCDARLECSRMNADLASPN DVGSLHEALL
+ACJ06432.1|Fc.CTL4           76  1.54e-09 QDHPEMKGKK VDWLEARNQCRLRCMDAVGME TKQENDMIFE
+ACJ06430.1|Fc.CTL6          138  1.54e-09 FSWRRDRDRK FSHTDAVNYCRNLGDRWNAIS IETNEESDYI
+AHA83582.1|Mj.CTL3          130  1.96e-09 FSWRRDRNGK YRHGDAVNYCRNLGSRWNAIS IETREESDYI
+Ph.CTL21                     20  2.12e-09 DRCFYMNDEF LTWDRARTRCGELAEDYNSDL AVLSDCELFT
+Ph.CTL20                     37  4.95e-09 SCLHVPPEKK MNWVDARHFCQNLPQARYTDL AILDDCSQLS
+AGL46986.1|Pc.CTL5          144  5.76e-09 QCYYFHTSTT LSWQDAREYCWSMDTAADLAV VDDCHQFAII
+ACJ06431.1|Fc.CTL3           41  1.21e-08 NGCYMVSDSP ATWENARNACLSSPIELETDL AMISDCEEHH
+ADF27340.1|Sp.CTL8          117  1.10e-07 LSWCSQPGRT FSYQQAEDYCRSLDTNGHPVG FHSLSLETPV
+Ph.CTL39                     32  2.25e-07 FGCFSFPSYV MNWNDSNEYCKSMAPPGTIGG LAHIEDCTQH
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 2 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+Ph.CTL25                          1.4e-17  46_[2]_96
+Ph.CTL33                          2.7e-17  35_[2]_94
+Ph.CTL10                          2.1e-16  22_[2]_87
+Ph.CTL16                          6.1e-16  33_[2]_96
+AAX63905.1|Fc.CTL7                1.7e-15  49_[2]_217
+AFN66645.1|Fc.CTL9                3.4e-15  109_[2]_90
+Ph.CTL22                          3.9e-15  27_[2]_248
+ADG85659.1|Mj.CTLD                4.5e-15  56_[2]_93
+AEO92001.1|Sp.CTL1                7.6e-15  48_[2]_96
+AEO92002.1|Sp.CTL2                8.7e-15  55_[2]_100
+Ph.CTL24                          4.1e-14  26_[2]_246
+AEH05998.1|Lv.CTL3                5.9e-14  169_[2]_121
+Ph.CTL4                           7.6e-14  112_[2]_97
+Ph.CTL6                           8.6e-14  21_[2]_93
+ADG85658.1|Mj.CTLE                9.7e-14  46_[2]_92
+Ph.CTL8                           1.4e-13  21_[2]_98
+Ph.CTL36                          1.8e-13  20_[2]_89
+Ph.CTL18                            2e-13  34_[2]_99
+Ph.CTL30                            2e-13  54_[2]_98
+AHA83583.1|Mj.CTL2                2.8e-13  163_[2]_129
+Ph.CTL35                          2.8e-13  21_[2]_93
+ADG85661.1|Mj.CTLB                3.1e-13  52_[2]_95
+Ph.CTL27                          3.9e-13  33_[2]_89
+AGV68681.1|Lv.CTL5                4.9e-13  48_[2]_94
+ADW08726.1|Lv.CTL1                6.9e-13  46_[2]_89
+Ph.CTL14                          8.6e-13  32_[2]_96
+Ph.CTL19                          1.1e-12  22_[2]_97
+Ph.CTL26                          1.8e-12  48_[2]_91
+AKA64754.1|Lv.CTL4                2.3e-12  38_[2]_97
+ADG85666.1|Mj.CTLA                3.1e-12  19_[2]_92
+ADU25463.1|Sp.CTL9                3.5e-12  228_[2]_98
+ABI97374.1|Lv.CTL6                3.8e-12  226_[2]_98
+AGL93170.1|Fc.CTL8                4.3e-12  52_[2]_97
+Ph.CTL11                          4.3e-12  38_[2]_104
+ACJ06428.1|Fc.CTL2                5.2e-12  55_[2]_257
+Ph.CTL1                           7.1e-12  24_[2]_90
+ACR20475.1|Pc.CTL6                8.7e-12  141_[2]_109
+ABA54612.1|Fc.CTL1                1.1e-11  46_[2]_92
+Ph.CTL32                          1.4e-11  174_[2]_118
+AGW27416.1|Mj.CTL1                1.4e-11  219_[2]_96
+AHF21000.1|Mj.CTL7                1.4e-11  219_[2]_96
+Ph.CTL12                          1.6e-11  20_[2]_102
+Ph.CTL37                          2.1e-11  67_[2]_95
+Ph.CTL3                           2.1e-11  31_[2]_96
+ADX60057.1|Pc.CTL1                2.3e-11  52_[2]_96
+Ph.CTL29                          4.1e-11  37_[2]_90
+ADK27312.1|Pc.CTL4                5.9e-11  40_[2]_102
+Ph.CTL2                           7.1e-11  60_[2]_111
+Ph.CTL17                          7.1e-11  33_[2]_98
+AFJ59945.1|Mj.CTL2-1              8.5e-11  274_[2]_99
+AGI92548.1|Pc.CTL3                8.5e-11  41_[2]_105
+Ph.CTL13                          1.2e-10  13_[2]_91
+Ph.CTL34                          1.3e-10  77_[2]_132
+Ph.CTL7                           1.7e-10  23_[2]_222
+AHA85979.1|Mj.CTL4                2.3e-10  91_[2]_141
+ADW08727.1|Lv.CTL2                2.5e-10  49_[2]_92
+Ph.CTL28                          2.5e-10  42_[2]_89
+Ph.CTL23                          2.7e-10  41_[2]_104
+Ph.CTL5                           2.7e-10  139_[2]_112
+Ph.CTL15                          3.2e-10  20_[2]_98
+ACJ06429.1|Fc.CTL5                3.2e-10  218_[2]_96
+AFJ59946.1|Mj.CTL2-2              3.5e-10  146_[2]_139
+Ph.CTL38                          3.8e-10  36_[2]_102
+AHH02662.1|Sp.CTL5                4.9e-10  42_[2]_95
+AIC80997.1|Sp.CTL4                4.9e-10  43_[2]_95
+AFU52948.1|Sp.CTL6                5.8e-10  46_[2]_93
+AIC80998.1|Sp.CTL3                5.8e-10  46_[2]_93
+AHM25604.1|Sp.CTL7                1.1e-09  41_[2]_107
+AHV85237.1|Mj.CTL5                1.3e-09  43_[2]_93
+ACJ06432.1|Fc.CTL4                1.5e-09  75_[2]_141
+ACJ06430.1|Fc.CTL6                1.5e-09  137_[2]_100
+AHA83582.1|Mj.CTL3                  2e-09  129_[2]_100
+Ph.CTL21                          2.1e-09  19_[2]_96
+Ph.CTL20                            5e-09  36_[2]_91
+AGL46986.1|Pc.CTL5                5.8e-09  143_[2]_88
+ACJ06431.1|Fc.CTL3                1.2e-08  40_[2]_97
+ADF27340.1|Sp.CTL8                1.1e-07  116_[2]_107
+Ph.CTL39                          2.3e-07  31_[2]_94
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 2 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 2 width=21 seqs=78
+Ph.CTL25                 (   47) STWEGMRTFCQSLGGDLVKID  1 
+Ph.CTL33                 (   36) LSWEDARTFCQSAGGDLAQPE  1 
+Ph.CTL10                 (   23) VSWGEARKFCQGLGAELAQPS  1 
+Ph.CTL16                 (   34) KTWEQARTFCQFLDSDLAVLD  1 
+AAX63905.1|Fc.CTL7       (   50) KNWNEARRRCQGLGGDLAVPS  1 
+AFN66645.1|Fc.CTL9       (  110) KTWEEARDDCKNIDGDLANPF  1 
+Ph.CTL22                 (   28) MSWQEARDYCRSMAGDGAEGD  1 
+ADG85659.1|Mj.CTLD       (   57) GTWSDMREMCQMLNGDLVKIN  1 
+AEO92001.1|Sp.CTL1       (   49) GSWHDMRKYCQELGGELVNLA  1 
+AEO92002.1|Sp.CTL2       (   56) GSWHNMRKLCQDLGGDLVNLS  1 
+Ph.CTL24                 (   27) LSWQEARDFCTSMAGDGATSD  1 
+AEH05998.1|Lv.CTL3       (  170) SSWGEARSFCKHIGGDLLSIQ  1 
+Ph.CTL4                  (  113) YSWEQARQHCRDIEGDLANPF  1 
+Ph.CTL6                  (   22) GSWADMRKQCNNLGGDLLKVD  1 
+ADG85658.1|Mj.CTLE       (   47) YTWQDAVDLCKSHGGQLLVIE  1 
+Ph.CTL8                  (   22) RQWDEARTRCQELDGDLAVIH  1 
+Ph.CTL36                 (   21) LGWEDARRDCERLGGDLASPR  1 
+Ph.CTL18                 (   35) MSWDEARDYCRSLSQNFASDL  1 
+Ph.CTL30                 (   55) TSWSEGRQYCQRFGGDLAVIH  1 
+AHA83583.1|Mj.CTL2       (  164) VPWPEARQFCKSIYGDLVTFK  1 
+Ph.CTL35                 (   22) LQWEEAHRFCQGMDGELAQPR  1 
+ADG85661.1|Mj.CTLB       (   53) LNWDAARTFCQGFQGDLVTLD  1 
+Ph.CTL27                 (   34) KTREEGRLYCESLGGDLVAIK  1 
+AGV68681.1|Lv.CTL5       (   49) VSWYEGKNLCSNMGAKLAKVD  1 
+ADW08726.1|Lv.CTL1       (   47) GTWTNLRQMCQAQGADLAKLD  1 
+Ph.CTL14                 (   33) GTWENMRTVCQDMNSDLVVLQ  1 
+Ph.CTL19                 (   23) GTWHQTQALCESLHGNLAKID  1 
+Ph.CTL26                 (   49) GTWDTMRFVCQSEQADLAKLE  1 
+AKA64754.1|Lv.CTL4       (   39) MPWEDAKRFCETSGAVLAKVA  1 
+ADG85666.1|Mj.CTLA       (   20) MPWQDARIFCQELGGGDLAVI  1 
+ADU25463.1|Sp.CTL9       (  229) ETWEDARRACTGASAELLAIT  1 
+ABI97374.1|Lv.CTL6       (  227) ETWEDARRACAGASAELLAIT  1 
+AGL93170.1|Fc.CTL8       (   53) GNWYAMRDYCILLRGDLLKLD  1 
+Ph.CTL11                 (   39) YTWSEAINYCQQLGQGWHAVS  1 
+ACJ06428.1|Fc.CTL2       (   56) ETHEEAKNFCHDAQGELASIT  1 
+Ph.CTL1                  (   25) MTWYEGRDYCRSLQSTEGQPD  1 
+ACR20475.1|Pc.CTL6       (  142) YVWEQAKNYCKKLGPGWSSVS  1 
+ABA54612.1|Fc.CTL1       (   47) YTWQETVDLCKSHGGEILTIE  1 
+Ph.CTL32                 (  175) VSWGDAGAFCNSIGGDLITFD  1 
+AGW27416.1|Mj.CTL1       (  220) VTWTEARQTCGDSSDLLAITD  1 
+AHF21000.1|Mj.CTL7       (  220) VTWTEARQTCGDSSDLLAITD  1 
+Ph.CTL12                 (   21) LSWHDAKAACEGMEAQLARPR  1 
+Ph.CTL37                 (   68) YTWHDATDYCSSLGNGFQAVS  1 
+Ph.CTL3                  (   32) YSWENAKHYCQMLGSGFRALS  1 
+ADX60057.1|Pc.CTL1       (   53) GAWHDMGYFCETLGGKLVVID  1 
+Ph.CTL29                 (   38) MNWSQARDYCRAIDYSYGQPD  1 
+ADK27312.1|Pc.CTL4       (   41) MTWSEARGYCQDLLPGEDADL  1 
+Ph.CTL2                  (   61) VPWSAAREFCHGIFGDLITFK  1 
+Ph.CTL17                 (   34) SSWDLARDACHLWDADLAVLD  1 
+AFJ59945.1|Mj.CTL2-1     (  275) SDWGTMKYFCHEIGADILKIE  1 
+AGI92548.1|Pc.CTL3       (   42) ITWSECRTLCQGLAFDAWSVD  1 
+Ph.CTL13                 (   14) LPWAEAQEFCGNMSTTLAVVR  1 
+Ph.CTL34                 (   78) VNWLEARNLCRRYCMDAVGME  1 
+Ph.CTL7                  (   24) KTWEEAESTCAHEGAHLASVH  1 
+AHA85979.1|Mj.CTL4       (   92) VDWLEARNLCRERCMDAVGME  1 
+ADW08727.1|Lv.CTL2       (   50) GTWYSLRGLCQAEGADLAELR  1 
+Ph.CTL28                 (   43) MNWTQARDYCKSVAYAYDPTD  1 
+Ph.CTL23                 (   42) LTWDDCRKLCQDLSTSESHVD  1 
+Ph.CTL5                  (  140) YVWEDANGYCEKLGSGWGGVS  1 
+Ph.CTL15                 (   21) GTWTERKSLCEQLVGQMVKID  1 
+ACJ06429.1|Fc.CTL5       (  219) ETWHEAQQTCGDSSDLLAITD  1 
+AFJ59946.1|Mj.CTL2-2     (  147) VGWGEARALCSAIGGELALYP  1 
+Ph.CTL38                 (   37) YPWDKANYYCSSLGYGWQGVS  1 
+AHH02662.1|Sp.CTL5       (   43) KTWEEARDACKSTENFDTGSP  1 
+AIC80997.1|Sp.CTL4       (   44) KTWEEARDACKSTENFDTGSP  1 
+AFU52948.1|Sp.CTL6       (   47) GTWQHMNYMCGIIHANISKIT  1 
+AIC80998.1|Sp.CTL3       (   47) GTWQHMNYMCGIIHANISKIT  1 
+AHM25604.1|Sp.CTL7       (   42) LTWEECRGLCEKEAEGEWKAD  1 
+AHV85237.1|Mj.CTL5       (   44) SRWCDARLECSRMNADLASPN  1 
+ACJ06432.1|Fc.CTL4       (   76) VDWLEARNQCRLRCMDAVGME  1 
+ACJ06430.1|Fc.CTL6       (  138) FSHTDAVNYCRNLGDRWNAIS  1 
+AHA83582.1|Mj.CTL3       (  130) YRHGDAVNYCRNLGSRWNAIS  1 
+Ph.CTL21                 (   20) LTWDRARTRCGELAEDYNSDL  1 
+Ph.CTL20                 (   37) MNWVDARHFCQNLPQARYTDL  1 
+AGL46986.1|Pc.CTL5       (  144) LSWQDAREYCWSMDTAADLAV  1 
+ACJ06431.1|Fc.CTL3       (   41) ATWENARNACLSSPIELETDL  1 
+ADF27340.1|Sp.CTL8       (  117) FSYQQAEDYCRSLDTNGHPVG  1 
+Ph.CTL39                 (   32) MNWNDSNEYCKSMAPPGTIGG  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 2 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 20 w= 21 n= 14416 bayes= 9.70932 E= 5.7e-372 
+  -188   -483   -607    -19    -69    100   -477    -98    159     89    248   -499   -538   -448   -153    -16   -176    127   -565    147 
+  -209   -548    -88   -441   -559   -181   -476   -414   -313   -523   -397     86     47    -68    -69    168    297   -119   -686   -584 
+  -447   -507   -505   -466   -198   -514    -78   -411   -357   -295   -334   -462   -513   -415   -224   -472   -457   -403    473   -168 
+  -105   -175     57    217   -491    -20    144   -418   -140    -97   -356    -83   -180    150   -257     35     42   -196   -621     14 
+   -61   -610    199    276   -501   -248    -25   -427    -38   -231   -365     31   -437    116   -115   -184    -96   -417   -630   -464 
+   341    -39   -513   -430   -434    -91   -486   -341   -342   -170    232   -466   -542   -439   -180   -140   -123   -230   -576   -512 
+  -465   -674   -560   -110   -656   -177   -122   -168    188   -534   -482     23   -569     -2    401   -476   -204    -29   -687   -588 
+   -26   -600    144     27   -175    -75    -24   -155    127   -149   -356    124   -430    116     94    -71     80   -409   -621     45 
+    19   -420   -158   -199    226   -468    -56   -279   -264     79     89   -382   -412    -86    -30   -315    -43   -118   -325    291 
+  -559    459   -739   -675   -678   -734   -687   -572   -623   -648   -579   -699   -712   -689   -631   -658   -588   -651   -846   -758 
+  -105   -601   -353    102   -491      1     67   -155    215   -229   -356    -83   -430    279    175     -9    -94   -409   -150   -455 
+   -26   -600     74     50   -175     36    -24    -67     68    -97     18     75   -430    -37     41    190    -94   -409   -621   -455 
+   -30   -480   -639    -20    -69   -563    -33    179   -403    238    247   -517   -543   -156    -65    -17   -100   -139   -144   -165 
+    45    -22     57      1   -175    211     29   -418   -140   -229   -356    -34    -94     44   -112     52   -316   -196   -620   -170 
+   148   -600    -34    -76   -175    206   -333   -155   -140   -425     73    -34    -40      9   -257     15    -11   -407   -620    -26 
+   -60   -600    255    102    -83     36   -108   -418     26    -97   -356     31   -180      9    -42   -116    -94   -196   -621   -455 
+   -22   -504   -105    -39    -30    -98   -493     36   -397    295    -36   -534   -523   -438   -169   -471   -393   -259     88    -41 
+   242   -562    -73   -144   -472   -114    -26    -64   -154     51   -341    -37   -440    -41   -117    -37    -48    140    -53   -171 
+    93   -600   -353    -75   -491      1   -108     26    260   -149   -356      2    -94     72   -112     68     80     88   -620   -455 
+  -114   -479    -13   -532    -16   -172   -489    254   -410     90     85   -520    143   -474   -460    -85    -11    160   -563   -164 
+  -105   -600    204     87    -83   -165     29   -155     68    -30   -356    -83    -40    -37     70     95     18   -196   -621   -455 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 2 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 20 w= 21 nsites= 78 E= 5.7e-372 
+ 0.012821  0.000000  0.000000  0.051282  0.025641  0.179487  0.000000  0.012821  0.089744  0.141026  0.128205  0.000000  0.000000  0.000000  0.012821  0.064103  0.012821  0.141026  0.000000  0.128205 
+ 0.012821  0.000000  0.038462  0.000000  0.000000  0.025641  0.000000  0.000000  0.000000  0.000000  0.000000  0.102564  0.076923  0.025641  0.025641  0.243590  0.423077  0.025641  0.000000  0.000000 
+ 0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.038462  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.012821  0.000000  0.000000  0.000000  0.935897  0.012821 
+ 0.025641  0.012821  0.102564  0.269231  0.000000  0.076923  0.089744  0.000000  0.000000  0.038462  0.000000  0.025641  0.012821  0.115385  0.000000  0.089744  0.076923  0.012821  0.000000  0.051282 
+ 0.038462  0.000000  0.282051  0.410256  0.000000  0.012821  0.025641  0.000000  0.012821  0.012821  0.000000  0.064103  0.000000  0.089744  0.012821  0.012821  0.025641  0.000000  0.000000  0.000000 
+ 0.679487  0.038462  0.000000  0.000000  0.000000  0.051282  0.000000  0.000000  0.000000  0.025641  0.153846  0.000000  0.000000  0.000000  0.012821  0.012821  0.025641  0.000000  0.000000  0.000000 
+ 0.000000  0.000000  0.000000  0.025641  0.000000  0.025641  0.012821  0.012821  0.102564  0.000000  0.000000  0.064103  0.000000  0.038462  0.653846  0.000000  0.012821  0.051282  0.000000  0.000000 
+ 0.051282  0.000000  0.192308  0.064103  0.012821  0.051282  0.025641  0.012821  0.064103  0.025641  0.000000  0.128205  0.000000  0.089744  0.076923  0.038462  0.102564  0.000000  0.000000  0.064103 
+ 0.089744  0.000000  0.025641  0.012821  0.230769  0.000000  0.012821  0.000000  0.000000  0.166667  0.051282  0.000000  0.000000  0.025641  0.038462  0.000000  0.051282  0.025641  0.000000  0.269231 
+ 0.000000  1.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000 
+ 0.025641  0.000000  0.000000  0.115385  0.000000  0.089744  0.051282  0.012821  0.128205  0.012821  0.000000  0.025641  0.000000  0.294872  0.141026  0.064103  0.025641  0.000000  0.012821  0.000000 
+ 0.051282  0.000000  0.115385  0.076923  0.012821  0.115385  0.025641  0.025641  0.038462  0.038462  0.025641  0.089744  0.000000  0.025641  0.051282  0.282051  0.025641  0.000000  0.000000  0.000000 
+ 0.051282  0.000000  0.000000  0.051282  0.025641  0.000000  0.025641  0.141026  0.000000  0.410256  0.128205  0.000000  0.000000  0.012821  0.025641  0.064103  0.025641  0.012821  0.012821  0.012821 
+ 0.089744  0.038462  0.102564  0.051282  0.012821  0.397436  0.038462  0.000000  0.000000  0.012821  0.000000  0.038462  0.025641  0.051282  0.012821  0.102564  0.000000  0.012821  0.000000  0.012821 
+ 0.192308  0.000000  0.051282  0.025641  0.012821  0.384615  0.000000  0.012821  0.000000  0.000000  0.038462  0.038462  0.038462  0.038462  0.000000  0.076923  0.051282  0.000000  0.000000  0.038462 
+ 0.038462  0.000000  0.423077  0.115385  0.025641  0.115385  0.012821  0.000000  0.025641  0.038462  0.000000  0.064103  0.012821  0.038462  0.025641  0.025641  0.025641  0.012821  0.000000  0.000000 
+ 0.064103  0.000000  0.038462  0.051282  0.038462  0.051282  0.000000  0.051282  0.000000  0.564103  0.012821  0.000000  0.000000  0.000000  0.012821  0.000000  0.000000  0.000000  0.076923  0.038462 
+ 0.371795  0.000000  0.038462  0.012821  0.000000  0.038462  0.025641  0.025641  0.000000  0.115385  0.000000  0.038462  0.000000  0.025641  0.012821  0.051282  0.038462  0.166667  0.025641  0.012821 
+ 0.128205  0.000000  0.000000  0.025641  0.000000  0.089744  0.012821  0.051282  0.179487  0.025641  0.000000  0.051282  0.025641  0.064103  0.012821  0.115385  0.102564  0.115385  0.000000  0.000000 
+ 0.025641  0.000000  0.064103  0.000000  0.038462  0.025641  0.000000  0.243590  0.000000  0.141026  0.038462  0.000000  0.141026  0.000000  0.000000  0.038462  0.051282  0.179487  0.000000  0.012821 
+ 0.025641  0.000000  0.294872  0.102564  0.025641  0.025641  0.038462  0.012821  0.038462  0.064103  0.000000  0.025641  0.038462  0.025641  0.064103  0.141026  0.064103  0.012821  0.000000  0.000000 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 2 regular expression
+--------------------------------------------------------------------------------
+x[TS]WE[ED]ARx[YF]CQSLGGDLAxID
+--------------------------------------------------------------------------------
+
+
+
+
+Time 34.62 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+MOTIF  3 MEME	width =  14  sites =  64  llr = 1158  E-value = 3.7e-194
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif 3 Description
+--------------------------------------------------------------------------------
+Simplified        A  :1:1:::1:::33:
+pos.-specific     C  ::::::::::8:1:
+probability       D  :1121::1:1::::
+matrix            E  :4:1::116:::::
+                  F  :::::::::::::1
+                  G  1:::5611::::1:
+                  H  1:::::::::::::
+                  I  ::::::1::::::3
+                  K  ::::::::::::::
+                  L  :::::::::::514
+                  M  ::::::::::::12
+                  N  1::31112:8::::
+                  P  118:::1:::::::
+                  Q  42:::::12:::::
+                  R  1:::1:::::::::
+                  S  :::11112::::::
+                  T  ::::::3:::::::
+                  V  :::::::::::11:
+                  W  ::::::::::::::
+                  Y  ::::::::::1:::
+
+         bits    5.5               
+                 4.9               
+                 4.4               
+                 3.8           *   
+Relative         3.3   *       *   
+Entropy          2.7   *      **   
+(26.1 bits)      2.2   *     ***  *
+                 1.6 ***  *  **** *
+                 1.1 ******  ******
+                 0.5 **************
+                 0.0 --------------
+
+Multilevel           QEPNGGTxENCLAL
+consensus             Q D       A I
+sequence                           
+                                   
+                                   
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 3 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name             Start   P-value                 Site   
+-------------             ----- ---------            --------------
+AGW27416.1|Mj.CTL1          298  1.39e-17 WGLLRHDSFT QEPNGGTSENCLML QSEGSHYFRD
+AHF21000.1|Mj.CTL7          298  1.39e-17 WGLLRHDSFT QEPNGGTSENCLML QSEGSHYFRD
+ACJ06428.1|Fc.CTL2          297  7.74e-17 WGLADMSAPS QEPNGGTSENCLAI GNFYNFRDYS
+AGL93170.1|Fc.CTL8          131  4.60e-16 PLWYHCTGIS QQPDGGTSENCAML RWDSYYYVHD
+ABI97374.1|Lv.CTL6          307  2.71e-15 WGLYAGSASA QEPDGGTNQNCLAI TGEGYFNFRD
+ADX60057.1|Pc.CTL1          130  1.96e-14 MPFWLTCSDD QEPNGGSAENCLAI TGDHNYYFVD
+Ph.CTL13                     94  4.32e-14 AIRHGLFGWS HEPNGGKEENCLAL DESRLYYFND
+Ph.CTL9                      80  4.32e-14 ALHSGLFGYD HEPSGGTDENCLAM DSGRKYYFND
+ADG85666.1|Mj.CTLA          101  4.32e-14 ALHSGLFGWS HEPSGGTEENCLAM DSERKFYFND
+ACJ06429.1|Fc.CTL5          297  5.25e-14 WGLYRGDSVM QEPQGGTRENCLML HSGGSHYFRD
+AEO92001.1|Sp.CTL1          128  8.49e-13 FWANYGVNND QMPNGGTDQNCAFL DANMHYYFND
+ADG85659.1|Mj.CTLD          133  1.85e-12 GAPLWEQCTS RQPDGGSDQNCAMM SAWSCLHLTD
+AEO92002.1|Sp.CTL2          134  3.38e-12 PYWANYKDNV QMPAGGENQNCAML DINMHYYFND
+ADG85661.1|Mj.CTLB          130  6.05e-12 TPTWGVDGET QQPTGGTSENCIGL HKDNIFFFND
+Ph.CTL14                    114  1.60e-11 WGDLFYPDGV QQPTGGLEENCAIL RWEDSFYMHD
+Ph.CTL8                     102  2.73e-11 LPYWGQTDGV HEPSGGEEQNCAEL NKNNRYYIHD
+Ph.CTL35                     91  4.03e-11 EPVSHEEWSQ GEPNGNTEENCLEF CFVCQGNENP
+Ph.CTL30                    135  4.59e-11 VPFWGEAGDN HEPSGGIEQNCASL NRDDRYYIHD
+AKA64754.1|Lv.CTL4          120  5.21e-11 AIHNGIFGWA HEPAGGADENCLLL DETRKYYFND
+Ph.CTL1                     102  5.21e-11 MPMGIPFWST NSPNGGSRENCLLM SSPSGYFDDY
+Ph.CTL15                     99  8.60e-11 PFWGNFGMGQ QEPGGGDAQNCAAL NSKEHFLMHD
+Ph.CTL29                    115  9.73e-11 LDMGIPFWVI NSPDGGSQENCLRM MYPSGYFDDT
+Ph.CTL19                    103  1.10e-10 WGYLPERPIV QEPRRGTVENCGCL IDQYLYFFHD
+Ph.CTL31                     75  1.24e-10 PFWGYVDNYR SEPSGGKSQNCAVL YYNDHYIHDT
+Ph.CTL28                    120  1.24e-10 VNMGVPFWPA NIPDGGPLENCLML TAAGFFDDAD
+ABA54612.1|Fc.CTL1          121  1.24e-10 TPMGIPYWGV NEPNNGNTYNCAMM HASYNHYWYD
+ADG85658.1|Mj.CTLE          121  2.26e-10 VPMGVPFWGA KEPNSGTSANCAIL HGSNNHYWYD
+Ph.CTL26                    125  2.54e-10 MGTPHWYPCN GQPNGGTKMNYACL YTPDFYFHSC
+Ph.CTL6                     100  2.85e-10 PFWGDYGEHV QQPDDGIHENCVNM PRDDRFFFHN
+AFJ59945.1|Mj.CTL2-1        357  9.82e-10 TYPQGPDSFR IEPLGGENENCLHL DASRFLYFDD
+AIC80997.1|Sp.CTL4          123  1.36e-09 VPVGIPFWHP LQPDGGPQENFLVF AHNGFFADGH
+Ph.CTL25                    126  2.30e-09 FWANFGCDND QKPSGSDTENCAIL DPYLHLYFVD
+ADW08727.1|Lv.CTL2          127  2.55e-09 GVPHWYPCHP AQPDGGTSSNYACI YTPDFYFHSC
+ADF27340.1|Sp.CTL8          199  3.48e-09 WSFTGRFGRS QPDNADMNENCLAI LNNFYGDGII
+Ph.CTL37                    145  4.26e-09 WSHTGRRGLP QPDNDEQNENCVAI LNNHYNDGIT
+AHH02662.1|Sp.CTL5          122  4.71e-09 VPVGIPFWHP LQPAGGPQENFLVF AHNGFFADGH
+AFU52948.1|Sp.CTL6          123  6.35e-09 MGTPHWDACE RDPNGSIWQNYLCI CPPDYYFRDC
+AIC80998.1|Sp.CTL3          123  6.35e-09 MGTPHWDACE RDPNGSIWQNYLCI CPPDYYFRDC
+ADK27312.1|Pc.CTL4          117  7.01e-09 VNLLATYWRE HEPESNTSYNCIAF ESIYESINRM
+AHA83582.1|Mj.CTL3          208  7.01e-09 WGLTGGFGQP QPDNRAGDENCLGI LNRFYVNDGI
+Ph.CTL39                    111  7.74e-09 IPSEVPFWYP HQPDGWTSENALSL SKTGYFADES
+ACJ06430.1|Fc.CTL6          216  7.74e-09 WSSTGGFGTA QPDNRFGDENCLGI LNRFYINDGI
+ADW08726.1|Lv.CTL1          121  8.53e-09 MDMQSPPWYP GQPNHGTAANYACL YAPDFFFHSC
+AGV68681.1|Lv.CTL5          127  1.25e-08 PFWGDSSDQV QEPDSNYNHNCVFL ARHDHFFFFD
+Ph.CTL20                    115  3.49e-08 VTMGVPFWYP GQPDGSNAENHLTI SNTGYLSDAA
+ADU25463.1|Sp.CTL9          146  5.00e-08 PFWAAFGRGQ QPDNTHGNEHCLFI PSWWFFYMAD
+Ph.CTL22                    261  6.52e-08 PPYWASGQPS HEHNNEPWEHCAVM DSEMRYYMRD
+AAX63905.1|Fc.CTL7          118  1.01e-07 PIKAQDWSET QPDDYGGGEDCLEI RSYFEPPVND
+ACJ06431.1|Fc.CTL3          118  2.14e-07 MPMGVPFWYP GEPSGHPGEDFLAF TKEGFFADQN
+Ph.CTL17                    108  5.19e-07 LDMTSNLWRA GEPTLGSSDDCAYL GYYNYDYPRI
+Ph.CTL16                    106  6.56e-07 VDMTSTLWFY NEPDNPSSNDCARF VRASGDFPRV
+Ph.CTL11                    118  6.56e-07 AQTGGLGQPQ PDNNENNNEQCLGI LNHFYPGDTI
+Ph.CTL21                    101  7.09e-07 NAGVPFWCPG QPNNFENRQSCVML WGSNFFYGAD
+Ph.CTL3                     110  7.09e-07 SSKGGSGMPQ PDNRENNNEKCLAI LNDFYQDGIK
+AEH05998.1|Lv.CTL3          273  9.63e-07 ANNGECYHYT QAPETPPKGFCAAI TYDKHFYMSD
+Ph.CTL5                     224  1.21e-06 WGQTGMVPGR PQPDNNENDNEQCL SVINRFYPGD
+AHV85237.1|Mj.CTL5          113  1.75e-06 SIPKESWRGV QPDDCCGGEDCALL GTSWNPPLND
+Ph.CTL32                    278  2.34e-06 ANDGYCYHYA QSPEESVYGHCAAM TYNNYYYISD
+AFJ59946.1|Mj.CTL2-2        256  2.70e-06 TNTSACYHYE QAPRRDWHELCAAV TFRHYFYISD
+Ph.CTL10                     93  2.70e-06 HVAVPIGEWS EGQPDGGNENCVVL SRDEYPALHD
+Ph.CTL18                     17  3.59e-06 IVRTFAATQC PEPFQLLGENCYYF ATETMSWDEA
+Ph.CTL24                    258  5.84e-06 PPFWATDFPV NHPASGPKDYCGLM SSTKRFYLVD
+AHA83583.1|Mj.CTL2          270  1.00e-05 LPEAPCYNYI QAPKQRNQGWCSAI TYEHFYFISD
+AGL46986.1|Pc.CTL5           74  4.29e-05 DVHAGVHPGL RAPEDLTDNQCGVV IDSVSVEDLG
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 3 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+AGW27416.1|Mj.CTL1                1.4e-17  297_[3]_25
+AHF21000.1|Mj.CTL7                1.4e-17  297_[3]_25
+ACJ06428.1|Fc.CTL2                7.7e-17  296_[3]_23
+AGL93170.1|Fc.CTL8                4.6e-16  130_[3]_26
+ABI97374.1|Lv.CTL6                2.7e-15  306_[3]_25
+ADX60057.1|Pc.CTL1                  2e-14  129_[3]_26
+Ph.CTL13                          4.3e-14  93_[3]_18
+Ph.CTL9                           4.3e-14  79_[3]_18
+ADG85666.1|Mj.CTLA                4.3e-14  100_[3]_18
+ACJ06429.1|Fc.CTL5                5.2e-14  296_[3]_25
+AEO92001.1|Sp.CTL1                8.5e-13  127_[3]_24
+ADG85659.1|Mj.CTLD                1.9e-12  132_[3]_24
+AEO92002.1|Sp.CTL2                3.4e-12  133_[3]_29
+ADG85661.1|Mj.CTLB                  6e-12  129_[3]_25
+Ph.CTL14                          1.6e-11  113_[3]_22
+Ph.CTL8                           2.7e-11  101_[3]_25
+Ph.CTL35                            4e-11  90_[3]_31
+Ph.CTL30                          4.6e-11  134_[3]_25
+AKA64754.1|Lv.CTL4                5.2e-11  119_[3]_23
+Ph.CTL1                           5.2e-11  101_[3]_20
+Ph.CTL15                          8.6e-11  98_[3]_27
+Ph.CTL29                          9.7e-11  114_[3]_20
+Ph.CTL19                          1.1e-10  102_[3]_24
+Ph.CTL31                          1.2e-10  74_[3]_13
+Ph.CTL28                          1.2e-10  119_[3]_19
+ABA54612.1|Fc.CTL1                1.2e-10  120_[3]_25
+ADG85658.1|Mj.CTLE                2.3e-10  120_[3]_25
+Ph.CTL26                          2.5e-10  124_[3]_22
+Ph.CTL6                           2.9e-10  99_[3]_22
+AFJ59945.1|Mj.CTL2-1              9.8e-10  356_[3]_24
+AIC80997.1|Sp.CTL4                1.4e-09  122_[3]_23
+Ph.CTL25                          2.3e-09  125_[3]_24
+ADW08727.1|Lv.CTL2                2.6e-09  126_[3]_22
+ADF27340.1|Sp.CTL8                3.5e-09  198_[3]_32
+Ph.CTL37                          4.3e-09  144_[3]_25
+AHH02662.1|Sp.CTL5                4.7e-09  121_[3]_23
+AFU52948.1|Sp.CTL6                6.4e-09  122_[3]_24
+AIC80998.1|Sp.CTL3                6.4e-09  122_[3]_24
+ADK27312.1|Pc.CTL4                  7e-09  116_[3]_33
+AHA83582.1|Mj.CTL3                  7e-09  207_[3]_29
+Ph.CTL39                          7.7e-09  110_[3]_22
+ACJ06430.1|Fc.CTL6                7.7e-09  215_[3]_29
+ADW08726.1|Lv.CTL1                8.5e-09  120_[3]_22
+AGV68681.1|Lv.CTL5                1.3e-08  126_[3]_23
+Ph.CTL20                          3.5e-08  114_[3]_20
+ADU25463.1|Sp.CTL9                  5e-08  145_[3]_188
+Ph.CTL22                          6.5e-08  260_[3]_22
+AAX63905.1|Fc.CTL7                  1e-07  117_[3]_156
+ACJ06431.1|Fc.CTL3                2.1e-07  117_[3]_27
+Ph.CTL17                          5.2e-07  107_[3]_31
+Ph.CTL16                          6.6e-07  105_[3]_31
+Ph.CTL11                          6.6e-07  117_[3]_32
+Ph.CTL21                          7.1e-07  100_[3]_22
+Ph.CTL3                           7.1e-07  109_[3]_25
+AEH05998.1|Lv.CTL3                9.6e-07  272_[3]_25
+Ph.CTL5                           1.2e-06  223_[3]_35
+AHV85237.1|Mj.CTL5                1.7e-06  112_[3]_31
+Ph.CTL32                          2.3e-06  277_[3]_22
+AFJ59946.1|Mj.CTL2-2              2.7e-06  255_[3]_37
+Ph.CTL10                          2.7e-06  92_[3]_24
+Ph.CTL18                          3.6e-06  16_[3]_124
+Ph.CTL24                          5.8e-06  257_[3]_22
+AHA83583.1|Mj.CTL2                  1e-05  269_[3]_30
+AGL46986.1|Pc.CTL5                4.3e-05  73_[3]_165
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 3 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF 3 width=14 seqs=64
+AGW27416.1|Mj.CTL1       (  298) QEPNGGTSENCLML  1 
+AHF21000.1|Mj.CTL7       (  298) QEPNGGTSENCLML  1 
+ACJ06428.1|Fc.CTL2       (  297) QEPNGGTSENCLAI  1 
+AGL93170.1|Fc.CTL8       (  131) QQPDGGTSENCAML  1 
+ABI97374.1|Lv.CTL6       (  307) QEPDGGTNQNCLAI  1 
+ADX60057.1|Pc.CTL1       (  130) QEPNGGSAENCLAI  1 
+Ph.CTL13                 (   94) HEPNGGKEENCLAL  1 
+Ph.CTL9                  (   80) HEPSGGTDENCLAM  1 
+ADG85666.1|Mj.CTLA       (  101) HEPSGGTEENCLAM  1 
+ACJ06429.1|Fc.CTL5       (  297) QEPQGGTRENCLML  1 
+AEO92001.1|Sp.CTL1       (  128) QMPNGGTDQNCAFL  1 
+ADG85659.1|Mj.CTLD       (  133) RQPDGGSDQNCAMM  1 
+AEO92002.1|Sp.CTL2       (  134) QMPAGGENQNCAML  1 
+ADG85661.1|Mj.CTLB       (  130) QQPTGGTSENCIGL  1 
+Ph.CTL14                 (  114) QQPTGGLEENCAIL  1 
+Ph.CTL8                  (  102) HEPSGGEEQNCAEL  1 
+Ph.CTL35                 (   91) GEPNGNTEENCLEF  1 
+Ph.CTL30                 (  135) HEPSGGIEQNCASL  1 
+AKA64754.1|Lv.CTL4       (  120) HEPAGGADENCLLL  1 
+Ph.CTL1                  (  102) NSPNGGSRENCLLM  1 
+Ph.CTL15                 (   99) QEPGGGDAQNCAAL  1 
+Ph.CTL29                 (  115) NSPDGGSQENCLRM  1 
+Ph.CTL19                 (  103) QEPRRGTVENCGCL  1 
+Ph.CTL31                 (   75) SEPSGGKSQNCAVL  1 
+Ph.CTL28                 (  120) NIPDGGPLENCLML  1 
+ABA54612.1|Fc.CTL1       (  121) NEPNNGNTYNCAMM  1 
+ADG85658.1|Mj.CTLE       (  121) KEPNSGTSANCAIL  1 
+Ph.CTL26                 (  125) GQPNGGTKMNYACL  1 
+Ph.CTL6                  (  100) QQPDDGIHENCVNM  1 
+AFJ59945.1|Mj.CTL2-1     (  357) IEPLGGENENCLHL  1 
+AIC80997.1|Sp.CTL4       (  123) LQPDGGPQENFLVF  1 
+Ph.CTL25                 (  126) QKPSGSDTENCAIL  1 
+ADW08727.1|Lv.CTL2       (  127) AQPDGGTSSNYACI  1 
+ADF27340.1|Sp.CTL8       (  199) QPDNADMNENCLAI  1 
+Ph.CTL37                 (  145) QPDNDEQNENCVAI  1 
+AHH02662.1|Sp.CTL5       (  122) LQPAGGPQENFLVF  1 
+AFU52948.1|Sp.CTL6       (  123) RDPNGSIWQNYLCI  1 
+AIC80998.1|Sp.CTL3       (  123) RDPNGSIWQNYLCI  1 
+ADK27312.1|Pc.CTL4       (  117) HEPESNTSYNCIAF  1 
+AHA83582.1|Mj.CTL3       (  208) QPDNRAGDENCLGI  1 
+Ph.CTL39                 (  111) HQPDGWTSENALSL  1 
+ACJ06430.1|Fc.CTL6       (  216) QPDNRFGDENCLGI  1 
+ADW08726.1|Lv.CTL1       (  121) GQPNHGTAANYACL  1 
+AGV68681.1|Lv.CTL5       (  127) QEPDSNYNHNCVFL  1 
+Ph.CTL20                 (  115) GQPDGSNAENHLTI  1 
+ADU25463.1|Sp.CTL9       (  146) QPDNTHGNEHCLFI  1 
+Ph.CTL22                 (  261) HEHNNEPWEHCAVM  1 
+AAX63905.1|Fc.CTL7       (  118) QPDDYGGGEDCLEI  1 
+ACJ06431.1|Fc.CTL3       (  118) GEPSGHPGEDFLAF  1 
+Ph.CTL17                 (  108) GEPTLGSSDDCAYL  1 
+Ph.CTL16                 (  106) NEPDNPSSNDCARF  1 
+Ph.CTL11                 (  118) PDNNENNNEQCLGI  1 
+Ph.CTL21                 (  101) QPNNFENRQSCVML  1 
+Ph.CTL3                  (  110) PDNRENNNEKCLAI  1 
+AEH05998.1|Lv.CTL3       (  273) QAPETPPKGFCAAI  1 
+Ph.CTL5                  (  224) PQPDNNENDNEQCL  1 
+AHV85237.1|Mj.CTL5       (  113) QPDDCCGGEDCALL  1 
+Ph.CTL32                 (  278) QSPEESVYGHCAAM  1 
+AFJ59946.1|Mj.CTL2-2     (  256) QAPRRDWHELCAAV  1 
+Ph.CTL10                 (   93) EGQPDGGNENCVVL  1 
+Ph.CTL18                 (   17) PEPFQLLGENCYYF  1 
+Ph.CTL24                 (  258) NHPASGPKDYCGLM  1 
+AHA83583.1|Mj.CTL2       (  270) QAPKQRNQGWCSAI  1 
+AGL46986.1|Pc.CTL5       (   74) RAPEDLTDNQCGVV  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 3 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 20 w= 14 n= 14983 bayes= 8.6043 E= 3.7e-194 
+  -147   -576   -329   -112   -467      5    205   -130     -9   -123   -331     80     24    332     67   -157   -292   -385   -596   -431 
+    -1   -597     -7    274   -487   -224    -85   -131    -16   -419     44   -305    122    226   -251    -47   -309   -400   -616   -450 
+  -346   -626     56   -426   -574   -498   -108   -501   -333   -505   -502    -23    401   -134   -433   -378   -419   -493   -746   -612 
+     0   -575    170     26   -150   -221   -307   -393     -9   -203   -331    259   -155    -80     31     60    -21   -383   -595   -429 
+  -148   -151    -10     -9   -151    256    -84   -396   -119   -206   -334     26   -408    -14     65    -12    -71   -386   -596   -146 
+  -176   -180   -132    -58   -187    294    -39   -480   -256   -166   -435     46   -105   -376   -144    -19   -413   -467   -156   -521 
+  -146   -574    -94     26   -464      5   -307     52     51   -123    -46     80    102    -80   -232     40    225   -170   -124   -144 
+     0   -575     65     76   -465    -50      1   -393     93   -203   -330    162   -404     70     31    132    -69   -170     31   -144 
+   -91   -660    -39    331   -554    -87    -91   -473   -187   -481    -50    -61   -466    205   -315   -177   -364   -459   -683    -55 
+  -395   -478    -81   -437   -244   -428    -22   -317   -141   -298   -360    398   -429   -127   -348   -176   -296   -398   -231   -245 
+  -208    430   -815   -189     22   -797    -94   -598   -643   -572   -577   -665   -768   -650   -649   -689   -691   -641   -480     93 
+   230   -454   -622   -507   -345    -90   -465     -4   -385    249   -227   -495   -521   -130   -436   -194   -334     53   -539   -138 
+   186    131   -604    -33     10    -50    -99     41   -370    -13    260   -168   -516   -437    -37   -110   -150     75   -538    -49 
+  -666   -736  -1003   -884    130   -925   -795    270   -773    252    281   -899   -816   -715   -771   -864   -672    -82   -715   -652 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 3 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 20 w= 14 nsites= 64 E= 3.7e-194 
+ 0.015625  0.000000  0.000000  0.015625  0.000000  0.093750  0.140625  0.015625  0.015625  0.031250  0.000000  0.093750  0.062500  0.437500  0.062500  0.015625  0.000000  0.000000  0.000000  0.000000 
+ 0.062500  0.000000  0.062500  0.406250  0.000000  0.015625  0.015625  0.015625  0.015625  0.000000  0.031250  0.000000  0.125000  0.203125  0.000000  0.046875  0.000000  0.000000  0.000000  0.000000 
+ 0.000000  0.000000  0.109375  0.000000  0.000000  0.000000  0.015625  0.000000  0.000000  0.000000  0.000000  0.046875  0.812500  0.015625  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000 
+ 0.062500  0.000000  0.234375  0.062500  0.015625  0.015625  0.000000  0.000000  0.015625  0.015625  0.000000  0.343750  0.015625  0.015625  0.046875  0.109375  0.046875  0.000000  0.000000  0.000000 
+ 0.015625  0.015625  0.062500  0.046875  0.015625  0.546875  0.015625  0.000000  0.000000  0.015625  0.000000  0.062500  0.000000  0.031250  0.062500  0.062500  0.031250  0.000000  0.000000  0.015625 
+ 0.015625  0.015625  0.031250  0.046875  0.015625  0.578125  0.031250  0.000000  0.000000  0.031250  0.000000  0.093750  0.031250  0.000000  0.015625  0.078125  0.000000  0.000000  0.015625  0.000000 
+ 0.015625  0.000000  0.031250  0.062500  0.000000  0.093750  0.000000  0.062500  0.031250  0.031250  0.015625  0.093750  0.109375  0.015625  0.000000  0.093750  0.296875  0.015625  0.015625  0.015625 
+ 0.062500  0.000000  0.109375  0.093750  0.000000  0.062500  0.031250  0.000000  0.046875  0.015625  0.000000  0.171875  0.000000  0.062500  0.046875  0.187500  0.031250  0.015625  0.046875  0.015625 
+ 0.031250  0.000000  0.046875  0.593750  0.000000  0.046875  0.015625  0.000000  0.000000  0.000000  0.015625  0.031250  0.000000  0.171875  0.000000  0.015625  0.000000  0.000000  0.000000  0.031250 
+ 0.000000  0.000000  0.078125  0.000000  0.015625  0.000000  0.046875  0.000000  0.015625  0.015625  0.000000  0.750000  0.000000  0.031250  0.000000  0.015625  0.000000  0.000000  0.015625  0.015625 
+ 0.015625  0.828125  0.000000  0.015625  0.046875  0.000000  0.015625  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.078125 
+ 0.343750  0.000000  0.000000  0.000000  0.000000  0.046875  0.000000  0.031250  0.000000  0.453125  0.000000  0.000000  0.000000  0.015625  0.000000  0.015625  0.000000  0.078125  0.000000  0.015625 
+ 0.250000  0.109375  0.000000  0.046875  0.046875  0.062500  0.015625  0.046875  0.000000  0.062500  0.140625  0.015625  0.000000  0.000000  0.031250  0.031250  0.015625  0.093750  0.000000  0.031250 
+ 0.000000  0.000000  0.000000  0.000000  0.109375  0.000000  0.000000  0.265625  0.000000  0.437500  0.156250  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.031250  0.000000  0.000000 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif 3 regular expression
+--------------------------------------------------------------------------------
+Q[EQ]P[ND]GGTxENC[LA]A[LI]
+--------------------------------------------------------------------------------
+
+
+
+
+Time 47.50 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+ACJ06430.1|Fc.CTL6               6.21e-11  137_[2(1.54e-09)]_57_[3(7.74e-09)]_\
+    29
+AHA83582.1|Mj.CTL3               3.47e-11  129_[2(1.96e-09)]_57_[3(7.01e-09)]_\
+    29
+Ph.CTL11                         1.19e-11  38_[2(4.27e-12)]_58_[3(6.56e-07)]_\
+    32
+Ph.CTL3                          9.76e-12  31_[2(2.10e-11)]_57_[3(7.09e-07)]_\
+    25
+Ph.CTL37                         2.92e-13  67_[2(2.10e-11)]_56_[3(4.26e-09)]_\
+    25
+Ph.CTL38                         1.43e-07  36_[2(3.80e-10)]_102
+ADF27340.1|Sp.CTL8               3.60e-09  116_[2(1.10e-07)]_61_[3(3.48e-09)]_\
+    32
+ACR20475.1|Pc.CTL6               5.04e-10  141_[2(8.69e-12)]_58_[3(1.48e-05)]_\
+    37
+Ph.CTL5                          6.13e-10  139_[2(2.70e-10)]_63_[3(1.21e-06)]_\
+    35
+Ph.CTL34                         1.39e-07  77_[2(1.34e-10)]_132
+ACJ06432.1|Fc.CTL4               1.01e-05  75_[2(1.54e-09)]_141
+AHA85979.1|Mj.CTL4               3.92e-06  91_[2(2.27e-10)]_141
+Ph.CTL27                         6.18e-14  33_[2(3.94e-13)]_22_[1(1.95e-08)]_\
+    47
+Ph.CTL22                         1.25e-22  27_[2(3.89e-15)]_27_[1(5.15e-07)]_\
+    85_[2(2.77e-06)]_25_[1(1.32e-11)]_14_[3(6.52e-08)]_22
+Ph.CTL24                         1.34e-19  26_[2(4.09e-14)]_27_[1(1.90e-09)]_\
+    129_[1(2.01e-11)]_14_[3(5.84e-06)]_22
+ADU25463.1|Sp.CTL9               1.22e-23  67_[2(6.29e-10)]_22_[1(4.38e-14)]_\
+    15_[3(5.00e-08)]_69_[2(3.47e-12)]_22_[1(1.04e-15)]_56
+ABI97374.1|Lv.CTL6               1.03e-30  67_[2(4.14e-10)]_22_[1(1.11e-12)]_\
+    15_[3(2.74e-07)]_67_[2(3.85e-12)]_22_[1(9.19e-16)]_17_[3(2.71e-15)]_25
+ACJ06428.1|Fc.CTL2               1.85e-32  55_[2(5.24e-12)]_22_[1(4.69e-12)]_\
+    15_[3(1.67e-07)]_69_[2(7.21e-09)]_22_[1(4.28e-16)]_17_[3(7.74e-17)]_23
+ACJ06429.1|Fc.CTL5               1.73e-25  55_[2(7.21e-09)]_22_[1(1.49e-13)]_\
+    15_[3(2.33e-07)]_71_[2(3.20e-10)]_20_[1(4.01e-06)]_17_[3(5.25e-14)]_25
+AHF21000.1|Mj.CTL7               8.61e-31  55_[2(8.48e-08)]_22_[1(4.38e-14)]_\
+    15_[3(1.75e-06)]_72_[2(1.43e-11)]_21_[1(3.24e-06)]_16_[3(1.39e-17)]_25
+AGW27416.1|Mj.CTL1               8.61e-31  55_[2(1.18e-07)]_22_[1(4.38e-14)]_\
+    15_[3(1.88e-06)]_72_[2(1.43e-11)]_20_[1(9.66e-07)]_17_[3(1.39e-17)]_25
+AGI92548.1|Pc.CTL3               6.00e-08  41_[2(8.55e-11)]_105
+Ph.CTL23                         1.85e-07  41_[2(2.70e-10)]_104
+AHM25604.1|Sp.CTL7               1.83e-07  41_[2(1.12e-09)]_107
+AAX63905.1|Fc.CTL7               3.34e-25  49_[2(1.69e-15)]_18_[1(7.34e-14)]_9_\
+    [3(1.01e-07)]_49_[2(1.84e-12)]_18_[1(7.34e-14)]_9_[3(6.52e-08)]_25
+Ph.CTL36                         2.88e-14  20_[2(1.75e-13)]_18_[1(2.54e-07)]_\
+    51
+AFN66645.1|Fc.CTL9               2.93e-14  109_[2(3.39e-15)]_18_[1(4.01e-06)]_\
+    52
+Ph.CTL4                          1.15e-15  112_[2(7.58e-14)]_25_[1(3.84e-09)]_\
+    52
+ABA54612.1|Fc.CTL1               1.17e-26  46_[2(1.06e-11)]_23_[1(1.33e-15)]_\
+    10_[3(1.24e-10)]_25
+ADG85658.1|Mj.CTLE               6.90e-28  46_[2(9.66e-14)]_23_[1(4.37e-15)]_\
+    10_[3(2.26e-10)]_25
+ADX60057.1|Pc.CTL1               3.10e-31  52_[2(2.32e-11)]_22_[1(6.22e-17)]_\
+    14_[3(1.96e-14)]_26
+Ph.CTL28                         1.46e-24  42_[2(2.48e-10)]_26_[1(9.68e-15)]_\
+    10_[3(1.24e-10)]_19
+Ph.CTL29                         6.95e-27  37_[2(4.09e-11)]_26_[1(3.29e-16)]_\
+    10_[3(9.73e-11)]_20
+Ph.CTL1                          2.32e-26  24_[2(7.11e-12)]_26_[1(1.68e-14)]_\
+    10_[3(5.21e-11)]_20
+AGL46986.1|Pc.CTL5               3.40e-18  73_[3(4.29e-05)]_56_[2(5.76e-09)]_\
+    23_[1(9.19e-16)]_45
+Ph.CTL20                         1.87e-21  36_[2(4.95e-09)]_26_[1(3.08e-15)]_\
+    11_[3(3.49e-08)]_20
+ACJ06431.1|Fc.CTL3               2.76e-18  40_[2(1.21e-08)]_26_[1(3.26e-13)]_\
+    10_[3(2.14e-07)]_27
+Ph.CTL39                         5.16e-19  31_[2(2.25e-07)]_27_[1(1.10e-13)]_\
+    11_[3(7.74e-09)]_22
+AIC80997.1|Sp.CTL4               7.49e-25  43_[2(4.90e-10)]_28_[1(1.93e-16)]_\
+    10_[3(1.36e-09)]_23
+AHH02662.1|Sp.CTL5               2.45e-24  42_[2(4.90e-10)]_28_[1(1.93e-16)]_\
+    10_[3(4.71e-09)]_23
+AGL93170.1|Fc.CTL8               3.10e-32  52_[2(4.27e-12)]_22_[1(1.33e-15)]_\
+    15_[3(4.60e-16)]_26
+Ph.CTL14                         2.23e-27  32_[2(8.63e-13)]_22_[1(2.87e-14)]_\
+    18_[3(1.60e-11)]_22
+Ph.CTL21                         2.46e-15  19_[2(2.12e-09)]_29_[1(1.15e-09)]_\
+    11_[3(7.09e-07)]_22
+Ph.CTL8                          1.60e-28  21_[2(1.38e-13)]_25_[1(8.66e-15)]_\
+    14_[3(2.73e-11)]_25
+Ph.CTL30                         1.42e-29  54_[2(1.97e-13)]_25_[1(1.46e-16)]_\
+    14_[3(4.59e-11)]_25
+ADK27312.1|Pc.CTL4               3.95e-25  40_[2(5.93e-11)]_25_[1(1.46e-16)]_\
+    10_[3(7.01e-09)]_33
+Ph.CTL18                         6.52e-22  16_[3(3.59e-06)]_4_[2(1.97e-13)]_26_\
+    [1(2.21e-13)]_53
+Ph.CTL16                         2.89e-26  33_[2(6.13e-16)]_21_[1(1.35e-14)]_\
+    10_[3(6.56e-07)]_31
+Ph.CTL17                         9.19e-24  33_[2(7.12e-11)]_23_[1(5.37e-17)]_\
+    10_[3(5.19e-07)]_31
+ADG85659.1|Mj.CTLD               5.41e-35  56_[2(4.46e-15)]_22_[1(4.73e-19)]_\
+    13_[3(1.85e-12)]_24
+Ph.CTL33                         1.07e-17  35_[2(2.68e-17)]_25_[1(3.73e-08)]_\
+    49
+Ph.CTL35                         8.68e-28  21_[2(2.79e-13)]_20_[1(1.87e-14)]_8_\
+    [3(4.03e-11)]_31
+Ph.CTL10                         3.17e-16  22_[2(2.14e-16)]_49_[3(2.70e-06)]_\
+    24
+AHV85237.1|Mj.CTL5               6.37e-22  43_[2(1.31e-09)]_19_[1(6.22e-17)]_9_\
+    [3(1.75e-06)]_31
+AFJ59945.1|Mj.CTL2-1             5.03e-25  274_[2(8.55e-11)]_22_[1(5.37e-17)]_\
+    19_[3(9.82e-10)]_24
+Ph.CTL12                         7.86e-22  20_[2(1.57e-11)]_19_[1(7.15e-16)]_\
+    12_[3(2.18e-05)]_37
+Ph.CTL31                         8.97e-19  39_[1(3.08e-15)]_15_[3(1.24e-10)]_\
+    13
+AEH05998.1|Lv.CTL3               7.77e-21  169_[2(5.93e-14)]_21_[1(3.60e-12)]_\
+    41_[3(9.63e-07)]_25
+Ph.CTL2                          2.13e-12  60_[2(7.12e-11)]_22_[1(3.58e-09)]_\
+    69
+AFJ59946.1|Mj.CTL2-2             5.61e-15  15_[1(9.21e-05)]_111_[2(3.49e-10)]_\
+    23_[1(3.01e-10)]_45_[3(2.70e-06)]_37
+AHA83583.1|Mj.CTL2               9.70e-16  163_[2(2.79e-13)]_21_[1(1.50e-08)]_\
+    44_[3(1.00e-05)]_30
+Ph.CTL32                         4.75e-16  174_[2(1.43e-11)]_21_[1(5.91e-10)]_\
+    41_[3(2.34e-06)]_22
+AGV68681.1|Lv.CTL5               1.86e-24  48_[2(4.94e-13)]_22_[1(4.86e-14)]_\
+    15_[3(1.25e-08)]_23
+Ph.CTL6                          6.98e-31  21_[2(8.56e-14)]_22_[1(5.71e-18)]_\
+    15_[3(2.85e-10)]_22
+Ph.CTL15                         2.29e-25  20_[2(3.20e-10)]_22_[1(2.16e-15)]_\
+    15_[3(8.60e-11)]_27
+Ph.CTL19                         5.72e-29  22_[2(1.07e-12)]_22_[1(9.60e-17)]_\
+    17_[3(1.10e-10)]_24
+AEO92002.1|Sp.CTL2               2.84e-32  55_[2(8.73e-15)]_22_[1(7.20e-17)]_\
+    15_[3(3.38e-12)]_29
+AEO92001.1|Sp.CTL1               1.32e-30  48_[2(7.65e-15)]_22_[1(2.08e-14)]_\
+    16_[3(8.49e-13)]_24
+Ph.CTL25                         3.83e-33  46_[2(1.36e-17)]_22_[1(1.13e-17)]_\
+    16_[3(2.30e-09)]_24
+ADG85661.1|Mj.CTLB               6.83e-31  52_[2(3.13e-13)]_22_[1(3.42e-17)]_\
+    14_[3(6.05e-12)]_25
+ADG85666.1|Mj.CTLA               5.12e-31  19_[2(3.13e-12)]_22_[1(8.11e-16)]_\
+    18_[3(4.32e-14)]_18
+Ph.CTL9                          6.26e-20  40_[1(7.67e-13)]_19_[3(4.32e-14)]_\
+    18
+AKA64754.1|Lv.CTL4               1.89e-26  38_[2(2.28e-12)]_21_[1(2.58e-14)]_\
+    19_[3(5.21e-11)]_23
+Ph.CTL13                         1.21e-27  13_[2(1.22e-10)]_21_[1(7.34e-14)]_\
+    18_[3(4.32e-14)]_18
+AIC80998.1|Sp.CTL3               7.60e-22  46_[2(5.79e-10)]_22_[1(4.38e-14)]_\
+    13_[3(6.35e-09)]_24
+AFU52948.1|Sp.CTL6               3.62e-21  46_[2(5.79e-10)]_22_[1(2.21e-13)]_\
+    13_[3(6.35e-09)]_24
+Ph.CTL26                         2.22e-28  48_[2(1.84e-12)]_22_[1(6.22e-17)]_\
+    13_[3(2.54e-10)]_22
+ADW08727.1|Lv.CTL2               8.68e-27  49_[2(2.48e-10)]_22_[1(1.92e-18)]_\
+    14_[3(2.55e-09)]_22
+ADW08726.1|Lv.CTL1               3.99e-25  46_[2(6.91e-13)]_22_[1(1.21e-14)]_\
+    11_[3(8.53e-09)]_22
+Ph.CTL7                          8.94e-15  23_[2(1.75e-10)]_20_[1(4.57e-11)]_9_\
+    [3(9.20e-05)]_58_[2(8.48e-08)]_80
+AEB54625.1|Pc.CTL2               3.97e-01  253
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because nmotifs = 3 reached.
+********************************************************************************
+
+CPU: node002
+
+********************************************************************************
