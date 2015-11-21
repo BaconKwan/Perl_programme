@@ -201,7 +201,7 @@ print HTML <<HTML_cont;
 				<table class="pic_table">
 					<tr>
 						<td style="width: 50%"><a href="image/flow_001.png" target="_blank"><img src="image/flow_001.png" /></td>
-						<td class="pic_table_desc" style="width: 50%"><p>样品提取总RNA后，对于真核生物，用带有Oligo（dT）的磁珠富集mRNA，向得到的mRNA中加入fragmentation buffer使其片断成为短片段，再以片断后的mRNA为模板，用六碱基随机引物（random hexamers）合成cDNA第一链，并加入缓冲液、dNTPs、RNase H和DNA polymerase I合成cDNA第二链，经过QiaQuick PCR试剂盒纯化并加EB缓冲液洗脱经末端修复、加碱基A，加测序接头，再经琼脂糖凝胶电泳回收目的大小片段，并进行PCR扩增，从而完成整个文库制备工作，构建好的文库用Illumina HiSeq<sup>TM</sup> 2500进行测序。</p></td>
+						<td class="pic_table_desc" style="width: 50%"><p>样品提取总RNA后，去除核糖体RNA，然后用Rnase R酶降解线性RNA。得到的环状RNA中加入fragmentation buffer使其片断成为短片段，再以片断后的环状RNA为模板，用六碱基随机引物（random hexamers）合成cDNA第一链，并加入缓冲液、dNTPs、RNase H和DNA polymerase I合成cDNA第二链，经过QiaQuick PCR试剂盒纯化并加EB缓冲液洗脱经末端修复、加碱基A，加测序接头，再经琼脂糖凝胶电泳回收目的大小片段，并进行PCR扩增，从而完成整个文库制备工作，构建好的文库用Illumina HiSeq<sup>TM</sup> 2500进行测序。</p></td>
 					</tr>
 					<tr>
 						<td>实验流程图</td>
@@ -618,12 +618,14 @@ foreach (@sample_lab){
 	open IN, "$outdir/$folders{AlignmentStat}/${_}_anchors.align.stat" || die $!;
 	my ($reads, $mapped_reads, $mapped_ratio) = (0, 0, 0);
 	while(my $line = <IN>){
-		$reads = $1 / 2 if($line =~ /(\d+) reads;/);
+		$reads = $1 if($line =~ /(\d+) reads;/);
 		$mapped_reads += $1 if($line =~ /(\d+) \S+ aligned exactly 1 time/);
 		$mapped_reads += $1 if($line =~ /(\d+) \S+ aligned >1 times/);
 		$mapped_ratio = $1 if($line =~ /(\S+) overall alignment rate/);
 	}
 	close IN;
+	$reads = $reads / 2;
+	$mapped_reads = $mapped_reads / 2;
 	$align_stat_anchors_align .= <<TEMP;
 					<tr><td>${_}</td><td>$reads</td><td>$mapped_reads</td><td>$mapped_ratio</td></tr>
 TEMP
@@ -641,40 +643,24 @@ $align_stat_anchors_align
 			<!-- 环状RNA鉴定 -->
 			<section id="circRNA_identify" class="normal_cont">
 				<h3>环状RNA鉴定<a href="doc/circRNA_identify.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
-HTML_cont
-
-my $circRNA_gene_count = `wc -l $outdir/$folders{CircRNA}/circ_candidates.bed`;
-my $circRNA_isoform_count = `wc -l $outdir/$folders{CircRNA}/circ_candidates.info.xls`;
-chomp $circRNA_gene_count;
-chomp $circRNA_isoform_count;
-$circRNA_gene_count--;
-$circRNA_isoform_count--;
-
-print HTML <<HTML_cont;
-				<p> 
-					<ul>
-						<li>环状RNA基因数目：<span class="pic_table_strong">$circRNA_gene_count</span></li>
-						<li>环状RNA转录本数目：<span class="pic_table_strong">$circRNA_isoform_count</span></li>
-					</ul>
-				</p>
 				<h5>环状RNA信息统计</h5>
 HTML_cont
 
-my $circRNA_identify_site_log;
-{
-	open IN, "$outdir/$folders{CircRNA}/sites.log" || die $!;
-	my $line = <IN>;
-	my @t = split /,/, $line;
-	shift @t;
-	foreach (@t){
-		if(/'(\w+)': (\d+)/){
-			$circRNA_identify_site_log .= <<TEMP;
-					<tr><td>$1</td><td>$2</td></tr>
-TEMP
-		}
-	}
-	close IN;
-}
+#my $circRNA_identify_site_log;
+#{
+#	open IN, "$outdir/$folders{CircRNA}/sites.log" || die $!;
+#	my $line = <IN>;
+#	my @t = split /,/, $line;
+#	shift @t;
+#	foreach (@t){
+#		if(/'(\w+)': (\d+)/){
+#			$circRNA_identify_site_log .= <<TEMP;
+#					<tr><td>$1</td><td>$2</td></tr>
+#TEMP
+#		}
+#	}
+#	close IN;
+#}
 
 my $circRNA_identify_cntline = 0;
 my $circRNA_identify_info;
@@ -695,24 +681,31 @@ TEMP
 	close IN;
 }
 
+my $circRNA_gene_count = `wc -l $outdir/$folders{CircRNA}/circ_candidates.info.xls`;
+chomp $circRNA_gene_count;
+$circRNA_gene_count--;
+
 print HTML <<HTML_cont;
+				<!--
 				<table>
-					<caption>环状RNA Reads类型统计表</caption>
+					<caption>环状RNA Reads类型统计表<a href="doc/circRNA_identify.html#sub_1_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Type</th><th>Reads Num</th></tr>
-$circRNA_identify_site_log
+\$circRNA_identify_site_log
 				</table>
 				<p><br /></p>
+				-->
 				<table>
-					<caption>环状RNA信息统计表</caption>
+					<caption>环状RNA信息统计表<a href="doc/circRNA_identify.html#sub_1_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Chr</th><th>Start</th><th>End</th><th>GeneID</th><th>Reads Num</th><th>Strand</th><th>Uniq Reads Num</th><th>...</th><th>Samples</th><th>Samples Counts</th><th>Edits</th><th>Anchor Overlap</th><th>Breakpoints</th></tr>
 $circRNA_identify_info
 				</table>
 				<p>
 					<ul>
+						<li>环状RNA数目：<span class="pic_table_strong">$circRNA_gene_count</span></li>
 						<li>环状RNA信息统计表：<a href="../$folders{CircRNA}/circ_candidates.bed" target="_blank"> circ_candidates.bed </a></li>
 					</ul>
 				</p>
-				<h5>环状RNA类型统计</h5>
+				<h5>环状RNA类型统计<a href="doc/circRNA_identify.html#sub_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 HTML_cont
 
 my $circ_candidates_cntline = 0;
@@ -735,8 +728,8 @@ close IN;
 
 print HTML <<HTML_cont;
 				<table>
-					<caption>环状RNA类型统计表</caption>
-					<tr><th>Transcript ID</th><th>Gene ID</th><th>Source Gene</th><th>Chr</th><th>Strand</th><th>Start</th><th>End</th><th>Length</th><th>Type</th></tr>
+					<caption>环状RNA类型统计表<a href="doc/circRNA_identify.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
+					<tr><th>Gene ID</th><th>Source Gene</th><th>Chr</th><th>Strand</th><th>Start</th><th>End</th><th>Length</th><th>Type</th></tr>
 $circ_candidates_info
 				</table>
 				<p>
@@ -854,7 +847,7 @@ print HTML <<HTML_cont;
 				<h5>表达量统计<a href="doc/exp_diff.html#sub_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 				<table class="pic_table">
 					<tr><td>
-						<a href="../$folders{ExpressionStat}/circ.rpm.distribution.png" target="_blank"><img src="../$folders{ExpressionStat}/circ.rpm.distribution.png" /></a>
+						<a href="../$folders{ExpressionStat}/circ.rpkm.distribution.png" target="_blank"><img src="../$folders{ExpressionStat}/circ.rpkm.distribution.png" /></a>
 					</td><tr>
 					<tr><td>表达量丰度分布图<a href="doc/exp_diff.html#sub_1_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></td></tr>
 				</table>
@@ -862,14 +855,14 @@ HTML_cont
 
 my $exp_diff_sample_exp;
 {
-	my $skip = 4;#scalar @sample_lab;
+	my $skip = scalar @sample_lab;
 	open IN, "$outdir/$folders{ExpressionStat}/circ.expression.annot.xls" || die $!;
 	my $head = <IN>;
 	chomp $head;
 	my @head = split /\t/, $head;
-	$head[1] =~ s/_rpm/ RPM/;
+	$head[1] =~ s/_rpkm/ RPKM/;
 	$head[$skip + 1] =~ s/_count/ Count/;
-	@head = ("Transcript ID", $head[1], "...", $head[$skip + 1], "...", "Gene ID", "Source Gene", "...", "Annot Type");
+	@head = ("Gene ID", $head[1], "...", $head[$skip + 1], "...", "Source Gene", "...", "Type");
 	$head = join "", map {"<th>" . $_ . "</th>"} @head;
 	$exp_diff_sample_exp .= <<TEMP;
 					<tr>$head</tr>
@@ -881,7 +874,7 @@ TEMP
 		my @t = split /\t/, $line;
 		$t[1] = sprintf("%.2f", $t[1]);
 		$t[$skip + 1] = sprintf("%.1f", $t[$skip + 1]);
-		@t = (@t[0 .. 1], "...", $t[$skip + 1], "...", @t[$skip * 2 + 1 .. $skip * 2 + 2], "...", $t[$#t]);
+		@t = (@t[0 .. 1], "...", $t[$skip + 1], "...", $t[$skip * 2 + 1], "...", $t[$#t]);
 		$line = join "", map {"<td>" . $_ . "</td>"} @t;
 		$cntline++;
 		$exp_diff_sample_exp .= <<TEMP;
@@ -912,9 +905,9 @@ if(scalar(@group_lab) >= 1){
 		my $head = <IN>;
 		chomp $head;
 		my @head = split /\t/, $head;
-		$head[1] =~ s/_rpm/ RPM/;
+		$head[1] =~ s/_rpkm/ RPKM/;
 		$head[$skip + 1] =~ s/_count/ Count/;
-		@head = ("Transcript ID", $head[1], "...", $head[$skip + 1], "...", "Gene ID", "Source Gene", "...", "Annot Type");
+		@head = ("Gene ID", $head[1], "...", $head[$skip + 1], "...", "Source Gene", "...", "Type");
 		$head = join "", map {"<th>" . $_ . "</th>"} @head;
 		$exp_diff_group_exp .= <<TEMP;
 					<tr>$head</tr>
@@ -926,7 +919,7 @@ TEMP
 			my @t = split /\t/, $line;
 			$t[1] = sprintf("%.2f", $t[1]);
 			$t[$skip + 1] = sprintf("%.1f", $t[$skip + 1]);
-			@t = (@t[0 .. 1], "...", $t[$skip + 1], "...", @t[$skip * 2 + 1 .. $skip * 2 + 2], "...", $t[$#t]);
+			@t = (@t[0 .. 1], "...", $t[$skip + 1], "...", $t[$skip * 2 + 1], "...", $t[$#t]);
 			$line = join "", map {"<td>" . $_ . "</td>"} @t;
 			$exp_diff_group_cntline++;
 			$exp_diff_group_exp .= <<TEMP;
@@ -1165,12 +1158,12 @@ TEMP
 				<table>
 					<caption>环状RNA注释情况统计</caption>
 					<tr><th>环状RNA总数</th><th>已存在环状RNA数</th><th>新预测环状RNA数</th></tr>
-					<tr><td>$circRNA_isoform_count</td><td>$circRNA_exist_count</td><td>$circRNA_novel_count</td></tr>
+					<tr><td>$circRNA_gene_count</td><td>$circRNA_exist_count</td><td>$circRNA_novel_count</td></tr>
 				</table>
 				<p><br /></p>
 				<table>
 					<caption>环状RNA注释信息表</caption>
-					<tr><th>Transcript ID</th><th>Annotation</th><th>Best Transcript</th><th>Gene Symbol</th><th>Study</th></tr>
+					<tr><th>Gene ID</th><th>Annotation</th><th>Best Transcript</th><th>Gene Symbol</th><th>Study</th></tr>
 $database_annot_info
 				</table>
 				<p>
@@ -1421,7 +1414,7 @@ HTML_cont
 }
 
 print HTML <<HTML_cont;
-│   └── circ.rpm.distribution.png                        表达量丰度分布图
+│   └── circ.rpkm.distribution.png                        表达量丰度分布图
 HTML_cont
 
 if($opts{Sde} ne "none" && scalar(@sample_lab) >= 2){

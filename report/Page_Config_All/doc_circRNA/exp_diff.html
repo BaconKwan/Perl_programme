@@ -13,49 +13,51 @@
 		<div>
 			<h3>表达与差异分析</h3>
 			<h5 id="sub_1">表达量统计</h5>
-			<p>在计算环状RNA表达量的时候，会遇到环状RNA和线性RNA有相同的Exon区域，而Reads无法准确分配的情况。这时为了计算的准确性，我们只取环状RNA的Support Reads，也就是跨越Break Point的Reads，而丢弃掉其他Reads。</p>
-			<p>因此，环状RNA表达量的计算使用RPM(Reads Per Million mapped reads)法，设RPM(A)为基因A的表达量，则C为比对到基因A的测序片段数，N为比对到参考基因的总测序片段数，其计算公式为：</p>
+			<p>环状RNA表达量的计算使用RPKM(Reads Per Kilobase Per Million mapped reads)法，设RPKM(A)为基因A的表达量，则C为比对到基因A的Reads数，L为基因A的碱基数，N为比对到参考基因的总Reads数，其计算公式为：</p>
 			<div class="help_img">
-				<a href="../image/RPM.png" target="_blank"><img class="formula" src="../image/RPM.png"/></a>
+				<a href="../image/RPKM.png" target="_blank"><img class="formula" src="../image/RPKM.png"/></a>
 			</div>
 			<p id="sub_1_1">表达量丰度分布图</p>
 			<table class="pic_table">
 				<tr>
-					<td style="width: 50%"><a href="../image/rpm_dist.png" target="_blank"><img src="../image/rpm_dist.png" /></td>
+					<td style="width: 50%"><a href="../image/rpkm_dist.png" target="_blank"><img src="../image/rpkm_dist.png" /></td>
 					<td class="pic_table_desc" style="width: 50%">
-						<p>所有样本基因的表达量丰度分布图如左图所示，图中横坐标为log10FPKM，该数值越高，表示基因表达量越高；纵坐标为基因的丰度，即为对应横轴表达量的基因数 / 检测已表达基因的总数；图中每种颜色表示一个样本；分布曲线的峰值表示整个样本基因表达量最集中的区域；一般情况下，可作为评估某个样本跟其它样本在建库、测序、比对或定量中的差异。</p>
+						<p>所有样本基因的表达量丰度分布图如左图所示，图中横坐标为log<sub>10</sub>RPKM，该数值越高，表示基因表达量越高；纵坐标为基因的丰度，即为对应横轴表达量的基因数 / 检测已表达基因的总数；图中每种颜色表示一个样本；分布曲线的峰值表示整个样本基因表达量最集中的区域；一般情况下，可作为评估某个样本跟其它样本在建库、测序、比对或定量中的差异。</p>
 					</td>
 				</tr>
 			</table>
 			<p id="sub_1_2">样品（分组）表达量统计表说明</p>
 			<ul>
-				<li>Transcript ID : 转录本名称</li>
-				<li>XXX RPM : 该项目第一个样品该转录本的表达量</li>
-				<li>XXX Count : 该项目第一个样品比对到该转录本的read数目</li>
-				<li>Gene ID : 该转录本所属的基因名称</li>
-				<li>Source Gene : 该转录本成环前所属的基因名称</li>
-				<li>Annot Type : 该转录本的类型</li>
+				<li>Gene ID (id)：环状RNA ID</li>
+				<li>XXX RPKM (xxx_rpkm)：样品XXX该环状RNA的表达量</li>
+				<li>XXX Count (xxx_count)：样品XXX比对到该环状RNA的read数目</li>
+				<li>Source Gene (source_gene) ：该环状RNA的来源基因，“NA”表示没有来源基因，说明该环状RNA类型为“intergenic”</li>
+				<li>Chr (chr) ：该环状RNA的来源染色体</li>
+				<li>Strand (strand) ：正负链</li>
+				<li>Start (genomic_start) ：该环状RNA在基因组上的起始位点</li>
+				<li>End (genomic_end) ：该环状RNA在基因组上的终止位点</li>
+				<li>Length (spliced_length) ：该环状RNA成环后的长度</li>
+				<li>Type (annot_type) ：该环状RNA所属的类型</li>
 			</ul>
 			<h5 id="sub_2">样品(分组)间差异表达分析</h5>
 			<p id="sub_2_1">差异基因注释表</p>
 			<ul>
-				<li>id : 转录本名称</li>
-				<li>sample_1_count : 样品1 的转录本 count 值</li>
-				<li>sample_2_count : 样品2 的转录本 count 值</li>
-				<li>sample_1_rpm : 样品1 的转录本 RPM 值</li>
-				<li>sample_2_rpm : 样品2 的转录本 RPM 值</li>
-				<li>log2(FC) : 样品1 与 样品2 RPM 差异倍数的对数值，以2为底</li>
-				<li>P_value : 检验统计量的 P-value 值</li>
-				<li>FDR : 经过FDR校正后的 P-value 值</li>
-				<li>significant : 值为yes或no，yes表示为显著差异，判定条件：若 FDR &lt; 0.05，并且 |log<sub>2</sub>FC| &gt; 1 此值就为 “yes”</li>
-				<li>gene_id : 该转录本所属的基因名称</li>
-				<li>source_gene : 该转录本所属的基因名称</li>
-				<li>chr : 转录本所在的染色体</li>
-				<li>strand : 转录本所在的单链</li>
-				<li>genomic_start : 转录本在基因组上的起始位置</li>
-				<li>genomic_end : 转录本在基因组上的终止位置</li>
-				<li>spliced_length : 转录本剪切加工，成环后的长度</li>
-				<li>annot_type : 该转录本的类型</li>
+				<li>id ：环状RNA ID</li>
+				<li>sample_1_count ：样品1 的环状RNA count 值</li>
+				<li>sample_2_count ：样品2 的环状RNA count 值</li>
+				<li>sample_1_rpkm ：样品1 的环状RNA RPKM 值</li>
+				<li>sample_2_rpkm ：样品2 的环状RNA RPKM 值</li>
+				<li>log2(FC) ：样品1 与 样品2 RPKM 差异倍数的对数值，以2为底</li>
+				<li>P_value ：检验统计量的 P-value 值</li>
+				<li>FDR ：经过FDR校正后的 P-value 值</li>
+				<li>significant ：值为yes或no，yes表示为显著差异，判定条件：若 FDR &lt; 0.05，并且 |log<sub>2</sub>FC| &gt; 1 此值就为 “yes”</li>
+				<li>source_gene ：该环状RNA的来源基因，“NA”表示没有来源基因，说明该环状RNA类型为“intergenic”</li>
+				<li>chr ：该环状RNA的来源染色体</li>
+				<li>strand ：正负链</li>
+				<li>genomic_start ：该环状RNA在基因组上的起始位点</li>
+				<li>genomic_end ：该环状RNA在基因组上的终止位点</li>
+				<li>spliced_length ：该环状RNA成环后的长度</li>
+				<li>annot_type ：该环状RNA所属的类型</li>
 			</ul>
 			<p id="sub_2_2">样品(分组)间差异基因散点图</p>
 			<table class="pic_table">
