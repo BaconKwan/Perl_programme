@@ -1112,8 +1112,8 @@ if($opts{isAnnot} eq "yes"){
 			
 			<!-- 数据库注释与靶向预测 -->
 			<section id="database_annot_and_predition" class="normal_cont">
-				<h3>数据库注释与靶向预测<a href="doc/database_annot_and_predition.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
-				<h5>数据库注释</h5>
+				<h3>数据库注释与靶向预测</h3>
+				<h5>数据库注释<a href="doc/database_annot_and_predition.html#sub_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 HTML_cont
 
 	my $circRNA_exist_count = `wc -l $outdir/$folders{CircBaseAnnotation}/exist.circ.info.annot.xls`;
@@ -1162,7 +1162,7 @@ TEMP
 				</table>
 				<p><br /></p>
 				<table>
-					<caption>环状RNA注释信息表</caption>
+					<caption>环状RNA注释信息表<a href="doc/database_annot_and_predition.html#sub_1_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Gene ID</th><th>Annotation</th><th>Best Transcript</th><th>Gene Symbol</th><th>Study</th></tr>
 $database_annot_info
 				</table>
@@ -1212,9 +1212,9 @@ HTML_cont
 						</div>
 					</div>
 				</div>
-				<h5>靶向关系预测</h5>
+				<h5>靶向关系预测<a href="doc/database_annot_and_predition.html#sub_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 				<table>
-					<caption>环状RNA已存在靶向关系统计表</caption>
+					<caption>环状RNA已存在靶向关系统计表<a href="doc/database_annot_and_predition.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>小RNA数目</th><th>靶基因数目</th><th>靶向关系数目</th></tr>
 $database_annot_exist_target
 				</table>
@@ -1248,7 +1248,7 @@ TEMP
 	
 	print HTML <<HTML_cont;
 				<table>
-					<caption>环状RNA新预测靶向关系统计表</caption>
+					<caption>环状RNA新预测靶向关系统计表<a href="doc/database_annot_and_predition.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>小RNA数目</th><th>靶基因数目</th><th>靶向关系数目</th></tr>
 $database_annot_novel_target
 				</table>
