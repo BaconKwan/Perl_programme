@@ -99,7 +99,7 @@ do
 		cp ${name}.glist GO/${name}.glist
 		perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/getwego.pl GO/${name}.glist $wego > GO/${name}.wego
 		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist GO/${name}.wego -output GO/${name}.go
-		java -jar /Bio/Bin/pipe/RNA/tools/batik-rasterizer.jar -m image/png GO/${name}.go.svg
+		/usr/bin/rsvg-convert GO/${name}.go.svg -o GO/${name}.go.png
 		rm GO/${name}.glist -rf
 	fi
 done
