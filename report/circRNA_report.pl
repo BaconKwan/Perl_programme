@@ -186,13 +186,31 @@ print HTML <<HTML_cont;
 					<tr><td>项目名称</td><td>$opts{content}</td></tr>
 					<tr><td>参考基因组</td><td>$opts{reference}</td></tr>
 					<tr><td>样品名称</td><td>$project_info_sample_lab</td></tr>
+HTML_cont
+
+if(exists $opts{Sde} && $opts{Sde} ne "none"){
+	print HTML <<HTML_cont;
 					<tr><td>样品间差异方案</td><td>$project_info_sample_diff</td></tr>
+HTML_cont
+}
+
+if(scalar @group_lab > 0){
+	print HTML <<HTML_cont;
 					<tr><td>分组方案</td><td>$project_info_group_lab</td></tr>
+HTML_cont
+}
+
+if(exists $opts{Gde} && $opts{Gde} ne "none"){
+	print HTML <<HTML_cont;
 					<tr><td>分组间差异方案</td><td>$project_info_group_diff</td></tr>
+HTML_cont
+}
+
+print HTML <<HTML_cont;
 				</table>
 			</section>
 			
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
 			<!-- 概述 -->
 			<section id="introduction" class="normal_cont">
@@ -226,7 +244,7 @@ if((exists $opts{source_dir} && $opts{source_dir} ne "none") || !($opts{read_typ
 	if($opts{isFilter} eq "yes"){
 		print HTML <<HTML_cont;
 	
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
 			<!-- 测序评估 -->
 			<section id="seq_stat" class="normal_cont">
@@ -444,7 +462,7 @@ HTML_cont
 
 print HTML <<HTML_cont;
 
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
 			<!-- 比对统计 -->
 			<section id="align_stat" class="normal_cont">
@@ -638,7 +656,7 @@ $align_stat_anchors_align
 				</table>
 			</section>
 			
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
 			<!-- 环状RNA鉴定 -->
 			<section id="circRNA_identify" class="normal_cont">
@@ -767,7 +785,7 @@ HTML_cont
 if($opts{isEnrich} eq "yes"){
 	print HTML <<HTML_cont;
 	
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
 			<!-- 来源基因富集分析 -->
 			<section id="source_gene_enrichment" class="normal_cont">
@@ -839,7 +857,7 @@ HTML_cont
 }
 print HTML <<HTML_cont;
 
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
 			<!-- 表达与差异分析 -->
 			<section id="exp_diff" class="normal_cont">
@@ -1105,56 +1123,65 @@ print HTML <<HTML_cont;
 			</section>
 HTML_cont
 
-if($opts{isAnnot} eq "yes"){
+if($opts{isAnnot} eq "yes" || $opts{isPredict} eq "yes"){
 	print HTML <<HTML_cont;
 
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
 			<!-- 数据库注释与靶向预测 -->
 			<section id="database_annot_and_predition" class="normal_cont">
 				<h3>数据库注释与靶向预测</h3>
+				<p>
+					<ul>
+						<li>网络关系（可用于Cytoscape作图<a href="doc/cytoscape.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a>）：<a href="../$folders{Cytoscape}/" target="_blank"> Cytoscape输入文件目录 </a></li>
+					</ul>
+				</p>
+HTML_cont
+
+	if($opts{isAnnot} eq "yes"){
+		print HTML <<HTML_cont;
 				<h5>数据库注释<a href="doc/database_annot_and_predition.html#sub_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 HTML_cont
 
-	my $circRNA_exist_count = `wc -l $outdir/$folders{CircBaseAnnotation}/exist.circ.info.annot.xls`;
-	my $circRNA_novel_count = `wc -l $outdir/$folders{CircBaseAnnotation}/novel.circ.info.annot.xls`;
-	chomp $circRNA_exist_count;
-	chomp $circRNA_novel_count;
-	$circRNA_exist_count--;
-	$circRNA_novel_count--;
-	
-	my $database_annot_cntline = 0;
-	my $database_annot_info;
-	open IN, "$outdir/$folders{CircBaseAnnotation}/circBase_annotation.xls" || die $!;
-	<IN>;
-	while($database_annot_cntline < 10){
-		my $line = <IN>;
-		chomp $line;
-		my @t = split /\t/, $line;
-		$t[1] =~ s/(.{30}).*/$1 ... /;
-		$line = join "", map{"<td>" . $_ . "</td>"} @t;
-		$database_annot_cntline++;
-		$database_annot_info .= <<TEMP;
+		my $circRNA_exist_count = `wc -l $outdir/$folders{CircBaseAnnotation}/exist.circ.info.annot.xls`;
+		my $circRNA_novel_count = `wc -l $outdir/$folders{CircBaseAnnotation}/novel.circ.info.annot.xls`;
+		chomp $circRNA_exist_count;
+		chomp $circRNA_novel_count;
+		$circRNA_exist_count--;
+		$circRNA_novel_count--;
+		
+		my $database_annot_cntline = 0;
+		my $database_annot_info;
+		open IN, "$outdir/$folders{CircBaseAnnotation}/circBase_annotation.xls" || die $!;
+		<IN>;
+		while($database_annot_cntline < 10){
+			my $line = <IN>;
+			chomp $line;
+			my @t = split /\t/, $line;
+			$t[1] =~ s/(.{30}).*/$1 ... /;
+			$line = join "", map{"<td>" . $_ . "</td>"} @t;
+			$database_annot_cntline++;
+			$database_annot_info .= <<TEMP;
 					<tr>$line</tr>
 TEMP
-	}
-	close IN;
+		}
+		close IN;
 	
-	my $database_annot_exist_target;
-	open IN, "$outdir/$folders{CircBaseAnnotation}/exist.target.stat" || die $!;
-	<IN>;
-	{
-		my $line = <IN>;
-		chomp $line;
-		my @t = split /\t/, $line;
-		$line = join "", map{"<td>" . $_ . "</td>"} @t;
-		$database_annot_exist_target .= <<TEMP;
+		my $database_annot_exist_target;
+		open IN, "$outdir/$folders{CircBaseAnnotation}/exist.target.stat" || die $!;
+		<IN>;
+		{
+			my $line = <IN>;
+			chomp $line;
+			my @t = split /\t/, $line;
+			$line = join "", map{"<td>" . $_ . "</td>"} @t;
+			$database_annot_exist_target .= <<TEMP;
 					<tr>$line</tr>
 TEMP
-	}
-	close IN;
+		}
+		close IN;
 
-	print HTML <<HTML_cont;
+		print HTML <<HTML_cont;
 				<table>
 					<caption>环状RNA注释情况统计</caption>
 					<tr><th>环状RNA总数</th><th>已存在环状RNA数</th><th>新预测环状RNA数</th></tr>
@@ -1179,8 +1206,8 @@ $database_annot_info
 					</ul>
 				</p>
 HTML_cont
-	$resp_tabs_cnt++;
-	print HTML <<HTML_cont;
+		$resp_tabs_cnt++;
+		print HTML <<HTML_cont;
 				<p>已存在和新预测环状RNA统计图</p>
 				<div id="parentVerticalTab$resp_tabs_cnt" class="VerticalTab">
 					<ul id="resp-tabs-list$resp_tabs_cnt" class="resp-tabs-list hor_$resp_tabs_cnt">
@@ -1214,13 +1241,13 @@ HTML_cont
 				</div>
 				<h5>靶向关系预测<a href="doc/database_annot_and_predition.html#sub_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 				<table>
-					<caption>环状RNA已存在靶向关系统计表<a href="doc/database_annot_and_predition.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
-					<tr><th>小RNA数目</th><th>靶基因数目</th><th>靶向关系数目</th></tr>
+					<caption>环状RNA已存在靶向关系统计表</caption>
+					<tr><th>小RNA数目</th><th>靶基因数目（环状RNA）</th><th>靶向关系数目</th></tr>
 $database_annot_exist_target
 				</table>
 				<p>
 					<ul>
-						<li>环状RNA已存在靶向关系信息表：
+						<li>环状RNA已存在靶向关系信息表<a href="doc/database_annot_and_predition.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a>：
 							<ul>
 								<li><a href="../$folders{CircBaseAnnotation}/exist.target.aln.annot.xls" target="_blank"> exist.target.aln.annot.xls </a></li>
 								<li><a href="../$folders{CircBaseAnnotation}/exist.target.aln.annot_index_mir.xls" target="_blank"> exist.target.aln.annot_index_mir.xls </a></li>
@@ -1229,32 +1256,32 @@ $database_annot_exist_target
 					</ul>
 				</p>
 HTML_cont
-}
+	}
 
-if($opts{isPredict} eq "yes"){
-	my $database_annot_novel_target;
-	open IN, "$outdir/$folders{TargetPrediction}/novel.target.stat" || die $!;
-	<IN>;
-	{
-		my $line = <IN>;
-		chomp $line;
-		my @t = split /\t/, $line;
-		$line = join "", map{"<td>" . $_ . "</td>"} @t;
-		$database_annot_novel_target .= <<TEMP;
+	if($opts{isPredict} eq "yes"){
+		my $database_annot_novel_target;
+		open IN, "$outdir/$folders{TargetPrediction}/novel.target.stat" || die $!;
+		<IN>;
+		{
+			my $line = <IN>;
+			chomp $line;
+			my @t = split /\t/, $line;
+			$line = join "", map{"<td>" . $_ . "</td>"} @t;
+			$database_annot_novel_target .= <<TEMP;
 				<tr>$line</tr>
 TEMP
-	}
-	close IN;
-	
-	print HTML <<HTML_cont;
+		}
+		close IN;
+		
+		print HTML <<HTML_cont;
 				<table>
-					<caption>环状RNA新预测靶向关系统计表<a href="doc/database_annot_and_predition.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
-					<tr><th>小RNA数目</th><th>靶基因数目</th><th>靶向关系数目</th></tr>
+					<caption>环状RNA新预测靶向关系统计表</caption>
+					<tr><th>小RNA数目</th><th>靶基因数目（环状RNA）</th><th>靶向关系数目</th></tr>
 $database_annot_novel_target
 				</table>
 				<p>
 					<ul>
-						<li>环状RNA新预测靶向关系信息表：
+						<li>环状RNA新预测靶向关系信息表<a href="doc/database_annot_and_predition.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a>：
 							<ul>
 								<li><a href="../$folders{TargetPrediction}/novel.target.aln.annot.xls" target="_blank"> novel.target.aln.annot.xls </a></li>
 								<li><a href="../$folders{TargetPrediction}/novel.target.aln.annot_index_mir.xls" target="_blank"> novel.target.aln.annot_index_mir.xls </a></li>
@@ -1264,30 +1291,61 @@ $database_annot_novel_target
 				</p>
 			</section>
 HTML_cont
-}
-else{
-	print HTML <<HTML_cont;
+	}
+	else{
+		print HTML <<HTML_cont;
 			</section>
 HTML_cont
-}
+	}
 
-if($opts{isMirTar} eq "yes"){
-	print HTML <<HTML_cont;
+	if($opts{isMirTar} eq "yes"){
+		print HTML <<HTML_cont;
 	
-	<!--
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 			
-			 mRNA关联分析 
+			<!-- mRNA关联分析 -->
 			<section id="mirTar_analysis" class="normal_cont">
 				<h3>mRNA关联分析<a href="doc/mirTar_analysis.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
-			</section>
-	-->
 HTML_cont
+
+		my $exist_mirTar_novel_target;
+		open IN, "$outdir/$folders{MirTarget}/exist_mirTar.target.stat" || die $!;
+		<IN>;
+		{
+			my $line = <IN>;
+			chomp $line;
+			my @t = split /\t/, $line;
+			$line = join "", map{"<td>" . $_ . "</td>"} @t;
+			$exist_mirTar_novel_target .= <<TEMP;
+				<tr>$line</tr>
+TEMP
+		}
+		close IN;
+		
+		print HTML <<HTML_cont;
+				<table>
+					<caption>miTarBase靶向关系统计表</caption>
+					<tr><th>小RNA数目</th><th>靶基因数目（mRNA）</th><th>靶向关系数目</th></tr>
+$exist_mirTar_novel_target
+				</table>
+				<p>
+					<ul>
+						<li>miTarBase靶向关系信息表<a href="doc/mirTar_analysis.html#sub_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a>：
+							<ul>
+								<li><a href="../$folders{MirTarget}/exist_mirTar.target.aln.annot.xls" target="_blank"> exist_mirTar.target.aln.annot.xls </a></li>
+								<li><a href="../$folders{MirTarget}/exist_mirTar.target.aln.annot_index_mir.xls" target="_blank"> exist_mirTar.target.aln.annot_index_mir.xls </a></li>
+							</ul>
+						</li>
+					</ul>
+				</p>
+			</section>
+HTML_cont
+	}
 }
 
 print HTML <<HTML_cont;
 			
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 
 			<!-- 结题报告目录结构 -->
 			<section id="catalog" class="normal_cont">
@@ -1442,8 +1500,9 @@ if($opts{Gde} ne "none" && scalar(@group_lab) >= 2){
 HTML_cont
 }
 
-if($opts{isAnnot} eq "yes"){
-	print HTML <<HTML_cont;
+if($opts{isAnnot} eq "yes" || $opts{isPredict} eq "yes"){
+	if($opts{isAnnot} eq "yes"){
+		print HTML <<HTML_cont;
 ├── $folders{CircBaseAnnotation}                               数据库注释结果目录
 │   ├── circBase_annotation.xls                           环状RNA注释信息表
 │   ├── circ_candidates.info.annot.xls                    全体环状RNA类型统计表
@@ -1459,18 +1518,49 @@ if($opts{isAnnot} eq "yes"){
 │   ├── exist.target.aln.annot.xls                        环状RNA已存在靶向关系信息表
 │   └── exist.target.aln.annot_index_mir.xls              环状RNA已存在靶向关系信息表（以小RNA作索引）
 HTML_cont
-}
+	}
 
-if($opts{isPredict} eq "yes"){
-	print HTML <<HTML_cont;
+	if($opts{isPredict} eq "yes"){
+		print HTML <<HTML_cont;
 ├── $folders{TargetPrediction}                                环状RNA新预测靶向关系结果目录
 │   ├── exist.target.stat                                 环状RNA新预测靶向关系统计表
 │   ├── exist.target.aln.annot.xls                        环状RNA新预测靶向关系信息表
 │   └── exist.target.aln.annot_index_mir.xls              环状RNA新预测靶向关系信息表（以小RNA作索引）
 HTML_cont
-}
+	}
+	
+	if($opts{isMirTar} eq "yes"){
+		print HTML <<HTML_cont;
+├── $folders{MirTarget}                                       miTarBase靶向关系结果目录
+│   ├── exist.target.stat                                 miTarBase靶向关系统计表
+│   ├── exist.target.aln.annot.xls                        miTarBase靶向关系信息表
+│   └── exist.target.aln.annot_index_mir.xls              miTarBase靶向关系信息表（以小RNA作索引）
+HTML_cont
+	}
+	
+	print HTML <<HTML_cont;
+├── $folders{Cytoscape}                                       Cytoscape输入文件目录
+│   ├── exist.circ.node                                   已存在环状RNA列表
+│   ├── novel.circ.node                                   新预测环状RNA列表
+│   ├── exist_circRNA_miRNA.edge                          环状RNA已存在靶向关系列表
+HTML_cont
 
-if($opts{isMirTar} eq "yes"){
+	if($opts{isPredict} eq "yes"){
+		print HTML <<HTML_cont;
+│   ├── novel_circRNA_miRNA.edge                          环状RNA新预测靶向关系列表
+HTML_cont
+	}
+	
+	if($opts{isMirTar} eq "yes"){
+		print HTML <<HTML_cont;
+│   ├── mRNA.node                                         mRNA列表
+│   ├── mRNA_miRNA.edge                                   miTarBase靶向关系列表
+HTML_cont
+	}
+	
+	print HTML <<HTML_cont;
+│   └── miRNA.nodes                                       小RNA列表
+HTML_cont
 }
 
 print HTML <<HTML_cont;
