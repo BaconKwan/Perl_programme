@@ -168,3 +168,16 @@ perl $REPORT $OUT_DIR $OUT_DIR/WGCNA.options || exit 0;
 
 echo "==== package files ===="
 tar -zvcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html
+
+## generate Simpilify Report
+echo "==== generate Simpilify report ===="
+cd $OUT_DIR/../upload_simple
+rm -rf *
+cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html ./
+rm -rf ./5.enrichment/KO/*_map/*
+for i in xls txt ko path kegg wego go
+do
+	find ./ -name "*.$i" | xargs sed -i '21,\$d'
+done
+tar --dereference -zvcf WGCNA_simple_report.tar.gz ./*
+cd -
