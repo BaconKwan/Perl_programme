@@ -180,5 +180,5 @@ do
 	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '21,$d'
 done
 cd $SIM_OUT_DIR/..
-tar --dereference -zvcf WGCNA_simple_report.tar.gz $SIM_OUT_DIR/*
+tar --dereference -zvcf WGCNA_simple_report.tar.gz `basename $SIM_OUT_DIR`/*
 cd -
