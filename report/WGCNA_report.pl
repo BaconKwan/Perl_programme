@@ -459,18 +459,18 @@ upload                                                报告总目录
 │   │   ├── GOViewList.html                                  GO 富集分析网页报告索引
 │   │   └── GOView.html                                      GO 富集分析网页报告
 │   └── KO                                                KO 富集分析结果目录
-│       ├── all.pathway.xls                                   Pathway 富集分析汇总表
-│       ├── pv.kegg.pdf                                       Pathway 富集分析P值热图-矢量图
-│       ├── pv.kegg.png                                       Pathway 富集分析P值热图-位图
-│       ├── qv.kegg.pdf                                       Pathway 富集分析Q值热图-矢量图
-│       ├── qv.kegg.png                                       Pathway 富集分析Q值热图-位图
-│       ├── rf.kegg.pdf                                       Pathway 富集分析富集因子热图-矢量图
-│       ├── rf.kegg.png                                       Pathway 富集分析富集因子热图-位图
-│       ├── *.ko.xls                                          各模块基因集 KO 列表
-│       ├── *.path.xls                                        各模块基因集 Pathway 富集分析结果
-│       ├── *.path.png                                        各模块基因集 Pathway 富集分析气泡图
-│       ├── *_map                                             各模块基因集 Pathway 富集分析通路图
-│       └── *.htm                                             各模块基因集 Pathway 富集分析报告
+│        ├── all.pathway.xls                                  Pathway 富集分析汇总表
+│        ├── pv.kegg.pdf                                      Pathway 富集分析P值热图-矢量图
+│        ├── pv.kegg.png                                      Pathway 富集分析P值热图-位图
+│        ├── qv.kegg.pdf                                      Pathway 富集分析Q值热图-矢量图
+│        ├── qv.kegg.png                                      Pathway 富集分析Q值热图-位图
+│        ├── rf.kegg.pdf                                      Pathway 富集分析富集因子热图-矢量图
+│        ├── rf.kegg.png                                      Pathway 富集分析富集因子热图-位图
+│        ├── *.ko.xls                                         各模块基因集 KO 列表
+│        ├── *.path.xls                                       各模块基因集 Pathway 富集分析结果
+│        ├── *.path.png                                       各模块基因集 Pathway 富集分析气泡图
+│        ├── *_map                                            各模块基因集 Pathway 富集分析通路图
+│        └── *.htm                                            各模块基因集 Pathway 富集分析报告
 ├── Page_Config                                        结题报告相关文件目录
 │   ├── content.html                                      结题报告主题内容页面
 │   ├── css                                               结题报告样式设置相关文件
