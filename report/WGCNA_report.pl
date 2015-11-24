@@ -70,7 +70,7 @@ print HTML <<HTML_cont;
 				<p>WGCNA算法是构建基因共表达网络的常用算法。我们使用R语言包进行分析。WGCNA算法首先假定基因网络服从无尺度分布，并定义基因共表达相关矩阵、基因网络形成的邻接函数，然后计算不同节点的相异系数，并据此构建分层聚类树(hierarchical clustering tree)，该聚类树的不同分支代表不同的基因模块(module)，模块内基因共表达程度高，而分属不同模块的基因共表达程度低。最后，探索模块与特定表型或疾病的关联关系，最终达到鉴定疾病治疗的靶点基因、基因网络的目的。</p>
 			</section>
 
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 
 			<!-- WGCNA过滤 -->
 			<section id="filter" class="normal_cont">
@@ -80,7 +80,7 @@ print HTML <<HTML_cont;
 				<p>过滤掉的样本列表： <a href="../1.filter/0.removeSample.xls"> 0.removeSample.xls </a></p>
 			</section>
 
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 
 			<!-- WGCNA模块划分 -->
 			<section id="module_construction" class="normal_cont">
@@ -122,7 +122,7 @@ print HTML <<HTML_cont;
 				</div>
 			</section>
 
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 
 			<!-- WGCNA模块概况 -->
 			<section id="basic_info" class="normal_cont">
@@ -166,7 +166,7 @@ print HTML <<HTML_cont;
 				</div>
 			</section>
 
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 
 			<!-- WGCNA表达模式 -->
 			<section id="modules" class="normal_cont">
@@ -207,7 +207,7 @@ print HTML <<HTML_cont;
 				</div>
 			</section>
 			
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 
 			<!-- WGCNA富集分析 -->
 			<section id="enrichment" class="normal_cont">
@@ -397,7 +397,7 @@ HTML_cont
 print HTML <<HTML_cont;
 			</section>
 			
-			<br /><hr /><br />
+			<!-- <br /><hr /><br /> -->
 
 			<!-- 结题报告目录结构 -->
 			<section id="catalog" class="normal_cont">
