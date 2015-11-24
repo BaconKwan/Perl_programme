@@ -56,7 +56,6 @@ echo "Launch at `date`, enjoy yourself!"
 
 EXP_TABLE=$1
 OUT_DIR=$2
-SIM_OUT_DIR=${OUT_DIR}_simple
 
 ## Creat Output Directory
 
@@ -165,6 +164,11 @@ rm 10.*ModuleConnectivity.xls
 echo "==== generate report ===="
 perl $REPORT $OUT_DIR $OUT_DIR/WGCNA.options || exit 0;
 
+## prepare for package
+cd $OUT_DIR/..
+OUT_DIR=`basename $OUT_DIR`
+SIM_OUT_DIR=${OUT_DIR}_simple
+
 ## package
 
 echo "==== package files ===="
@@ -179,6 +183,5 @@ for i in xls txt ko path kegg wego go
 do
 	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '21,$d'
 done
-cd $SIM_OUT_DIR/..
-tar --dereference -zvcf WGCNA_simple_report.tar.gz `basename $SIM_OUT_DIR`/*
+tar --dereference -zvcf WGCNA_simple_report.tar.gz $SIM_OUT_DIR/*
 cd -
