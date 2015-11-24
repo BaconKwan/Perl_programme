@@ -56,6 +56,7 @@ echo "Launch at `date`, enjoy yourself!"
 
 EXP_TABLE=$1
 OUT_DIR=$2
+SIM_OUT_DIR=${OUT_DIR}_simple
 
 ## Creat Output Directory
 
@@ -171,13 +172,13 @@ tar -zvcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $
 
 ## generate Simpilify Report
 echo "==== generate Simpilify report ===="
-rm -rf $OUT_DIR/../upload_simple && mkdir $OUT_DIR/../upload_simple
-cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html $OUT_DIR/../upload_simple/
-rm -rf $OUT_DIR/../upload_simple/5.enrichment/KO/*_map/*
+rm -rf $SIM_OUT_DIR && mkdir $SIM_OUT_DIR
+cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html $SIM_OUT_DIR/
+rm -rf $SIM_OUT_DIR/5.enrichment/KO/*_map/*
 for i in xls txt ko path kegg wego go
 do
-	find $OUT_DIR/../upload_simple/ -name "*.$i" | xargs sed -i '21,$d'
+	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '21,$d'
 done
-cd $OUT_DIR/../upload_simple
-tar --dereference -zvcf WGCNA_simple_report.tar.gz ./*
+cd $SIM_OUT_DIR/..
+tar --dereference -zvcf WGCNA_simple_report.tar.gz $SIM_OUT_DIR/*
 cd -
