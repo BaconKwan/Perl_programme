@@ -176,7 +176,7 @@ cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.
 rm -rf $OUT_DIR/../upload_simple/5.enrichment/KO/*_map/*
 for i in xls txt ko path kegg wego go
 do
-	find $OUT_DIR/../upload_simple/ -name "*.$i" | xargs sed -i '21,\$d'
+	find $OUT_DIR/../upload_simple/ -name "*.$i" | xargs sed -i '21,$d'
 done
 cd $OUT_DIR/../upload_simple
 tar --dereference -zvcf WGCNA_simple_report.tar.gz ./*
