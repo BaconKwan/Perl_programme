@@ -171,13 +171,13 @@ tar -zvcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $
 
 ## generate Simpilify Report
 echo "==== generate Simpilify report ===="
-cd $OUT_DIR/../upload_simple
-rm -rf *
-cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html ./
-rm -rf ./5.enrichment/KO/*_map/*
+rm -rf $OUT_DIR/../upload_simple && mkdir $OUT_DIR/../upload_simple
+cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html $OUT_DIR/../upload_simple/
+rm -rf $OUT_DIR/../upload_simple/5.enrichment/KO/*_map/*
 for i in xls txt ko path kegg wego go
 do
-	find ./ -name "*.$i" | xargs sed -i '21,\$d'
+	find $OUT_DIR/../upload_simple/ -name "*.$i" | xargs sed -i '21,\$d'
 done
+cd $OUT_DIR/../upload_simple
 tar --dereference -zvcf WGCNA_simple_report.tar.gz ./*
 cd -
