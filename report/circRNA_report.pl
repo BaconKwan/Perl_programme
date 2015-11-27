@@ -18,7 +18,7 @@
 
 =head1 Author
 
-	Development Group of Genedenovo
+	the Development Team of Genedenovo
 
 =cut
 

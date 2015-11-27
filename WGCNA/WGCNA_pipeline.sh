@@ -167,7 +167,7 @@ perl $REPORT $OUT_DIR $OUT_DIR/WGCNA.options || exit 0;
 ## prepare for package
 cd $OUT_DIR/..
 OUT_DIR=`basename $OUT_DIR`
-SIM_OUT_DIR=${OUT_DIR}_simple
+SIM_OUT_DIR=${OUT_DIR}_compact
 
 ## package
 
@@ -183,5 +183,5 @@ for i in xls txt ko path kegg wego go
 do
 	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '21,$d'
 done
-tar --dereference -zvcf WGCNA_simple_report.tar.gz $SIM_OUT_DIR/*
+tar --dereference -zvcf WGCNA_compact_report.tar.gz $SIM_OUT_DIR/*
 cd -
