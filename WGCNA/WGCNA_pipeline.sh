@@ -181,7 +181,7 @@ cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.
 rm -rf $SIM_OUT_DIR/5.enrichment/KO/*_map/*
 for i in xls txt ko path kegg wego go
 do
-	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '21,$d'
+	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '11,$d'
 done
 tar --dereference -zvcf WGCNA_compact_report.tar.gz $SIM_OUT_DIR/*
 cd -

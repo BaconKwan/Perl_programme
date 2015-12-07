@@ -2,6 +2,10 @@
 	height: 570px;
 }
 
+.VerticalTab img{
+	max-height: 500px;
+}
+
 ul.resp-tabs-list, p {
     margin: 0px;
     padding: 0px;
