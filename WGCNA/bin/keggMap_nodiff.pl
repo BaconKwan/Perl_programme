@@ -1,1 +1,0 @@
-/Bio/Database/Database/kegg/latest_kegg/shell/keggMap_nodiff.pl

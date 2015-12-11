@@ -1,1 +1,0 @@
-/Bio/Database/Database/kegg/latest_kegg/shell/keggpath.pl

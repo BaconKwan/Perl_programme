@@ -1,1 +1,0 @@
-/Bio/Database/Database/kegg/latest_kegg/shell/genPathHTML_v2.pl

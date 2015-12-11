@@ -1,1 +1,0 @@
-/Bio/Database/Database/kegg/latest_kegg/shell/add_B_class.pl
