@@ -14,15 +14,15 @@ REPORT=/home/guanpeikun/bin/WGCNA/WGCNA_report.pl
 
 ## Parameters for Enrichment
 
-desc=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar_annot/oar.Annot.txt
-bgl=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar.bgl
-kopath=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar_annot/oar.kopath
-go_dir=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar_annot
-go_prefix=oar
+desc=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas_test_annot/oas_test.Annot.txt
+bgl=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas.bgl
+kopath=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas_test_annot/oas_test.kopath
+go_dir=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas_test_annot
+go_prefix=oas_test
 
 ## Checking Parameter
 
-if [ $# != 2 ]; then 
+if [ $# -ne 2 ]; then 
 	echo "sh $0 <exp_matrix> <out_dir>"
 	exit 0
 else
@@ -75,6 +75,7 @@ Rscript $WGCNA $EXP_TABLE || exit 0;
 
 ## Enrichment & integrates information
 echo "==== enrichment ===="
+export LD_LIBRARY_PATH=/Bio/User/luoyue/gcc-4.9.2/lib64:$LD_LIBRARY_PATH
 for i in `ls 10.*ModuleConnectivity.xls`
 do
 	name=`basename $i ModuleConnectivity.xls | sed 's/10\.//'`
@@ -85,10 +86,10 @@ do
 	if [ -s $kopath ]; then
 		mkdir -p KO
 		cp ${name}.glist KO/${name}.glist
-		perl /home/guanpeikun/bin/WGCNA/bin/keggpath.pl PATH -f KO/${name}.glist -b $kopath -o KO/${name}
-		perl /home/guanpeikun/bin/WGCNA/bin/add_B_class.pl KO/${name}.path 6 KO/${name}.path.xls
-		perl /home/guanpeikun/bin/WGCNA/bin/keggGradient_v3.pl KO/${name}.path.xls 20 Q
-		perl /home/guanpeikun/bin/WGCNA/bin/keggMap_nodiff.pl -ko KO/${name}.kopath -outdir KO/${name}_map
+		perl /Bio/Database/Database/kegg/latest_kegg/shell/keggpath.pl PATH -f KO/${name}.glist -b $kopath -o KO/${name}
+		perl /Bio/Database/Database/kegg/latest_kegg/shell/add_B_class.pl KO/${name}.path 6 KO/${name}.path.xls
+		perl /Bio/Bin/pipe/RNA/ref_RNASeq/Softwares/enrich/keggGradient_v3.pl KO/${name}.path.xls 20 Q
+		perl /Bio/Database/Database/kegg/latest_kegg/shell/keggMap_nodiff.pl -ko KO/${name}.kopath -outdir KO/${name}_map
 		rm KO/${name}.glist KO/${name}.path -rf
 	fi
 
@@ -96,26 +97,26 @@ do
 	if [ -s ${go_dir}/${go_prefix}.P ] && [ -s ${go_dir}/${go_prefix}.F ] && [ -s ${go_dir}/${go_prefix}.C ]; then
 		mkdir -p GO
 		cp ${name}.glist GO/${name}.glist
-		perl /home/guanpeikun/bin/WGCNA/bin/enrichGO.pl -g GO/${name}.glist -bg $bgl -a $go_dir/$go_prefix -op GO/${name} -ud nodiff
+		perl /Bio/Bin/pipe/RNA/ref_RNASeq/Softwares/enrich/enrichGO.pl -g GO/${name}.glist -bg $bgl -a $go_dir/$go_prefix -op GO/${name} -ud nodiff
 		rm GO/${name}.glist -rf
 	fi
 done
 
 # Report
 if [ -s $kopath ]; then
-	perl /home/guanpeikun/bin/WGCNA/bin/genPathHTML_v2.pl -indir KO
-	perl /home/guanpeikun/bin/WGCNA/bin/enrichmentHeatmap_v2.pl KO kegg
+	perl /Bio/Database/Database/kegg/latest_kegg/shell/genPathHTML_v2.pl -indir KO
+	perl /Bio/Bin/pipe/RNA/ref_RNASeq/Softwares/enrich/enrichmentHeatmap_v2.pl KO kegg
 
 	# Generate all.pathway.xls
-	cut -f 1 all.glist > KO/all.glist
-	perl /home/guanpeikun/bin/WGCNA/bin/keggpath.pl PATH -f KO/all.glist -b $kopath -o KO/all
-	perl /home/guanpeikun/bin/WGCNA/bin/add_B_class.pl KO/all.path 6 KO/all.path.xls
+	cat *.kopath | cut -f 1 | sort -u > all.glist
+	perl /Bio/Database/Database/kegg/latest_kegg/shell/keggpath.pl PATH -f all.glist -b $kopath -o KO/all
+	perl /Bio/Database/Database/kegg/latest_kegg/shell/add_B_class.pl KO/all.path 6 KO/all.path.xls
 	perl /home/guanpeikun/bin/WGCNA/bin/path_sta_v2.pl -i KO -o KO/all.pathway.xls 
-	rm KO/all.glist KO/all.path KO/all.path.xls -rf
+	rm all.glist KO/all.kopath KO/all.path KO/all.path.xls -rf
 fi
 
 if [ -s ${go_dir}/${go_prefix}.P ] && [ -s ${go_dir}/${go_prefix}.F ] && [ -s ${go_dir}/${go_prefix}.C ]; then
-	perl /home/guanpeikun/bin/WGCNA/bin/enrichmentHeatmap_v2.pl GO go
+	perl /Bio/Bin/pipe/RNA/ref_RNASeq/Softwares/enrich/enrichmentHeatmap_v2.pl GO go
 fi
 
 # Add desc & info
@@ -125,10 +126,6 @@ if [ -s $desc ]; then
 fi
 
 # Rename files
-for i in `ls KO/*.path`; do mv $i $i.xls; done
-for i in `ls KO/*.ko`; do mv $i $i.xls; done
-for i in `ls GO/*.wego`; do mv $i $i.xls; done
-for i in `ls GO/*.txt`; do mv $i `echo $i | sed s/txt$/xls/`; done
 for i in `ls *.glist`; do mv $i 10.$i.xls; done
 
 ## Convert pdf to png
@@ -167,7 +164,7 @@ SIM_OUT_DIR=${OUT_DIR}_compact
 ## package
 
 echo "==== package files ===="
-tar -zvcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html
+tar -zcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html
 
 ## generate Simpilify Report
 echo "==== generate Simpilify report ===="
@@ -178,5 +175,5 @@ for i in xls txt ko path kegg wego go
 do
 	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '11,$d'
 done
-tar --dereference -zvcf WGCNA_compact_report.tar.gz $SIM_OUT_DIR/*
+tar --dereference -zcf WGCNA_compact_report.tar.gz $SIM_OUT_DIR/*
 cd -

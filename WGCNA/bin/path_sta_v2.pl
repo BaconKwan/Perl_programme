@@ -73,7 +73,7 @@ while (<IN>)
 }
 close IN;
 ##########################
-my $title="KEGG_A_class\tKEGG_A_class\tPathway\tPathway_ID\tall($hash1{all}{sta})";
+my $title="KEGG_A_class\tKEGG_B_class\tPathway\tPathway_ID\tall($hash1{all}{sta})";
 for (sort{$a cmp $b} keys %hash)
 {
 	$title.="\t$_($hash{$_}{sta})" unless $_=~/all/;
@@ -92,7 +92,7 @@ for (sort{${$xun}{$b} cmp ${$xun}{$a}}  keys %{$xun})
 		$cal=sprintf "%.2f",$cal;
 		my $pv = $pvalue1{all}{$_};
 		my $qv = $qvalue1{all}{$_};
-		$out="$koinf{all}\t$_\t$ko1{all}{$_}\t$hash1{all}{$_}($cal\%,$pv,$qv)";
+		$out="$koinf{$_}\t$_\t$ko1{all}{$_}\t$hash1{all}{$_}($cal\%,$pv,$qv)";
 		for (sort{$a cmp $b} keys %hash) 	
 		{
 			unless ($_=~/all/)
