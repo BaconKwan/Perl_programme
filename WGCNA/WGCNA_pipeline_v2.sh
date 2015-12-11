@@ -14,12 +14,11 @@ REPORT=/home/guanpeikun/bin/WGCNA/WGCNA_report.pl
 
 ## Parameters for Enrichment
 
-ko=/Bio/Project/PROJECT/GDI0668/pipe_test/ref/sctu27.fa.ko
-komap=/Bio/Database/Database/kegg/data/map_class/microorganism_ko_map.tab
-wego=/Bio/Project/PROJECT/GDI0668/pipe_test/ref/sctu27.fa.blast.nr.xml.wego
-go_dir=/Bio/Project/PROJECT/GDI0668/pipe_test/ref
-go_prefix=sctu27.fa
-desc=/Bio/Project/PROJECT/GDI0668/pipe_test/ref/sctu27.fa.desc.xls
+desc=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar_annot/oar.Annot.txt
+bgl=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar.bgl
+kopath=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar_annot/oar.kopath
+go_dir=/Bio/Database/Database/Ensembl/82release/Ovis_aries/refRNAseq/oar_annot
+go_prefix=oar
 
 ## Checking Parameter
 
@@ -83,50 +82,46 @@ do
 	echo "==> processing with ${name}"
 
 	# KO
-	if [ -s $ko ]; then
+	if [ -s $kopath ]; then
 		mkdir -p KO
 		cp ${name}.glist KO/${name}.glist
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/getKO.pl -glist KO/${name}.glist -bg $ko -outdir KO
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/pathfind.pl -fg KO/${name}.ko -bg $ko -komap $komap -output KO/${name}.path
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/keggGradient.pl KO/${name}.path 20
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/keggMap_nodiff.pl -ko KO/${name}.ko -komap $komap -outdir KO/${name}_map
-		rm KO/${name}.glist -rf
+		perl /home/guanpeikun/bin/WGCNA/bin/keggpath.pl PATH -f KO/${name}.glist -b $kopath -o KO/${name}
+		perl /home/guanpeikun/bin/WGCNA/bin/add_B_class.pl KO/${name}.path 6 KO/${name}.path.xls
+		perl /home/guanpeikun/bin/WGCNA/bin/keggGradient_v3.pl KO/${name}.path.xls 20 Q
+		perl /home/guanpeikun/bin/WGCNA/bin/keggMap_nodiff.pl -ko KO/${name}.kopath -outdir KO/${name}_map
+		rm KO/${name}.glist KO/${name}.path -rf
 	fi
 
 	# GO
-	if [ -s $wego ]; then
+	if [ -s ${go_dir}/${go_prefix}.P ] && [ -s ${go_dir}/${go_prefix}.F ] && [ -s ${go_dir}/${go_prefix}.C ]; then
 		mkdir -p GO
 		cp ${name}.glist GO/${name}.glist
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/getwego.pl GO/${name}.glist $wego > GO/${name}.wego
-		perl /Bio/Bin/pipe/RNA/denovo_2.0/drawGO_black.pl -gglist GO/${name}.wego -output GO/${name}.go
-		/usr/bin/rsvg-convert GO/${name}.go.svg -o GO/${name}.go.png
+		perl /home/guanpeikun/bin/WGCNA/bin/enrichGO.pl -g GO/${name}.glist -bg $bgl -a $go_dir/$go_prefix -op GO/${name} -ud nodiff
 		rm GO/${name}.glist -rf
 	fi
 done
 
 # Report
-if [ -s $ko ]; then
-	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/genPathHTML.pl -indir KO
-	perl /home/guanpeikun/bin/WGCNA/bin/enrichmentHeatmap.pl KO kegg
+if [ -s $kopath ]; then
+	perl /home/guanpeikun/bin/WGCNA/bin/genPathHTML_v2.pl -indir KO
+	perl /home/guanpeikun/bin/WGCNA/bin/enrichmentHeatmap_v2.pl KO kegg
+
+	# Generate all.pathway.xls
+	cut -f 1 all.glist > KO/all.glist
+	perl /home/guanpeikun/bin/WGCNA/bin/keggpath.pl PATH -f KO/all.glist -b $kopath -o KO/all
+	perl /home/guanpeikun/bin/WGCNA/bin/add_B_class.pl KO/all.path 6 KO/all.path.xls
+	perl /home/guanpeikun/bin/WGCNA/bin/path_sta_v2.pl -i KO -o KO/all.pathway.xls 
+	rm KO/all.glist KO/all.path KO/all.path.xls -rf
 fi
 
 if [ -s ${go_dir}/${go_prefix}.P ] && [ -s ${go_dir}/${go_prefix}.F ] && [ -s ${go_dir}/${go_prefix}.C ]; then
-	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/functional_nodiff.pl -go -gldir ./ -sdir $go_dir -species $go_prefix -outdir ./
-	perl /home/guanpeikun/bin/WGCNA/bin/enrichmentHeatmap.pl GO go
+	perl /home/guanpeikun/bin/WGCNA/bin/enrichmentHeatmap_v2.pl GO go
 fi
 
 # Add desc & info
 perl /home/guanpeikun/bin/WGCNA/bin/add_info.pl $EXP_TABLE *.glist
 if [ -s $desc ]; then
 	perl /home/guanpeikun/bin/WGCNA/bin/add_desc4WGCNA.pl $desc 1 *.glist
-fi
-
-# Generate all.pathway.xls
-if [ -s $ko ]; then
-	cut -f 1 all.glist > KO/all.glist
-	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/getKO.pl -glist KO/all.glist -bg $ko -outdir KO
-	perl /Bio/Bin/pipe/RNA/denovo_2.0/functional/pathfind.pl -fg KO/all.ko -bg $ko -komap $komap -output KO/all.path
-	perl /home/guanpeikun/bin/WGCNA/bin/path_sta.pl -i KO -o KO/all.pathway.xls && rm KO/all.glist KO/all.ko KO/all.path -rf
 fi
 
 # Rename files
@@ -174,8 +169,8 @@ SIM_OUT_DIR=${OUT_DIR}_compact
 echo "==== package files ===="
 tar -zvcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html
 
-## generate compact Report
-echo "==== generate compact report ===="
+## generate Simpilify Report
+echo "==== generate Simpilify report ===="
 rm -rf $SIM_OUT_DIR && mkdir $SIM_OUT_DIR
 cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html $SIM_OUT_DIR/
 rm -rf $SIM_OUT_DIR/5.enrichment/KO/*_map/*
