@@ -76,8 +76,8 @@ print HTML <<HTML_cont;
 			<section id="filter" class="normal_cont">
 				<h3>数据过滤<a href="doc/filter.html" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>
 				<p>在进行WGCNA分析之前，我们对选用的基因集进行筛选过滤，把低质量的对结果造成不稳定影响的基因或样品从中去掉，提高网络构建的精度。</p>
-				<p>过滤掉的基因列表： <a href="../1.filter/0.removeGene.xls"> 0.removeGene.xls </a></p>
-				<p>过滤掉的样本列表： <a href="../1.filter/0.removeSample.xls"> 0.removeSample.xls </a></p>
+				<p>过滤掉的基因列表： <a href="../1.filter/0.removeGene.xls" target="_blank"> 0.removeGene.xls </a></p>
+				<p>过滤掉的样本列表： <a href="../1.filter/0.removeSample.xls" target="_blank"> 0.removeSample.xls </a></p>
 			</section>
 
 			<!-- <br /><hr /><br /> -->
@@ -89,7 +89,7 @@ print HTML <<HTML_cont;
 				<p>本次分析选用的特征参数如下：</p>
 				<p>Power值： $wgcna{softPower}</p>
 				<p>相似度： $wgcna{disSimilarity}</p>
-				<p>基因-模块对应关系列表： <a href="../2.module_construction/4.netcolor2gene.xls"> 4.netcolor2gene.xls </a></p>
+				<p>基因-模块对应关系列表： <a href="../2.module_construction/4.netcolor2gene.xls" target="_blank"> 4.netcolor2gene.xls </a></p>
 				<div id="parentVerticalTab1" class="VerticalTab">
 					<ul id="resp-tabs-list1" class="resp-tabs-list hor_1">
 						<li>样本层次聚类树</li>
@@ -129,9 +129,9 @@ print HTML <<HTML_cont;
 				<!--<h3>模块概况<a href="#" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h3>-->
 				<h3>模块概况</h3>
 				<p>WGCNA分析可以得到一系列总体上每个模块之间或是样品与模块之间的相关性和聚类关系。</p>
-				<p>模块-模块相关性结果： <a href="../3.basic_info/5.ModuleModuleMembership.xls"> 5.ModuleModuleMembership.xls </a></p>
-				<p>基因-模块相关性结果： <a href="../3.basic_info/6.geneModuleMembership.xls"> 6.geneModuleMembership.xls </a></p>
-				<p>样本表达模式结果： <a href="../3.basic_info/7.SampleExpressionPattern.xls"> 7.SampleExpressionPattern.xls </a></p>
+				<p>模块-模块相关性结果： <a href="../3.basic_info/5.ModuleModuleMembership.xls" target="_blank"> 5.ModuleModuleMembership.xls </a></p>
+				<p>基因-模块相关性结果： <a href="../3.basic_info/6.geneModuleMembership.xls" target="_blank"> 6.geneModuleMembership.xls </a></p>
+				<p>样本表达模式结果： <a href="../3.basic_info/7.SampleExpressionPattern.xls" target="_blank"> 7.SampleExpressionPattern.xls </a></p>
 				<div id="parentVerticalTab2" class="VerticalTab">
 					<ul id="resp-tabs-list2" class="resp-tabs-list hor_2">
 						<li>模块间相关性热图</li>
@@ -232,10 +232,10 @@ HTML_cont
 			print HTML <<HTML_cont;
 					<tr>
 						<td>${_}</td>
-						<td><a href="../5.enrichment/GO/${_}_C.html" target="_blank">${_}_C</a></td>
-						<td><a href="../5.enrichment/GO/${_}_F.html" target="_blank">${_}_F</a></td>
-						<td><a href="../5.enrichment/GO/${_}_P.html" target="_blank">${_}_P</a></td>
-						<td><a href="../5.enrichment/GO/${_}.go.xls" target="_blank">${_}.go.xls</a></td>
+						<td><a href="../5.enrichment/GO/${_}.C.html" target="_blank">${_}.C</a></td>
+						<td><a href="../5.enrichment/GO/${_}.F.html" target="_blank">${_}.F</a></td>
+						<td><a href="../5.enrichment/GO/${_}.P.html" target="_blank">${_}.P</a></td>
+						<td><a href="../5.enrichment/GO/${_}.secLevel.txt" target="_blank">${_}.secLevel.txt</a></td>
 					</tr>
 HTML_cont
 		}
@@ -259,8 +259,8 @@ HTML_cont
 		foreach (@files){
 			print HTML <<HTML_cont;
 						<div>
-							<a href="../5.enrichment/GO/${_}.go.png" target="_blank">
-								<img src="../5.enrichment/GO/${_}.go.png" />
+							<a href="../5.enrichment/GO/${_}.secLevel.png" target="_blank">
+								<img src="../5.enrichment/GO/${_}.secLevel.png" />
 							</a>
 						</div>
 HTML_cont
@@ -319,7 +319,7 @@ HTML_cont
 						<td>${_}</td>
 						<td><a href="../5.enrichment/KO/${_}.htm" target="_blank">${_}.htm</a></td>
 						<td><a href="../5.enrichment/KO/${_}.path.xls" target="_blank">${_}.path.xls</a></td>
-						<td><a href="../5.enrichment/KO/${_}.ko.xls"target="_blank">${_}.ko.xls</a></td>
+						<td><a href="../5.enrichment/KO/${_}.kopath"target="_blank">${_}.kopath</a></td>
 					</tr>
 HTML_cont
 		}
