@@ -319,7 +319,7 @@ HTML_cont
 						<td>${_}</td>
 						<td><a href="../5.enrichment/KO/${_}.htm" target="_blank">${_}.htm</a></td>
 						<td><a href="../5.enrichment/KO/${_}.path.xls" target="_blank">${_}.path.xls</a></td>
-						<td><a href="../5.enrichment/KO/${_}.kopath"target="_blank">${_}.kopath</a></td>
+						<td><a href="../5.enrichment/KO/${_}.kopath.xls" target="_blank">${_}.kopath.xls</a></td>
 					</tr>
 HTML_cont
 		}
@@ -437,27 +437,24 @@ upload                                                报告总目录
 │       └── 11.CytoscapeInput-edges-*.txt                     各模块网络节点关系文件
 ├── 5.enrichment                                       富集分析目录
 │   ├── GO                                                GO 富集分析结果目录
-│   │   ├── *.wego.xls                                       各模块基因集 GO 汇总表
-│   │   ├── *.go.xls                                         各模块基因集 GO 分类表
-│   │   ├── *.go.svg                                         各模块基因集 GO 分类统计图-矢量图
-│   │   ├── *.go.png                                         各模块基因集 GO 分类统计图-位图
-│   │   ├── *_C.png                                          各模块基因集 Go Cellular Component 富集分析有向无环图
-│   │   ├── *_F.png                                          各模块基因集 Go Molecular Function 富集分析有向无环图
-│   │   ├── *_P.png                                          各模块基因集 Go Biological Process 富集分析有向无环图
-│   │   ├── *_C.xls                                          各模块基因集 Go Cellular Component 富集分析结果
-│   │   ├── *_F.xls                                          各模块基因集 Go Molecular Function 富集分析结果
-│   │   ├── *_P.xls                                          各模块基因集 Go Biological Process 富集分析结果
-│   │   ├── *_C.html                                         各模块基因集 Go Cellular Component 富集分析报告
-│   │   ├── *_F.html                                         各模块基因集 Go Molecular Function 富集分析报告
-│   │   ├── *_P.html                                         各模块基因集 Go Biological Process 富集分析报告
+│   │   ├── *.secLevel.txt                                   各模块基因集 GO 分类表
+│   │   ├── *.secLevel.svg                                   各模块基因集 GO 分类统计图-矢量图
+│   │   ├── *.secLevel.png                                   各模块基因集 GO 分类统计图-位图
+│   │   ├── *.C.png                                          各模块基因集 Go Cellular Component 富集分析有向无环图
+│   │   ├── *.F.png                                          各模块基因集 Go Molecular Function 富集分析有向无环图
+│   │   ├── *.P.png                                          各模块基因集 Go Biological Process 富集分析有向无环图
+│   │   ├── *.C.xls                                          各模块基因集 Go Cellular Component 富集分析结果
+│   │   ├── *.F.xls                                          各模块基因集 Go Molecular Function 富集分析结果
+│   │   ├── *.P.xls                                          各模块基因集 Go Biological Process 富集分析结果
+│   │   ├── *.C.html                                         各模块基因集 Go Cellular Component 富集分析报告
+│   │   ├── *.F.html                                         各模块基因集 Go Molecular Function 富集分析报告
+│   │   ├── *.P.html                                         各模块基因集 Go Biological Process 富集分析报告
 │   │   ├── pv.go.pdf                                        GO 富集分析P值热图-矢量图
 │   │   ├── pv.go.png                                        GO 富集分析P值热图-位图
 │   │   ├── qv.go.pdf                                        GO 富集分析Q值热图-矢量图
 │   │   ├── qv.go.png                                        GO 富集分析Q值热图-位图
 │   │   ├── rf.go.pdf                                        GO 富集分析富集因子热图-矢量图
 │   │   ├── rf.go.png                                        GO 富集分析富集因子热图-位图
-│   │   ├── GOViewList.html                                  GO 富集分析网页报告索引
-│   │   └── GOView.html                                      GO 富集分析网页报告
 │   └── KO                                                KO 富集分析结果目录
 │        ├── all.pathway.xls                                  Pathway 富集分析汇总表
 │        ├── pv.kegg.pdf                                      Pathway 富集分析P值热图-矢量图
@@ -466,7 +463,7 @@ upload                                                报告总目录
 │        ├── qv.kegg.png                                      Pathway 富集分析Q值热图-位图
 │        ├── rf.kegg.pdf                                      Pathway 富集分析富集因子热图-矢量图
 │        ├── rf.kegg.png                                      Pathway 富集分析富集因子热图-位图
-│        ├── *.ko.xls                                         各模块基因集 KO 列表
+│        ├── *.kopath .xls                                     各模块基因集 KO 列表
 │        ├── *.path.xls                                       各模块基因集 Pathway 富集分析结果
 │        ├── *.path.png                                       各模块基因集 Pathway 富集分析气泡图
 │        ├── *_map                                            各模块基因集 Pathway 富集分析通路图

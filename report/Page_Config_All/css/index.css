@@ -38,17 +38,8 @@ body {
 	font-size: 28px;
 }
 
-#banner_bg_circRNA {
-	background: url(../image/circRNA_banner_bg.jpg) no-repeat right top;
-	background-size: 100% 80px;
-	height: 80px;
-	width: 45%;
-	max-width: 600px;
-	float: right;
-}
-
-#banner_bg_wgcna {
-	background: url(../image/wgcna_1.jpg) no-repeat right top;
+#banner_pic {
+	background: url(../image/banner_pic.jpg) no-repeat right top;
 	background-size: 100% 80px;
 	height: 80px;
 	width: 45%;

@@ -87,10 +87,10 @@ do
 		mkdir -p KO
 		cp ${name}.glist KO/${name}.glist
 		perl /Bio/Database/Database/kegg/latest_kegg/shell/keggpath.pl PATH -f KO/${name}.glist -b $kopath -o KO/${name}
-		perl /Bio/Database/Database/kegg/latest_kegg/shell/add_B_class.pl KO/${name}.path 6 KO/${name}.path.xls
 		perl /Bio/Bin/pipe/RNA/ref_RNASeq/Softwares/enrich/keggGradient_v3.pl KO/${name}.path.xls 20 Q
 		perl /Bio/Database/Database/kegg/latest_kegg/shell/keggMap_nodiff.pl -ko KO/${name}.kopath -outdir KO/${name}_map
-		rm KO/${name}.glist KO/${name}.path -rf
+		mv KO/${name}.kopath KO/${name}.kopath.xls
+		rm KO/${name}.glist -rf
 	fi
 
 	# GO
@@ -110,9 +110,8 @@ if [ -s $kopath ]; then
 	# Generate all.pathway.xls
 	cat *.kopath | cut -f 1 | sort -u > all.glist
 	perl /Bio/Database/Database/kegg/latest_kegg/shell/keggpath.pl PATH -f all.glist -b $kopath -o KO/all
-	perl /Bio/Database/Database/kegg/latest_kegg/shell/add_B_class.pl KO/all.path 6 KO/all.path.xls
 	perl /home/guanpeikun/bin/WGCNA/bin/path_sta_v2.pl -i KO -o KO/all.pathway.xls 
-	rm all.glist KO/all.kopath KO/all.path KO/all.path.xls -rf
+	rm all.glist KO/all.kopath KO/all.path.xls -rf
 fi
 
 if [ -s ${go_dir}/${go_prefix}.P ] && [ -s ${go_dir}/${go_prefix}.F ] && [ -s ${go_dir}/${go_prefix}.C ]; then
@@ -147,8 +146,6 @@ mv 5.Module* 6.gene* 7.Sample* 8.network* $OUT_DIR/3.basic_info
 mv 9.*Express* 10.*glist.xls $OUT_DIR/4.modules
 mv 11.CytoscapeInput* $OUT_DIR/4.modules/cytoscape
 mv GO KO $OUT_DIR/5.enrichment
-mv *go* $OUT_DIR/5.enrichment/GO
-mv *kegg* $OUT_DIR/5.enrichment/KO
 rm 10.*ModuleConnectivity.xls
 
 ## generate Report
@@ -171,7 +168,7 @@ echo "==== generate Simpilify report ===="
 rm -rf $SIM_OUT_DIR && mkdir $SIM_OUT_DIR
 cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html $SIM_OUT_DIR/
 rm -rf $SIM_OUT_DIR/5.enrichment/KO/*_map/*
-for i in xls txt ko path kegg wego go
+for i in xls txt
 do
 	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '11,$d'
 done
