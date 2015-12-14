@@ -546,7 +546,7 @@ print INDEX <<HTML_index;
 			<div id="header_banner">
 				<div id="banner_logo"></div>
 				<div id="banner_title">基迪奥生物 <span> WGCNA分析 </span> 结题报告</div>
-				<div id="banner_bg_wgcna"></div>
+				<div id="banner_pic"></div>
 			</div>
 		</section>
 		

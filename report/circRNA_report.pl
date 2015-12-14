@@ -181,7 +181,7 @@ if(exists $opts{Gde} && $opts{Gde} ne "none"){
 	}
 }
 print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<tr><td>项目编号</td><td>$opts{project}</td></tr>
 					<tr><td>项目名称</td><td>$opts{content}</td></tr>
 					<tr><td>参考基因组</td><td>$opts{reference}</td></tr>
@@ -441,7 +441,7 @@ TEMP
 			close IN;
 		}
 		print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>过滤前后碱基信息统计表<a href="doc/seq_stat.html#sub_4_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th rowspan=2>Sample</th><th colspan=5>Before Filter</th><th colspan=5>After Filter</th></tr>
 					<tr><th>Clean Data(bp)</th><th>Q20(%)</th><th>Q30(%)</th><th>N(%)</th><th>GC(%)</th><th>HQ Clean Data(bp)</th><th>Q20(%)</th><th>Q30(%)</th><th>N(%)</th><th>GC(%)</th></tr>
@@ -450,7 +450,7 @@ $reads_stat_line1
 				
 				<p><br /></p>
 				
-				<table>
+				<table class="hl_table">
 					<caption>Reads 过滤信息统计表<a href="doc/seq_stat.html#sub_4_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Sample</th><th>Clean Reads Num</th><th>HQ Clean Reads Num(%)</th><th>Read Length</th><th>Adapter(%)</th><th>Low Quality(%)</th><th>Poly A(%)</th><th>N(%)</th></tr>
 $reads_stat_line2
@@ -529,7 +529,7 @@ HTML_cont
 TEMP
 		}
 		print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>HQ clean data 与 rRNA 的比对统计表</caption>
 					<tr><th>Sample</th><th>All Reads Num</th><th>Mapped Reads</th><th>Unmapped Reads</th></tr>
 $align_stat_rRNA
@@ -620,7 +620,7 @@ TEMP
 		close IN;
 	}
 	print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>比对核糖体后得到的 Unmapped Reads 与 参考基因组 的比对统计表</caption>
 					<tr><th>Sample</th><th>Total Reads</th><th>Unmapped Reads</th><th>Unique Mapped Reads</th><th>Multiple Mapped reads</th><th>Mapping Ratio</th></tr>
 $align_stat_reads_align
@@ -649,7 +649,7 @@ foreach (@sample_lab){
 TEMP
 }
 print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>Anchors Reads 与 参考基因组 比对统计表</caption>
 					<tr><th>Sample</th><th>Reads Num</th><th>Mapped Reads</th><th>Mapping Ratio</th></tr>
 $align_stat_anchors_align
@@ -705,14 +705,14 @@ $circRNA_gene_count--;
 
 print HTML <<HTML_cont;
 				<!--
-				<table>
+				<table class="hl_table">
 					<caption>环状RNA Reads类型统计表<a href="doc/circRNA_identify.html#sub_1_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Type</th><th>Reads Num</th></tr>
 \$circRNA_identify_site_log
 				</table>
 				<p><br /></p>
 				-->
-				<table>
+				<table class="hl_table">
 					<caption>环状RNA信息统计表<a href="doc/circRNA_identify.html#sub_1_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Chr</th><th>Start</th><th>End</th><th>GeneID</th><th>Reads Num</th><th>Strand</th><th>Uniq Reads Num</th><th>...</th><th>Samples</th><th>Samples Counts</th><th>Edits</th><th>Anchor Overlap</th><th>Breakpoints</th></tr>
 $circRNA_identify_info
@@ -745,7 +745,7 @@ close IN;
 
 
 print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>环状RNA类型统计表<a href="doc/circRNA_identify.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Gene ID</th><th>Source Gene</th><th>Chr</th><th>Strand</th><th>Start</th><th>End</th><th>Length</th><th>Type</th></tr>
 $circ_candidates_info
@@ -810,7 +810,7 @@ HTML_cont
 						<li>Pathway富集分析结果：<a href="../$folders{SourceGeneEnrichment}/KO/source_gene.htm" target="_blank">source_gene.htm</a></li>
 						<li>Pathway Map目录：<a href="../$folders{SourceGeneEnrichment}/KO/source_gene_map" target="_blank">source_gene_map</a></li>
 						<li>Pathway注释表：<a href="../$folders{SourceGeneEnrichment}/KO/source_gene.path.xls" target="_blank">source_gene.path.xls</a></li>
-						<li>基因ID与K号对照表：<a href="../$folders{SourceGeneEnrichment}/KO/source_gene.ko.xls" target="_blank">source_gene.ko.xls</a></li>
+						<li>基因ID与K号对照表：<a href="../$folders{SourceGeneEnrichment}/KO/source_gene.kopath.xls" target="_blank">source_gene.kopath.xls</a></li>
 					</ul>
 				</p>
 				<table class="pic_table">
@@ -835,16 +835,15 @@ HTML_cont
 		print HTML <<HTML_cont;
 				<p>
 					<ul>
-						<li>功能富集分析结果：<a href="../$folders{SourceGeneEnrichment}/GO/GOView.html" target="_blank">GOView.html</a></li>
-						<li>细胞组分富集分析结果：<a href="../$folders{SourceGeneEnrichment}/GO/source_gene_C.xls" target="_blank">source_gene_C.xls</a></li>
-						<li>分子功能富集分析结果： <a href="../$folders{SourceGeneEnrichment}/GO/source_gene_F.xls" target="_blank">source_gene_F.xls</a></li>
-						<li>生物学过程富集分析结果： <a href="../$folders{SourceGeneEnrichment}/GO/source_gene_P.xls" target="_blank">source_gene_P.xls</a></li>
-						<li>功能富集分析分类表：<a href="../$folders{SourceGeneEnrichment}/GO/source_gene.go.class.xls" target="_blank">source_gene.go.class.xls</a></li>
+						<li>细胞组分富集分析结果：<a href="../$folders{SourceGeneEnrichment}/GO/source_gene.C.xls" target="_blank">source_gene.C.xls</a></li>
+						<li>分子功能富集分析结果： <a href="../$folders{SourceGeneEnrichment}/GO/source_gene.F.xls" target="_blank">source_gene.F.xls</a></li>
+						<li>生物学过程富集分析结果： <a href="../$folders{SourceGeneEnrichment}/GO/source_gene.P.xls" target="_blank">source_gene.P.xls</a></li>
+						<li>功能富集分析分类表：<a href="../$folders{SourceGeneEnrichment}/GO/source_gene.secLevel.txt" target="_blank">source_gene.secLevel.txt</a></li>
 					</ul>
 				</p>
 				<table class="pic_table">
 					<tr><td>
-						<a href="../$folders{SourceGeneEnrichment}/GO/source_gene.go.class.png" target="_blank"><img src="../$folders{SourceGeneEnrichment}/GO/source_gene.go.class.png" /></a>
+						<a href="../$folders{SourceGeneEnrichment}/GO/source_gene.secLevel.png" target="_blank"><img src="../$folders{SourceGeneEnrichment}/GO/source_gene.secLevel.png" /></a>
 					</td><tr>
 					<tr><td>功能富集分析分类柱状图</td></tr>
 				</table>
@@ -904,7 +903,7 @@ TEMP
 	
 print HTML <<HTML_cont;
 				<p><br /></p>
-				<table>
+				<table class="hl_table">
 					<caption>样品表达量统计表<a href="doc/exp_diff.html#sub_1_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 $exp_diff_sample_exp
 				</table>
@@ -949,7 +948,7 @@ TEMP
 	
 	print HTML <<HTML_cont;
 				<p><br /></p>
-				<table>
+				<table class="hl_table">
 					<caption>分组表达量统计表<a href="doc/exp_diff.html#sub_1_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 $exp_diff_group_exp
 				</table>
@@ -997,7 +996,7 @@ TEMP
 	close IN;
 	
 	print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>样品间差异基因统计表</caption>
 					<tr><th>差异比较组</th><th>显著上调差异基因</th><th>显著下调差异基因</th><th>显著差异基因总数</th><th>差异基因注释表<a href="doc/exp_diff.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></th><th>显著差异基因注释表</th></tr>
 $sample_diff_table
@@ -1079,7 +1078,7 @@ TEMP
 	close IN;
 	
 	print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>分组间差异基因统计表</caption>
 					<tr><th>差异比较组</th><th>显著上调差异基因</th><th>显著下调差异基因</th><th>显著差异基因总数</th><th>差异基因注释表<a href="doc/exp_diff.html#sub_2_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></th><th>显著差异基因注释表</th></tr>
 $group_diff_table
@@ -1182,13 +1181,13 @@ TEMP
 		close IN;
 
 		print HTML <<HTML_cont;
-				<table>
+				<table class="hl_table">
 					<caption>环状RNA注释情况统计</caption>
 					<tr><th>环状RNA总数</th><th>已存在环状RNA数</th><th>新预测环状RNA数</th></tr>
 					<tr><td>$circRNA_gene_count</td><td>$circRNA_exist_count</td><td>$circRNA_novel_count</td></tr>
 				</table>
 				<p><br /></p>
-				<table>
+				<table class="hl_table">
 					<caption>环状RNA注释信息表<a href="doc/database_annot_and_predition.html#sub_1_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></caption>
 					<tr><th>Gene ID</th><th>Annotation</th><th>Best Transcript</th><th>Gene Symbol</th><th>Study</th></tr>
 $database_annot_info
@@ -1395,10 +1394,10 @@ if(!$opts{read_type} =~ /^bam$/i || (exists $opts{source_dir} && $opts{source_di
 HTML_cont
 }
 
+#│   ├── sites.log                                         环状RNA Reads类型统计表
 print HTML <<HTML_cont;
 │   └── *_anchors.align.stat                              各样品Anchors Reads与参考基因组比对统计表
 ├── $folders{CircRNA}                                          环状RNA鉴定结果目录
-│   ├── sites.log                                         环状RNA Reads类型统计表
 │   ├── circ_candidates.bed                               环状RNA信息统计表
 │   ├── circ_candidates.gtf                               环状RNA转录组注释 GTF 文件
 │   ├── circ_candidates.fa                                环状RNA序列文件
@@ -1420,7 +1419,7 @@ HTML_cont
 		if( -s "$outdir/$folders{SourceGeneEnrichment}/GO" ){
 			print HTML <<HTML_cont;
 │   ├── KO                                                Pathway富集分析结果目录
-│   │   ├── source_gene.ko.xls                               来源基因基因集 KO 列表
+│   │   ├── source_gene.kopath.xls                           来源基因基因集 KO 列表
 │   │   ├── source_gene.path.xls                             来源基因基因集 Pathway 富集分析结果
 │   │   ├── source_gene.path.png                             来源基因基因集 Pathway 富集分析气泡图
 │   │   ├── source_gene_map                                  来源基因基因集 Pathway 富集分析通路图
@@ -1430,7 +1429,7 @@ HTML_cont
 		else{
 			print HTML <<HTML_cont;
 │   └── KO                                                Pathway富集分析结果目录
-│        ├── source_gene.ko.xls                               来源基因基因集 KO 列表
+│        ├── source_gene.kopath.xls                           来源基因基因集 KO 列表
 │        ├── source_gene.path.xls                             来源基因基因集 Pathway 富集分析结果
 │        ├── source_gene.path.png                             来源基因基因集 Pathway 富集分析气泡图
 │        ├── source_gene_map                                  来源基因基因集 Pathway 富集分析通路图
@@ -1441,21 +1440,18 @@ HTML_cont
 	if( -s "$outdir/$folders{SourceGeneEnrichment}/GO" ){
 		print HTML <<HTML_cont;
 │   └── GO                                                功能富集分析结果目录
-│        ├── source_gene.wego.xls                             来源基因基因集 GO 汇总表
-│        ├── source_gene.go.class.xls                         来源基因基因集 GO 分类表
-│        ├── source_gene.go.class.svg                         来源基因基因集 GO 分类统计图-矢量图
-│        ├── source_gene.go.class.png                         来源基因基因集 GO 分类统计图-位图
-│        ├── source_gene_C.png                                来源基因基因集 Go Cellular Component 富集分析有向无环图
-│        ├── source_gene_C.xls                                来源基因基因集 Go Cellular Component 富集分析结果
-│        ├── source_gene_C.html                               来源基因基因集 Go Cellular Component 富集分析报告
-│        ├── source_gene_F.png                                来源基因基因集 Go Molecular Function 富集分析有向无环图
-│        ├── source_gene_F.xls                                来源基因基因集 Go Molecular Function 富集分析结果
-│        ├── source_gene_F.html                               来源基因基因集 Go Molecular Function 富集分析报告
-│        ├── source_gene_P.png                                来源基因基因集 Go Biological Process 富集分析有向无环图
-│        ├── source_gene_P.xls                                来源基因基因集 Go Biological Process 富集分析结果
-│        ├── source_gene_P.html                               来源基因基因集 Go Biological Process 富集分析报告
-│        ├── GOView.html                                      功能富集分析网页报告索引
-│        └── GOViewList.html                                  功能富集分析网页报告
+│        ├── source_gene.secLevel.txt                         来源基因基因集 GO 分类表
+│        ├── source_gene.secLevel.svg                         来源基因基因集 GO 分类统计图-矢量图
+│        ├── source_gene.secLevel.png                         来源基因基因集 GO 分类统计图-位图
+│        ├── source_gene.C.png                                来源基因基因集 Go Cellular Component 富集分析有向无环图
+│        ├── source_gene.C.xls                                来源基因基因集 Go Cellular Component 富集分析结果
+│        ├── source_gene.C.html                               来源基因基因集 Go Cellular Component 富集分析报告
+│        ├── source_gene.F.png                                来源基因基因集 Go Molecular Function 富集分析有向无环图
+│        ├── source_gene.F.xls                                来源基因基因集 Go Molecular Function 富集分析结果
+│        ├── source_gene.F.html                               来源基因基因集 Go Molecular Function 富集分析报告
+│        ├── source_gene.P.png                                来源基因基因集 Go Biological Process 富集分析有向无环图
+│        ├── source_gene.P.xls                                来源基因基因集 Go Biological Process 富集分析结果
+│        └── source_gene.P.html                               来源基因基因集 Go Biological Process 富集分析报告
 HTML_cont
 	}
 }
@@ -1484,7 +1480,8 @@ if($opts{Sde} ne "none" && scalar(@sample_lab) >= 2){
 │   ├── A-vs-B.DE.scatter.png                             样品间A-vs-B差异基因散点图
 │   ├── geneDE.v.png                                      所有样品间差异基因统计图（纵向）
 │   ├── geneDE.h.png                                      所有样品间差异基因统计图（横向）
-│   └── geneDE.stat                                       所有样品间差异基因统计表
+│   ├── geneDE.stat                                       所有样品间差异基因统计表
+│   └── allsamples.heatmap.png                            所有样品间差异基因热图
 HTML_cont
 }
 
@@ -1496,7 +1493,8 @@ if($opts{Gde} ne "none" && scalar(@group_lab) >= 2){
 │   ├── A-vs-B.DE.volcano.png                             分组间A-vs-B差异基因火山图
 │   ├── geneDE.v.png                                      所有分组间差异基因统计图（纵向）
 │   ├── geneDE.h.png                                      所有分组间差异基因统计图（横向）
-│   └── geneDE.stat                                       所有分组间差异基因统计表
+│   ├── geneDE.stat                                       所有分组间差异基因统计表
+│   └── allgroups.heatmap.png                             所有分组间差异基因热图
 HTML_cont
 }
 
@@ -1523,9 +1521,9 @@ HTML_cont
 	if($opts{isPredict} eq "yes"){
 		print HTML <<HTML_cont;
 ├── $folders{TargetPrediction}                                环状RNA新预测靶向关系结果目录
-│   ├── exist.target.stat                                 环状RNA新预测靶向关系统计表
-│   ├── exist.target.aln.annot.xls                        环状RNA新预测靶向关系信息表
-│   └── exist.target.aln.annot_index_mir.xls              环状RNA新预测靶向关系信息表（以小RNA作索引）
+│   ├── novel.target.stat                                 环状RNA新预测靶向关系统计表
+│   ├── novel.target.aln.annot.xls                        环状RNA新预测靶向关系信息表
+│   └── novel.target.aln.annot_index_mir.xls              环状RNA新预测靶向关系信息表（以小RNA作索引）
 HTML_cont
 	}
 	
@@ -1540,9 +1538,15 @@ HTML_cont
 	
 	print HTML <<HTML_cont;
 ├── $folders{Cytoscape}                                       Cytoscape输入文件目录
+HTML_cont
+	if($opts{isAnnot} eq "yes"){
+		print HTML <<HTML_cont;
 │   ├── exist.circ.node                                   已存在环状RNA列表
-│   ├── novel.circ.node                                   新预测环状RNA列表
 │   ├── exist_circRNA_miRNA.edge                          环状RNA已存在靶向关系列表
+HTML_cont
+}
+	print HTML <<HTML_cont;
+│   ├── novel.circ.node                                   新预测环状RNA列表
 HTML_cont
 
 	if($opts{isPredict} eq "yes"){
@@ -1578,7 +1582,7 @@ print HTML <<HTML_cont;
 		<!-- 帮助文档窗口 -->
 		<div id="show_help">
 			<h3>帮助文档</h3>
-			<iframe id="help_page" name="help_page" src="http://www.genedenovo.com/"></iframe>
+			<iframe id="help_page" name="help_page" src="#"></iframe>
 		</div>
 		
 		<!-- JS插件初始化 -->
@@ -1612,6 +1616,12 @@ print HTML <<HTML_cont;
 						}
 					});
 				}
+				\$('.jumpto-first').css('maxHeight', (\$(window).height()*0.98 - 48) + 'px');
+				\$('.jumpto-first').niceScroll({cursoropacitymax:0.5,cursorwidth:"6px",cursorborder:"0px"});
+				\$('.hl_table tr').has('td').each(function(){
+					\$(this).attr('onmouseover', 'this.style.backgroundColor = "#DDDDDD"');
+					\$(this).attr('onmouseout', 'this.style.backgroundColor = "#FFFFFF"');
+				});
 			});
 		</script>
 	</body>
