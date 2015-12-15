@@ -240,7 +240,7 @@ print HTML <<HTML_cont;
 			</section>
 HTML_cont
 
-if((exists $opts{source_dir} && $opts{source_dir} ne "none") || !($opts{read_type} =~ /^bam$/i)){
+if((exists $opts{source_dir} && $opts{source_dir} ne "none") || ($opts{read_type} =~ /^pe$/i || $opts{read_type} =~ /^se$/i)){
 	if($opts{isFilter} eq "yes"){
 		print HTML <<HTML_cont;
 	
@@ -469,7 +469,7 @@ print HTML <<HTML_cont;
 				<h3>比对统计</h3>
 HTML_cont
 
-if((exists $opts{source_dir} && $opts{source_dir} ne "none") || !($opts{read_type} =~ /^bam$/i)){
+if((exists $opts{source_dir} && $opts{source_dir} ne "none") || ($opts{read_type} =~ /^pe$/i || $opts{read_type} =~ /^se$/i)){
 	if($opts{isRrRNA} eq "yes"){
 		print HTML <<HTML_cont;
 				<h5>比对核糖体<a href="doc/align_stat.html#sub_1" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
@@ -542,7 +542,7 @@ print HTML <<HTML_cont;
 				<h5>比对基因组<a href="doc/align_stat.html#sub_2" target="help_page" onclick="show_help();"><img src="image/help.png" class="help_logo"></a></h5>
 HTML_cont
 
-if((exists $opts{source_dir} && $opts{source_dir} ne "none") || !($opts{read_type} =~ /^bam$/i)){
+if((exists $opts{source_dir} && $opts{source_dir} ne "none") || ($opts{read_type} =~ /^pe$/i || $opts{read_type} =~ /^se$/i)){
 	my $align_stat_reads_align;
 	foreach (@sample_lab){
 		open IN,"<$outdir/$folders{AlignmentStat}/$_.align.stat" || die $!;
@@ -1181,7 +1181,7 @@ TEMP
 		close IN;
 
 		print HTML <<HTML_cont;
-				<table class="hl_table">
+				<table>
 					<caption>环状RNA注释情况统计</caption>
 					<tr><th>环状RNA总数</th><th>已存在环状RNA数</th><th>新预测环状RNA数</th></tr>
 					<tr><td>$circRNA_gene_count</td><td>$circRNA_exist_count</td><td>$circRNA_novel_count</td></tr>
@@ -1353,7 +1353,7 @@ print HTML <<HTML_cont;
 upload                                                报告总目录
 HTML_cont
 
-if((exists $opts{source_dir} && $opts{source_dir} ne "none") || !($opts{read_type} =~ /^bam$/i)){
+if((exists $opts{source_dir} && $opts{source_dir} ne "none") || ($opts{read_type} =~ /^pe$/i || $opts{read_type} =~ /^se$/i)){
 	if($opts{isFilter} eq "yes" || $opts{isRrRNA} eq "yes"){
 		print HTML <<HTML_cont;
 ├── $folders{ReadsStat}                                        测序评估结果目录
@@ -1388,7 +1388,7 @@ print HTML <<HTML_cont;
 ├── $folders{AlignmentStat}                                    比对统计结果目录
 HTML_cont
 
-if(!$opts{read_type} =~ /^bam$/i || (exists $opts{source_dir} && $opts{source_dir} ne "none")){
+if((exists $opts{source_dir} && $opts{source_dir} ne "none") || ($opts{read_type} =~ /^pe$/i || $opts{read_type} =~ /^se$/i)){
 	print HTML <<HTML_cont;
 │   ├── *.align.stat                                      各样品HQ clean data去除rRNA后与参考基因组的比对统计表
 HTML_cont
