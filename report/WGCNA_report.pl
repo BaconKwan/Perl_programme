@@ -218,7 +218,7 @@ if( -s "$out/5.enrichment/GO" || -s "$out/5.enrichment/KO"){
 	if( -s "$out/5.enrichment/GO" ){
 		print HTML <<HTML_cont;
 				<p>各模块GO富集分析结果：</p>
-				<table>
+				<table class="hl_table">
 					<tr>
 						<th>模块名称</th>
 						<th>细胞组分</th>
@@ -304,7 +304,7 @@ HTML_cont
 	if( -s "$out/5.enrichment/KO" ){
 		print HTML <<HTML_cont;
 				<p>各模块KO富集分析结果：</p>
-				<table>
+				<table class="hl_table">
 					<tr>
 						<th>模块名称</th>
 						<th>Pathway富集结果</th>
@@ -516,6 +516,10 @@ upload                                                报告总目录
 						}
 					});
 				}
+				\$('.hl_table tr').has('td').each(function(){
+					\$(this).attr('onmouseover', 'this.style.backgroundColor = "#DDDDDD"');
+					\$(this).attr('onmouseout', 'this.style.backgroundColor = "#FFFFFF"');
+				});
 			});
 		</script>
 	</body>

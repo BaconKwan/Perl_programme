@@ -13,12 +13,15 @@ WGCNA=/home/guanpeikun/bin/WGCNA/InModuleWGCNA.r
 REPORT=/home/guanpeikun/bin/WGCNA/WGCNA_report.pl
 
 ## Parameters for Enrichment
-
 desc=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas_test_annot/oas_test.Annot.txt
 bgl=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas.bgl
 kopath=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas_test_annot/oas_test.kopath
 go_dir=/Bio/Database/Database/Ensembl/82release/Ovis_aries/lnc_RNAseq_ref/oas_test_annot
 go_prefix=oas_test
+
+## upload config
+project=GDRXXXX
+content=Ovis_aries_12_WGCNA
 
 ## Checking Parameter
 
@@ -42,7 +45,7 @@ fi
 
 ## Count Down
 echo "The pipeline will be started in 5 seconds, please make sure you're using \"screen\" shell environment or you can terminate it with CTRL+C."
-for i in `seq 5 -1 1`
+for i in {5..1}
 do
 	echo "${i}.."
 	sleep 1.2;
@@ -55,6 +58,8 @@ echo "Launch at `date`, enjoy yourself!"
 
 EXP_TABLE=$1
 OUT_DIR=$2
+UPLOAD_DIR=${project}_${content}_result
+BRIEF_UPLOAD_DIR=${project}_${content}_brief_report
 
 ## Creat Output Directory
 
@@ -108,7 +113,7 @@ if [ -s $kopath ]; then
 	perl /Bio/Bin/pipe/RNA/ref_RNASeq/Softwares/enrich/enrichmentHeatmap_v2.pl KO kegg
 
 	# Generate all.pathway.xls
-	cat *.kopath | cut -f 1 | sort -u > all.glist
+	cat *.glist | cut -f 1 | sort -u | sed '/^GeneID/d' > all.glist
 	perl /Bio/Database/Database/kegg/latest_kegg/shell/keggpath.pl PATH -f all.glist -b $kopath -o KO/all
 	perl /home/guanpeikun/bin/WGCNA/bin/path_sta_v2.pl -i KO -o KO/all.pathway.xls 
 	rm all.glist KO/all.kopath KO/all.path.xls -rf
@@ -130,10 +135,9 @@ for i in `ls *.glist`; do mv $i 10.$i.xls; done
 ## Convert pdf to png
 
 echo "==== convert pdf to png ===="
-for i in `ls *.pdf`
+for i in `ls *.pdf KO/*.kegg.pdf GO/*.go.pdf`
 do
-	id=`basename $i .pdf`;
-	convert $i ${id}.png;
+	convert $i `echo $i | sed 's/pdf$/png/'`;
 done
 
 ## Arrange Files
@@ -155,22 +159,22 @@ perl $REPORT $OUT_DIR $OUT_DIR/WGCNA.options || exit 0;
 
 ## prepare for package
 cd $OUT_DIR/..
-OUT_DIR=`basename $OUT_DIR`
-SIM_OUT_DIR=${OUT_DIR}_compact
+ln -sf $OUT_DIR $UPLOAD_DIR
 
 ## package
 
 echo "==== package files ===="
-tar -zcf WGCNA_report.tar.gz $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html
+tar -jcf $UPLOAD_DIR.tar.bz2 $UPLOAD_DIR/1.filter $UPLOAD_DIR/2.module_construction $UPLOAD_DIR/3.basic_info $UPLOAD_DIR/4.modules $UPLOAD_DIR/5.enrichment $UPLOAD_DIR/Page_Config $UPLOAD_DIR/index.html
 
 ## generate Simpilify Report
 echo "==== generate Simpilify report ===="
-rm -rf $SIM_OUT_DIR && mkdir $SIM_OUT_DIR
-cp -r --dereference $OUT_DIR/1.filter $OUT_DIR/2.module_construction $OUT_DIR/3.basic_info $OUT_DIR/4.modules $OUT_DIR/5.enrichment $OUT_DIR/Page_Config $OUT_DIR/index.html $SIM_OUT_DIR/
-rm -rf $SIM_OUT_DIR/5.enrichment/KO/*_map/*
-for i in xls txt
+rm -rf $BRIEF_UPLOAD_DIR && mkdir $BRIEF_UPLOAD_DIR
+cp -r --dereference $UPLOAD_DIR/1.filter $UPLOAD_DIR/2.module_construction $UPLOAD_DIR/3.basic_info $UPLOAD_DIR/4.modules $UPLOAD_DIR/5.enrichment $UPLOAD_DIR/Page_Config $UPLOAD_DIR/index.html $BRIEF_UPLOAD_DIR/
+rm -rf $BRIEF_UPLOAD_DIR/5.enrichment/KO/*_map $BRIEF_UPLOAD_DIR/5.enrichment/GO/*.?.png
+for i in pdf xls txt htm html svg
 do
-	find $SIM_OUT_DIR -name "*.$i" | xargs sed -i '11,$d'
+	#find $BRIEF_UPLOAD_DIR -name "*.$i" | xargs sed -i '11,$d'
+	find $BRIEF_UPLOAD_DIR/*.*/ -name "*.$i" | xargs rm -rf
 done
-tar --dereference -zcf WGCNA_compact_report.tar.gz $SIM_OUT_DIR/*
+tar --dereference -jcf $BRIEF_UPLOAD_DIR.tar.bz2 $BRIEF_UPLOAD_DIR/*
 cd -
