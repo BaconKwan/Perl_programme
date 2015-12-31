@@ -29,7 +29,7 @@ my @capture_cmd = (
 	"/usr/bin/yhqueue -u sysu_luoda_1 -o \"%8i | %10P | %50j | %4t | %12M | %3c | %5D | %R\""
 );
 my %ssh_cmd = (
-	timeout => 30
+	timeout => 15
 );
 
 my $vpn_thread;
@@ -51,11 +51,11 @@ while(1){
 	else{
 		$disconnect_cnt++;
 		print LOG "============================== Sorry! Connect fialed!\n";
-		if($disconnect_cnt == 100){
+		if($disconnect_cnt == 30){
 			print LOG "============================== Please check your network! We have reconnected for many times!\n";
 			exit 1;
 		}
-		elsif($disconnect_cnt % 5 == 0){
+		elsif($disconnect_cnt % 3 == 0){
 			print LOG "============================== Tring to reset vpn!\n";
 			foreach my $thread (threads->list()){
 				$thread->join();
