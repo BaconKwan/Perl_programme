@@ -32,8 +32,9 @@ my %ssh_cmd = (
 	timeout => 15
 );
 
-my $vpn_thread;
+my $vpn_thread = async {print "Ready!\n";};
 my $disconnect_cnt = -1;
+#my $reset_cnt = 0;
 my $ssh = Net::OpenSSH->new($remote_adds, %ssh_connect);
 
 while(1){
@@ -49,6 +50,7 @@ while(1){
 		print LOG $ssh->capture(\%ssh_cmd, @capture_cmd);
 	}
 	else{
+		$ssh->stop;
 		$disconnect_cnt++;
 		print LOG "============================== Sorry! Connect fialed!\n";
 		if($disconnect_cnt == 30){
@@ -57,9 +59,7 @@ while(1){
 		}
 		elsif($disconnect_cnt % 3 == 0){
 			print LOG "============================== Tring to reset vpn!\n";
-			foreach my $thread (threads->list()){
-				$thread->join();
-			}
+			$vpn_thread->join();
 			$vpn_thread = threads->create(\&vpn_th2);
 			sleep(30);
 			print LOG "============================== Tring to reconnect th2!\n";
@@ -76,6 +76,13 @@ while(1){
 	system("tail -n 500 $ARGV[0] > $ARGV[0].tmp") && warn "can not write tmp_file! $ARGV[0].tmp \n";
 	system("mv -f $ARGV[0].tmp $ARGV[0]") &&  warn "can not update log_file! $ARGV[0] \n";
 
+	#$reset_cnt++;
+	#if($reset_cnt % 10 == 0){
+	#$reset_cnt = 0;
+	#$vpn_thread->join();
+	#$vpn_thread = threads->create(\&vpn_th2);
+	#}
+
 	sleep(300);
 }
 
@@ -87,5 +94,5 @@ sub showTime
 }
 
 sub vpn_th2 {
-	return system("vpnclient64 61.144.43.67 6443 sysu_ld_nscc bioinfoluoda321");
+	`vpnclient64 61.144.43.67 6443 sysu_ld_nscc bioinfoluoda321`;
 }
