@@ -79,6 +79,7 @@ while(1){
 			my $size = $line[0];
 			$line[0] = sprintf("%.2fG", $line[0]);
 			$line = join "\t", @line;
+			print "$id\t$dir\t$line[0]\n";
 			push(@send, $line) if($size >= $ARGV[1]);
 		}
 		next if(@send == 0);
