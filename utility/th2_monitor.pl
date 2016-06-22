@@ -3,14 +3,14 @@
 #	Author:	BaconKwan
 #	Email:	pkguan@genedenovo.com
 #	Version:	1.0
-#	Create date:	
-#	Usage:	
+#	Create date:
+#	Usage:
 
 use utf8;
 use strict;
 use warnings;
 use threads;
-use Config; 
+use Config;
 use Getopt::Long;
 use File::Basename qw(dirname basename);
 use Net::OpenSSH;
@@ -28,11 +28,15 @@ my %ssh_connect = (
 my @capture_cmd = (
 	"/usr/bin/yhqueue -u sysu_luoda_1 -o \"%8i | %10P | %50j | %4t | %12M | %3c | %5D | %R\""
 );
+
 my %ssh_cmd = (
 	timeout => 15
 );
 
-my $vpn_thread = async {print "Ready!\n";};
+my $vpn_thread = async {
+	$SIG{'KILL'} = sub { threads->exit(); };
+	print "Ready!\n";
+};
 my $disconnect_cnt = -1;
 #my $reset_cnt = 0;
 my $ssh = Net::OpenSSH->new($remote_adds, %ssh_connect);
@@ -59,6 +63,7 @@ while(1){
 		}
 		elsif($disconnect_cnt % 3 == 0){
 			print LOG "============================== Tring to reset vpn!\n";
+			#$vpn_thread->kill('KILL')->join();
 			$vpn_thread->join();
 			$vpn_thread = threads->create(\&vpn_th2);
 			sleep(30);
@@ -94,5 +99,6 @@ sub showTime
 }
 
 sub vpn_th2 {
-	`vpnclient64 61.144.43.67 6443 sysu_ld_nscc bioinfoluoda321`;
+	#$SIG{'KILL'} = sub { threads->exit(); };
+	system("vpnclient64 61.144.43.67 6443 sysu_ld_nscc bioinfoluoda321");
 }

@@ -97,7 +97,7 @@ while(1){
 	#`rm $path/send.txt -rf`;
 	}
 
-	sleep(1296000);
+	sleep(604800);
 }
 
 sub sendMail
@@ -107,7 +107,7 @@ sub sendMail
 	my $smtpPort = '25';
 	
 	my $username = 'pkguan@genedenovo.com';
-	my $passowrd = 'terence1990';
+	my $passowrd = 'terenceABC1990';
 	
 	my $subject = 'Notice!! clean your project in time.';
 

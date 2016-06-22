@@ -1,0 +1,3 @@
+total reads:	0
+total reads nt:	0
+Q20 number:	0
